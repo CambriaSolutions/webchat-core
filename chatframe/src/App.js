@@ -1,18 +1,26 @@
 import React, { Component } from 'react'
-import './App.css'
+import styled from 'styled-components'
+import ChatFrame from './ChatFrame'
+
+// Colors
+import grey from 'material-ui/colors/grey'
+
+const OuterAppFrame = styled.div`
+  width: 100vw;
+  height: 100vh;
+  padding: 48px;
+  background: ${grey[100]};
+`
+
+// import { ApiAiClient } from 'api-ai-javascript'
+// const client = new ApiAiClient({accessToken: 'YOUR_ACCESS_TOKEN'})
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <OuterAppFrame>
+        <ChatFrame />
+      </OuterAppFrame>
     )
   }
 }

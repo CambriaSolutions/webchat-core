@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "api-ai-javascript": "^2.0.0-beta.21",
+    "material-ui": "^1.0.0-beta.40",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "styled-components": "^3.2.5",
+    "webfontloader": "^1.6.28"
   },
   "scripts": {
     "start": "react-scripts start",
