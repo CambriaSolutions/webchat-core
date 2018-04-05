@@ -14,7 +14,7 @@ function config(state = initialState, action) {
       return { ...state, title: action.title }
 
     default:
-      return initialState
+      return state
   }
 }
 

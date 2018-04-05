@@ -8,3 +8,4 @@ TODO
 * change window icon near header
 * buttons send text
 * submit text
+* time since message (mins if close, timestamp if far)

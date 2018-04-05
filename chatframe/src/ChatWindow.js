@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
+import filter from 'lodash/filter'
+import moment from 'moment'
 
 // Components
 import Message from './Message'
@@ -24,48 +27,61 @@ const MessagesContainer = styled.div`
   height: auto;
 `
 
-const testMessages = [
-  {
-    entity: 'user',
-    message: 'hello'
-  },
-  {
-    entity: 'bot',
-    message:
-      'Hello I am the Washington Health Exchange Bot. I can respond with really long messages like this. This message just keeps going and going and going. Wow, are you impressed?'
-  },
-  {
-    entity: 'user',
-    message: 'Not really.'
-  },
-  {
-    entity: 'bot',
-    message: 'Oh.'
-  },
-  {
-    entity: 'user',
-    message: "Don't be too hard on yourself."
+function buildUserMessages(messages) {}
+
+function buildBotMessages(messages) {
+  const botMessages = filter(messages, ['entity', 'bot'])
+  const conversationElements = []
+
+  for (let message of botMessages) {
+    for (let subMessage of message.responses) {
+      if (subMessage.type === 'text') {
+        conversationElements.push(
+          <Message
+            message={subMessage.text}
+            entity={message.entity}
+            key={message.messageId}
+          />
+        )
+      } else if (subMessage.type === 'card') {
+        // build card here
+      }
+    }
   }
-]
+
+  return conversationElements
+}
 
 class ChatWindow extends PureComponent {
   render() {
-    const messages = testMessages.map((msg, index) => {
-      return (
-        <Message
-          message={msg.message}
-          entity={msg.entity}
-          key={`MSG_${index}`}
-        />
-      )
+    const { messages } = this.props
+
+    const botMessages = buildBotMessages(messages)
+    const userMessages = []
+
+    const messageElements = [...botMessages, ...userMessages]
+
+    // Sort all messages by timestamp
+    messageElements.sort((a, b) => {
+      return moment(a).diff(moment(b))
     })
 
     return (
       <Container>
-        <MessagesContainer>{messages}</MessagesContainer>
+        <MessagesContainer>{messageElements}</MessagesContainer>
       </Container>
     )
   }
 }
 
-export default ChatWindow
+const mapStateToProps = state => {
+  return {
+    messages: state.conversation.messages
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatWindow)

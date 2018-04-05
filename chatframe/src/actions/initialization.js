@@ -1,5 +1,6 @@
 import { SET_TITLE, SET_AVATAR } from './actionTypes'
-import { setupClient, startConversation } from './conversation'
+import { setupClient } from './conversation'
+import { sendEvent } from './dialogflow'
 
 export function initialize(props) {
   return (dispatch, getState) => {
@@ -7,6 +8,6 @@ export function initialize(props) {
     dispatch({ type: SET_TITLE, title })
     dispatch({ type: SET_AVATAR, avatar })
     dispatch(setupClient(client, token))
-    dispatch(startConversation())
+    dispatch(sendEvent('Welcome'))
   }
 }

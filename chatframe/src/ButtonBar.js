@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Button from 'material-ui/Button'
 
@@ -11,7 +12,7 @@ const Container = styled.div`
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  padding: 24px 16px;
+  padding: ${p => (p.visible ? '24px 16px' : '0 16px')};
   background: ${grey[400]};
   border-top: 1px solid ${grey[500]};
 `
@@ -19,6 +20,7 @@ const Container = styled.div`
 const Btn = styled(Button)`
   && {
     margin: 8px;
+    display: ${p => (p.visible ? 'auto' : 'none')};
   }
 `
 
@@ -36,10 +38,17 @@ const testButtons = [
 
 class ButtonBar extends PureComponent {
   render() {
+    const { visible, buttons } = this.props
+
     return (
-      <Container buttons={testButtons}>
-        {testButtons.map((btn, index) => (
-          <Btn variant="raised" color="primary" key={`MSG_${index}`}>
+      <Container visible={visible}>
+        {buttons.map((btn, index) => (
+          <Btn
+            variant="raised"
+            color="primary"
+            key={`MSG_${index}`}
+            visible={visible}
+          >
             {btn.label}
           </Btn>
         ))}
@@ -48,4 +57,15 @@ class ButtonBar extends PureComponent {
   }
 }
 
-export default ButtonBar
+const mapStateToProps = state => {
+  return {
+    visible: state.buttonBar.visible,
+    buttons: state.buttonBar.buttons
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonBar)

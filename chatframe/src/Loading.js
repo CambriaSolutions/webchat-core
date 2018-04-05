@@ -6,7 +6,7 @@ import green from 'material-ui/colors/green'
 
 const Container = styled.div`
   text-align: center;
-  width: 45px;
+  width: 42px;
   height: 100%;
   display: flex;
   flex-flow: row nowrap;

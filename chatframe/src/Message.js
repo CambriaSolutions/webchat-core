@@ -51,8 +51,7 @@ const Text = styled(Paper)`
 
 class Message extends PureComponent {
   render() {
-    const { message, entity, avatar } = this.props
-    const isLoading = true
+    const { message, entity, avatar, isLoading } = this.props
 
     return (
       <Container entity={entity}>
