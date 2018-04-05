@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import Icon from 'material-ui/Icon'
 import styled from 'styled-components'
@@ -56,13 +57,14 @@ const CloseButton = styled.div`
 
 class Header extends PureComponent {
   render() {
+    const { title } = this.props
     return (
       <Container elevation={3}>
         <HeaderImage>
           <Icon>chat</Icon>
         </HeaderImage>
         <HeaderText>
-          <PrimaryHeaderText>Washington Health Exchange</PrimaryHeaderText>
+          <PrimaryHeaderText>{title}</PrimaryHeaderText>
           <SecondaryHeaderText>Active 21m ago</SecondaryHeaderText>
         </HeaderText>
         <CloseButton>
@@ -73,4 +75,14 @@ class Header extends PureComponent {
   }
 }
 
-export default Header
+const mapStateToProps = state => {
+  return {
+    title: state.config.title
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

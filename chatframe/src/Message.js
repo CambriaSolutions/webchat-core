@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import Paper from 'material-ui/Paper'
 // Components
 import Avatar from './Avatar'
+import Loading from './Loading'
 // Colors
 import grey from 'material-ui/colors/grey'
 
@@ -50,13 +51,14 @@ const Text = styled(Paper)`
 
 class Message extends PureComponent {
   render() {
-    const { message, entity, avatar, test } = this.props
-    console.log(test)
+    const { message, entity, avatar } = this.props
+    const isLoading = true
+
     return (
       <Container entity={entity}>
         <Avatar entity={entity} avatar={avatar} />
         <Text elevation={1} entity={entity}>
-          {message}
+          {isLoading ? <Loading /> : message}
         </Text>
       </Container>
     )
@@ -65,7 +67,7 @@ class Message extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    test: state.test
+    avatar: state.config.avatar
   }
 }
 

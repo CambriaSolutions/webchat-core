@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux'
+import config from './configReducer'
+import conversation from './conversationReducer'
 
-function test(state = 'test', action) {
-  switch (action.type) {
-    default:
-      return state
-  }
-}
-
-const rootReducer = combineReducers({ test })
+const rootReducer = combineReducers({
+  config,
+  conversation
+})
 
 export default rootReducer

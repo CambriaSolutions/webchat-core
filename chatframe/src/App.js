@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import ChatFrame from './ChatFrame'
 
-import { ApiAiClient } from 'api-ai-javascript'
 // Colors
 import grey from 'material-ui/colors/grey'
 
+// Test Data
+import avatarImage from './img/wahbexLogo.png'
 const OuterAppFrame = styled.div`
   width: 100vw;
   height: 100vh;
@@ -13,23 +14,16 @@ const OuterAppFrame = styled.div`
   background: ${grey[100]};
 `
 
-const client = new ApiAiClient({
-  accessToken: '0a89a9f2b5854610b643507795ecda86 '
-})
-
-  .textRequest('Hello!')
-  .then(response => {
-    console.log(response)
-  })
-  .catch(error => {
-    console.log(error)
-  })
-
 class App extends Component {
   render() {
     return (
       <OuterAppFrame>
-        <ChatFrame />
+        <ChatFrame
+          avatar={avatarImage}
+          title="Test Chat Frame"
+          client="Dialogflow"
+          token={process.env.REACT_APP_DIALOGFLOW_TOKEN}
+        />
       </OuterAppFrame>
     )
   }

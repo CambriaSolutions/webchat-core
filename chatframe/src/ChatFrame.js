@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import React, { PureComponent } from 'react'
 import Paper from 'material-ui/Paper'
 import styled from 'styled-components'
@@ -10,12 +10,16 @@ import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
 import ButtonBar from './ButtonBar'
 
-// Test Data
-import avatarImage from './img/wahbexLogo.png'
-
-// Create redux store
+// Redux
+import thunkMiddleware from 'redux-thunk'
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction'
 import rootReducer from './reducers/rootReducer'
-const store = createStore(rootReducer)
+import { initialize } from './actions/initialization'
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunkMiddleware))
+)
 
 const OuterFrame = styled(Paper)`
   && {
@@ -29,15 +33,17 @@ const OuterFrame = styled(Paper)`
 
 class ChatFrame extends PureComponent {
   componentDidMount() {
-    // dispatch an action to save the props data into store
+    // We load the initial options into the Redux store inside of the
+    // componentDidMount() lifecycle hook. This lets us use Redux to manage
+    // state instead of passing props down manually.
+    store.dispatch(initialize(this.props))
   }
   render() {
-    const { testProp } = this.props
     return (
       <Provider store={store}>
         <OuterFrame elevation={6}>
           <Header />
-          <ChatWindow avatar={avatarImage} />
+          <ChatWindow />
           <ButtonBar />
           <UserInput />
         </OuterFrame>

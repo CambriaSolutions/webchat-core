@@ -50,23 +50,19 @@ const testMessages = [
 
 class ChatWindow extends PureComponent {
   render() {
-    const { avatar } = this.props
+    const messages = testMessages.map((msg, index) => {
+      return (
+        <Message
+          message={msg.message}
+          entity={msg.entity}
+          key={`MSG_${index}`}
+        />
+      )
+    })
+
     return (
       <Container>
-        <MessagesContainer>
-          {testMessages.map((msg, index) => {
-            let avatarImage = msg.entity !== 'user' ? avatar : null
-            let key = `MSG_${index}`
-            return (
-              <Message
-                message={msg.message}
-                entity={msg.entity}
-                key={key}
-                avatar={avatarImage}
-              />
-            )
-          })}
-        </MessagesContainer>
+        <MessagesContainer>{messages}</MessagesContainer>
       </Container>
     )
   }

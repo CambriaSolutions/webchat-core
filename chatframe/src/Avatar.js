@@ -17,7 +17,8 @@ const Container = styled(Paper)`
     background-color: #fff;
     background-image: ${p => (p.avatar ? `url(${p.avatar})` : grey['400'])};
     background-position: center;
-    background-size: contain;
+    background-size: 80%;
+    background-repeat: no-repeat;
   }
 `
 
