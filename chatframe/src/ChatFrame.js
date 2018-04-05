@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Header from './Header'
 import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
+import ButtonBar from './ButtonBar'
 
 const OuterFrame = styled(Paper)`
   && {
@@ -13,6 +14,7 @@ const OuterFrame = styled(Paper)`
     height: 100%;
     display: flex;
     flex-flow: column nowrap;
+    overflow: hidden;
   }
 `
 
@@ -22,6 +24,7 @@ class ChatFrame extends PureComponent {
       <OuterFrame elevation={6}>
         <Header />
         <ChatWindow />
+        <ButtonBar />
         <UserInput />
       </OuterFrame>
     )
