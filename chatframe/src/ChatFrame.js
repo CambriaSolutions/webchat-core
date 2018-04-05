@@ -1,3 +1,5 @@
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 import React, { PureComponent } from 'react'
 import Paper from 'material-ui/Paper'
 import styled from 'styled-components'
@@ -7,6 +9,13 @@ import Header from './Header'
 import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
 import ButtonBar from './ButtonBar'
+
+// Test Data
+import avatarImage from './img/wahbexLogo.png'
+
+// Create redux store
+import rootReducer from './reducers/rootReducer'
+const store = createStore(rootReducer)
 
 const OuterFrame = styled(Paper)`
   && {
@@ -19,14 +28,20 @@ const OuterFrame = styled(Paper)`
 `
 
 class ChatFrame extends PureComponent {
+  componentDidMount() {
+    // dispatch an action to save the props data into store
+  }
   render() {
+    const { testProp } = this.props
     return (
-      <OuterFrame elevation={6}>
-        <Header />
-        <ChatWindow />
-        <ButtonBar />
-        <UserInput />
-      </OuterFrame>
+      <Provider store={store}>
+        <OuterFrame elevation={6}>
+          <Header />
+          <ChatWindow avatar={avatarImage} />
+          <ButtonBar />
+          <UserInput />
+        </OuterFrame>
+      </Provider>
     )
   }
 }

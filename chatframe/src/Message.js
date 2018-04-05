@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import Paper from 'material-ui/Paper'
@@ -21,7 +22,7 @@ const Text = styled(Paper)`
     border-radius: 3px;
     font-size: 16px;
     line-height: 1.2rem;
-    padding: 8px;
+    padding: 12px;
     position: relative;
     color: ${grey[900]};
     max-width: 85%;
@@ -49,10 +50,11 @@ const Text = styled(Paper)`
 
 class Message extends PureComponent {
   render() {
-    const { message, entity } = this.props
+    const { message, entity, avatar, test } = this.props
+    console.log(test)
     return (
       <Container entity={entity}>
-        <Avatar entity={entity} />
+        <Avatar entity={entity} avatar={avatar} />
         <Text elevation={1} entity={entity}>
           {message}
         </Text>
@@ -61,4 +63,14 @@ class Message extends PureComponent {
   }
 }
 
-export default Message
+const mapStateToProps = state => {
+  return {
+    test: state.test
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Message)

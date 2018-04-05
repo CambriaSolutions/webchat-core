@@ -1,28 +1,30 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
+import Paper from 'material-ui/Paper'
 
 // Colors
 import grey from 'material-ui/colors/grey'
 
-import testImage from './img/wahbexLogo.png'
-
-const Container = styled.div`
-  ${p => (p.entity === 'user' ? 'display: none;' : '')} height: 36px;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  border-radius: 50%;
-  margin: ${p => (p.entity === 'user' ? '0 0 0 16px' : '0 16px 0 0')};
-  order: ${p => (p.entity === 'user' ? 1 : 0)};
-  background: ${p => (p.image ? `url(${p.image})` : grey['400'])};
-  background-position: center;
-  background-size: contain;
+const Container = styled(Paper)`
+  && {
+    ${p => (p.entity === 'user' ? 'display: none;' : '')} height: 36px;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 50%;
+    margin: ${p => (p.entity === 'user' ? '0 0 0 16px' : '0 16px 0 0')};
+    order: ${p => (p.entity === 'user' ? 1 : 0)};
+    background-color: #fff;
+    background-image: ${p => (p.avatar ? `url(${p.avatar})` : grey['400'])};
+    background-position: center;
+    background-size: contain;
+  }
 `
 
 class Avatar extends PureComponent {
   render() {
-    const { entity, image } = this.props
-    return <Container entity={entity} image={testImage} />
+    const { entity, avatar } = this.props
+    return <Container entity={entity} avatar={avatar} />
   }
 }
 

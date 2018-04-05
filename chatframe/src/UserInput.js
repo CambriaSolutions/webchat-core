@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react'
-import Paper from 'material-ui/Paper'
 import Icon from 'material-ui/Icon'
 import styled from 'styled-components'
 
 // Colors
 import grey from 'material-ui/colors/grey'
 
-const OuterFrame = styled(Paper)`
+const OuterFrame = styled.div`
   background: #fff;
   flex: 1 0 48px;
   max-height: 48px;
@@ -16,15 +15,19 @@ const OuterFrame = styled(Paper)`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
+  box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, 0.23);
 `
 const SendButton = styled.div`
   flex: 0;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  color: ${grey[900]};
-  height: 100%;
+  color: ${grey[500]};
   padding: 0 16px;
+  cursor: pointer;
+  &:hover {
+    color: ${grey[800]};
+  }
 `
 
 const TextInput = styled.input`
@@ -40,7 +43,7 @@ const TextInput = styled.input`
 class UserInput extends PureComponent {
   render() {
     return (
-      <OuterFrame elevation={4}>
+      <OuterFrame>
         <TextInput type="text" placeholder="Send a message" />
         <SendButton>
           <Icon>send</Icon>

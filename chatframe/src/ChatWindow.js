@@ -12,8 +12,7 @@ const Container = styled.div`
   padding: 0 16px 16px 16px;
   overflow-y: auto;
   height: 100%;
-  background: ${grey[200]};
-  z-index: 0;
+  background: ${grey[300]};
 `
 
 const MessagesContainer = styled.div`
@@ -51,12 +50,22 @@ const testMessages = [
 
 class ChatWindow extends PureComponent {
   render() {
+    const { avatar } = this.props
     return (
       <Container>
         <MessagesContainer>
-          {testMessages.map(m => (
-            <Message message={m.message} entity={m.entity} key={m.message} />
-          ))}
+          {testMessages.map((msg, index) => {
+            let avatarImage = msg.entity !== 'user' ? avatar : null
+            let key = `MSG_${index}`
+            return (
+              <Message
+                message={msg.message}
+                entity={msg.entity}
+                key={key}
+                avatar={avatarImage}
+              />
+            )
+          })}
         </MessagesContainer>
       </Container>
     )

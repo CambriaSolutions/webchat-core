@@ -6,12 +6,20 @@ import Button from 'material-ui/Button'
 import grey from 'material-ui/colors/grey'
 
 const Container = styled.div`
-  background: red;
   width: 100%;
-  height: auto;
   display: flex;
   flex-flow: row wrap;
-  padding: 16px;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+  background: ${grey[400]};
+  border-top: 1px solid ${grey[500]};
+`
+
+const Btn = styled(Button)`
+  && {
+    margin: 8px;
+  }
 `
 
 const testButtons = [
@@ -28,10 +36,13 @@ const testButtons = [
 
 class ButtonBar extends PureComponent {
   render() {
-    const { entity, image } = this.props
     return (
       <Container buttons={testButtons}>
-        {testButtons.map(b => <Button variant="raised">{b.label}</Button>)}
+        {testButtons.map((btn, index) => (
+          <Btn variant="raised" color="primary" key={`MSG_${index}`}>
+            {btn.label}
+          </Btn>
+        ))}
       </Container>
     )
   }
