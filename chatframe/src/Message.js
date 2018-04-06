@@ -86,24 +86,29 @@ const Timestamp = styled.div`
   padding-right: 2px;
 `
 
+function generateTimestamp(timestamp) {
+  let formattedTimestamp = null
+  if (timestamp) {
+    const now = moment()
+    const time = moment(timestamp, 'MM-DD-YYYY hh:mm:ss.SSSa')
+    const diffInMinutes = now.diff(time, 'minutes')
+    const diffInSeconds = now.diff(time, 'seconds')
+    if (diffInSeconds < 10) {
+      formattedTimestamp = 'Now'
+    } else if (diffInMinutes < 1) {
+      formattedTimestamp = `${diffInSeconds} sec`
+    } else {
+      formattedTimestamp = `${diffInMinutes} min`
+    }
+  }
+  return formattedTimestamp
+}
+
 class Message extends PureComponent {
   render() {
     const { message, entity, avatar, isLoading, timestamp } = this.props
+    const formattedTimestamp = generateTimestamp(timestamp)
 
-    let formattedTimestamp = ''
-    if (timestamp) {
-      const now = moment()
-      const time = moment(timestamp, 'MM-DD-YYYY hh:mm:ss.SSSa')
-      const diffInMinutes = now.diff(time, 'minutes')
-      const diffInSeconds = now.diff(time, 'seconds')
-      if (diffInSeconds < 10) {
-        formattedTimestamp = 'Now'
-      } else if (diffInMinutes < 1) {
-        formattedTimestamp = `${diffInSeconds} sec`
-      } else {
-        formattedTimestamp = `${diffInMinutes} min`
-      }
-    }
     const chatMessage =
       entity === 'user' ? (
         <UserMessage elevation={1}>{message}</UserMessage>
