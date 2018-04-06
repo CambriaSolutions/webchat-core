@@ -17,9 +17,9 @@ const Container = styled.div`
   justify-content: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
 `
 
-const Text = styled(Paper)`
+const ExternalMessage = styled(Paper)`
   && {
-    background: ${p => (p.entity === 'user' ? grey[400] : '#fff')};
+    background: #fff;
     border-radius: 3px;
     font-size: 16px;
     line-height: 1.2rem;
@@ -29,26 +29,42 @@ const Text = styled(Paper)`
     max-width: 85%;
 
     &:after {
-      box-shadow: ${p =>
-        p.entity === 'bot'
-          ? '-0.5px 0.5px 1px 0px rgba(0, 0, 0, 0.23)'
-          : '0.5px -0.5px 1px 0px rgba(0, 0, 0, 0.23)'};
       content: '\00a0';
       height: 10px;
       width: 10px;
-
       position: absolute;
+      transform: rotate(-45deg);
+      top: 16px;
+      left: -6px;
+      background-color: #fff;
+      border-top: 1px solid ${grey[400]};
+      border-left: 1px solid ${grey[400]};
+    }
+  }
+`
 
-      transform: rotate(45deg);
-      -moz-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-      -o-transform: rotate(45deg);
-      -webkit-transform: rotate(45deg);
+const UserMessage = styled(Paper)`
+  && {
+    background-color: ${grey[400]};
+    border-radius: 3px;
+    font-size: 16px;
+    line-height: 1.2rem;
+    padding: 12px;
+    position: relative;
+    color: ${grey[900]};
+    max-width: 85%;
 
-      ${p =>
-        p.entity === 'bot'
-          ? `top: 16px; left: -5px; background-color: #fff;`
-          : `top: 16px; right: -5px; background-color: ${grey[400]};`};
+    &:after {
+      content: '';
+      height: 10px;
+      width: 10px;
+      position: absolute;
+      transform: rotate(-45deg);
+      top: 16px;
+      right: -6px;
+      background-color: ${grey[400]};
+      border-bottom: 1px solid ${grey[300]};
+      border-right: 1px solid ${grey[300]};
     }
   }
 `
@@ -56,12 +72,18 @@ const Text = styled(Paper)`
 class Message extends PureComponent {
   render() {
     const { message, entity, avatar, isLoading } = this.props
+    const chatBubble =
+      entity === 'user' ? (
+        <UserMessage elevation={1}>{message}</UserMessage>
+      ) : (
+        <ExternalMessage elevation={1}>
+          {isLoading ? <Loading /> : message}
+        </ExternalMessage>
+      )
     return (
       <Container entity={entity}>
         <Avatar entity={entity} avatar={avatar} />
-        <Text elevation={1} entity={entity}>
-          {isLoading ? <Loading /> : message}
-        </Text>
+        {chatBubble}
       </Container>
     )
   }

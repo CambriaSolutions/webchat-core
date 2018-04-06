@@ -53,7 +53,9 @@ function buildBotMessages(messages) {
     if (message.loading) {
       conversationElements.push({
         systemTime: message.systemTime,
-        element: <Message key="loading" isLoading={message.loading} />
+        element: (
+          <Message key="loading" entity="bot" isLoading={message.loading} />
+        )
       })
     } else {
       for (let key in message.responses) {
