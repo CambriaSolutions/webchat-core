@@ -92,6 +92,14 @@ function buildBotMessages(messages) {
 }
 
 class ChatWindow extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.chatWindowRef = React.createRef()
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const chatWindowNode = this.chatWindowRef.current
+    chatWindowNode.scrollTop = chatWindowNode.scrollHeight
+  }
   render() {
     const { messages } = this.props
     const botMessages = buildBotMessages(messages)
@@ -108,7 +116,7 @@ class ChatWindow extends PureComponent {
     const elements = messageElements.map(m => m.element)
 
     return (
-      <Container>
+      <Container innerRef={this.chatWindowRef}>
         <MessagesContainer>{elements}</MessagesContainer>
       </Container>
     )

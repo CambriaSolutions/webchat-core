@@ -57,7 +57,7 @@ const CloseButton = styled.div`
 
 class Header extends PureComponent {
   render() {
-    const { title } = this.props
+    const { title, timestamp } = this.props
     return (
       <Container elevation={3}>
         <HeaderImage>
@@ -65,7 +65,7 @@ class Header extends PureComponent {
         </HeaderImage>
         <HeaderText>
           <PrimaryHeaderText>{title}</PrimaryHeaderText>
-          <SecondaryHeaderText>Active 21m ago</SecondaryHeaderText>
+          <SecondaryHeaderText>Active {timestamp}</SecondaryHeaderText>
         </HeaderText>
         <CloseButton>
           <Icon>close</Icon>
@@ -77,7 +77,8 @@ class Header extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    title: state.config.title
+    title: state.config.title,
+    timestamp: state.conversation.headerTime
   }
 }
 

@@ -24,7 +24,6 @@ export function setupClient(client, token) {
 export function createUserResponse() {
   return (dispatch, getState) => {
     const userInput = getState().userInput
-    const client = getState().conversation.clientName
     const numMessages = getState().conversation.messages.length
     const response = {
       entity: 'user',
