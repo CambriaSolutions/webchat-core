@@ -27,22 +27,42 @@ const MessagesContainer = styled.div`
   height: auto;
 `
 
-function buildUserMessages(messages) {}
+function buildUserMessages(messages) {
+  const userMessages = filter(messages, ['entity', 'user'])
+  const conversationElements = []
+  for (let message of userMessages) {
+    conversationElements.push({
+      systemTime: message.systemTime,
+      element: (
+        <Message
+          message={message.text}
+          entity={message.entity}
+          key={message.messageId}
+        />
+      )
+    })
+  }
+  return conversationElements
+}
 
 function buildBotMessages(messages) {
   const botMessages = filter(messages, ['entity', 'bot'])
   const conversationElements = []
 
   for (let message of botMessages) {
-    for (let subMessage of message.responses) {
+    for (let key in message.responses) {
+      const subMessage = message.responses[key]
       if (subMessage.type === 'text') {
-        conversationElements.push(
-          <Message
-            message={subMessage.text}
-            entity={message.entity}
-            key={message.messageId}
-          />
-        )
+        conversationElements.push({
+          systemTime: message.systemTime,
+          element: (
+            <Message
+              message={subMessage.text}
+              entity={message.entity}
+              key={message.messageId + key}
+            />
+          )
+        })
       } else if (subMessage.type === 'card') {
         // build card here
       }
@@ -57,18 +77,22 @@ class ChatWindow extends PureComponent {
     const { messages } = this.props
 
     const botMessages = buildBotMessages(messages)
-    const userMessages = []
-
+    const userMessages = buildUserMessages(messages)
     const messageElements = [...botMessages, ...userMessages]
 
-    // Sort all messages by timestamp
+    // Sort all messages by systemTime
     messageElements.sort((a, b) => {
-      return moment(a).diff(moment(b))
+      const momentA = moment(a.systemTime, 'MM-DD-YYYY hh:mm:ss.SSSa')
+      const momentB = moment(b.systemTime, 'MM-DD-YYYY hh:mm:ss.SSSa')
+      const diff = momentA.diff(momentB, 'milliseconds')
+      return diff
     })
+
+    const elements = messageElements.map(m => m.element)
 
     return (
       <Container>
-        <MessagesContainer>{messageElements}</MessagesContainer>
+        <MessagesContainer>{elements}</MessagesContainer>
       </Container>
     )
   }

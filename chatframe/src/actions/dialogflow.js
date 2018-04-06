@@ -6,7 +6,8 @@ import moment from 'moment'
 export function setupDialogflow(token) {
   return (dispatch, getState) => {
     const client = new ApiAiClient({ accessToken: token })
-    dispatch({ type: SAVE_CLIENT, client })
+    const clientName = 'dialogflow'
+    dispatch({ type: SAVE_CLIENT, client, clientName })
   }
 }
 
@@ -58,7 +59,7 @@ export function getMessageFromDialogflow(response) {
 
     const timeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
     const time = moment(response.timestamp, timeFormat)
-    const systemTime = moment(time).format('MM-DD-YYYY hh:mm:ssa')
+    const systemTime = moment(time).format('MM-DD-YYYY hh:mm:ss.SSSa')
     const displayTime = moment(time).format('h:mma')
 
     const data = {
@@ -70,6 +71,7 @@ export function getMessageFromDialogflow(response) {
       systemTime: systemTime,
       displayTime: displayTime,
       status: response.status,
+      botMessage: response,
       rawResponses: rawResponses,
       responseTime: response.result.metadata.webhookResponseTime,
       responses: responses

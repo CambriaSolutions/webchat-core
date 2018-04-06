@@ -24,18 +24,6 @@ const Btn = styled(Button)`
   }
 `
 
-const testButtons = [
-  {
-    label: 'Test One'
-  },
-  {
-    label: 'Test Two'
-  },
-  {
-    label: 'Test Three'
-  }
-]
-
 class ButtonBar extends PureComponent {
   render() {
     const { visible, buttons } = this.props
