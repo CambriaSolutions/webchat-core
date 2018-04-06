@@ -38,6 +38,7 @@ function buildUserMessages(messages) {
           message={message.text}
           entity={message.entity}
           key={message.messageId}
+          timestamp={message.systemTime}
         />
       )
     })
@@ -54,7 +55,12 @@ function buildBotMessages(messages) {
       conversationElements.push({
         systemTime: message.systemTime,
         element: (
-          <Message key="loading" entity="bot" isLoading={message.loading} />
+          <Message
+            key="loading"
+            entity="bot"
+            timestamp={message.systemTime}
+            isLoading={message.loading + moment().format('MMDDYYYYhhmmssSSS')}
+          />
         )
       })
     } else {
@@ -67,8 +73,11 @@ function buildBotMessages(messages) {
               <Message
                 message={subMessage.text}
                 entity={message.entity}
-                key={message.messageId + key}
+                key={
+                  message.messageId + key + moment().format('MMDDYYYYhhmmssSSS')
+                }
                 isLoading={false}
+                timestamp={message.systemTime}
               />
             )
           })

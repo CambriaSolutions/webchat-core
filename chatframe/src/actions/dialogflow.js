@@ -62,7 +62,6 @@ export function getMessageFromDialogflow(response) {
     const timeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
     const time = moment(response.timestamp, timeFormat)
     const systemTime = moment(time).format('MM-DD-YYYY hh:mm:ss.SSSa')
-    const displayTime = moment(time).format('h:mma')
 
     const data = {
       entity: 'bot',
@@ -72,7 +71,6 @@ export function getMessageFromDialogflow(response) {
       language: response.lang,
       timestamp: moment.timestamp,
       systemTime: systemTime,
-      displayTime: displayTime,
       status: response.status,
       botMessage: response,
       rawResponses: rawResponses,

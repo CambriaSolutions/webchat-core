@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-
+import moment from 'moment'
 import Paper from 'material-ui/Paper'
 // Components
 import Avatar from './Avatar'
@@ -11,9 +11,17 @@ import grey from 'material-ui/colors/grey'
 
 const Container = styled.div`
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   margin-top: 24px;
   min-height: 32px;
+  align-items: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
+`
+
+const ChatBubble = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
   justify-content: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
 `
 
@@ -50,6 +58,7 @@ const UserMessage = styled(Paper)`
     font-size: 16px;
     line-height: 1.2rem;
     padding: 12px;
+    width: auto;
     position: relative;
     color: ${grey[900]};
     max-width: 85%;
@@ -69,10 +78,33 @@ const UserMessage = styled(Paper)`
   }
 `
 
+const Timestamp = styled.div`
+  font-size: 12px;
+  color: ${grey[500]};
+  margin-top: 8px;
+  padding-left: 62px;
+  padding-right: 2px;
+`
+
 class Message extends PureComponent {
   render() {
-    const { message, entity, avatar, isLoading } = this.props
-    const chatBubble =
+    const { message, entity, avatar, isLoading, timestamp } = this.props
+
+    let formattedTimestamp = ''
+    if (timestamp) {
+      const now = moment()
+      const time = moment(timestamp, 'MM-DD-YYYY hh:mm:ss.SSSa')
+      const diffInMinutes = now.diff(time, 'minutes')
+      const diffInSeconds = now.diff(time, 'seconds')
+      if (diffInSeconds < 10) {
+        formattedTimestamp = 'Now'
+      } else if (diffInMinutes < 1) {
+        formattedTimestamp = `${diffInSeconds} sec`
+      } else {
+        formattedTimestamp = `${diffInMinutes} min`
+      }
+    }
+    const chatMessage =
       entity === 'user' ? (
         <UserMessage elevation={1}>{message}</UserMessage>
       ) : (
@@ -82,8 +114,11 @@ class Message extends PureComponent {
       )
     return (
       <Container entity={entity}>
-        <Avatar entity={entity} avatar={avatar} />
-        {chatBubble}
+        <ChatBubble entity={entity}>
+          <Avatar entity={entity} avatar={avatar} />
+          {chatMessage}
+        </ChatBubble>
+        <Timestamp>{formattedTimestamp}</Timestamp>
       </Container>
     )
   }
