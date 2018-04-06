@@ -86,28 +86,29 @@ const Timestamp = styled.div`
   padding-right: 2px;
 `
 
-function generateTimestamp(timestamp) {
-  let formattedTimestamp = null
-  if (timestamp) {
-    const now = moment()
-    const time = moment(timestamp, 'MM-DD-YYYY hh:mm:ss.SSSa')
-    const diffInMinutes = now.diff(time, 'minutes')
-    const diffInSeconds = now.diff(time, 'seconds')
-    if (diffInSeconds < 10) {
-      formattedTimestamp = 'Now'
-    } else if (diffInMinutes < 1) {
-      formattedTimestamp = `${diffInSeconds} sec`
-    } else {
-      formattedTimestamp = `${diffInMinutes} min`
-    }
-  }
-  return formattedTimestamp
-}
-
 class Message extends PureComponent {
   render() {
-    const { message, entity, avatar, isLoading, timestamp } = this.props
-    const formattedTimestamp = generateTimestamp(timestamp)
+    const {
+      message,
+      entity,
+      avatar,
+      isLoading,
+      timestamp,
+      currentTime
+    } = this.props
+
+    const now = moment(currentTime, 'MM-DD-YYYY hh:mm:ss.SSSa')
+    const then = moment(timestamp, 'MM-DD-YYYY hh:mm:ss.SSSa')
+    const diffMinutes = now.diff(then, 'minutes')
+    const diffSeconds = now.diff(then, 'seconds')
+    let formattedTimestamp = null
+    if (diffMinutes >= 1) {
+      formattedTimestamp = `${diffMinutes} min`
+    } else if (diffSeconds >= 10) {
+      formattedTimestamp = `${diffSeconds} sec`
+    } else {
+      formattedTimestamp = 'Now'
+    }
 
     const chatMessage =
       entity === 'user' ? (
@@ -131,7 +132,8 @@ class Message extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    avatar: state.config.avatar
+    avatar: state.config.avatar,
+    currentTime: state.conversation.currentTime
   }
 }
 
