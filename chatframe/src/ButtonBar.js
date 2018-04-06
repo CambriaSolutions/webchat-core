@@ -2,6 +2,9 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Button from 'material-ui/Button'
+import findLast from 'lodash/findLast'
+import find from 'lodash/find'
+import { sendQuickReply } from './actions/conversation'
 
 // Colors
 import grey from 'material-ui/colors/grey'
@@ -20,22 +23,44 @@ const Container = styled.div`
 const Btn = styled(Button)`
   && {
     margin: 8px;
-    display: ${p => (p.visible ? 'auto' : 'none')};
+    display: ${p => (p.visible === 'true' ? 'block' : 'none')};
   }
 `
 
 class ButtonBar extends PureComponent {
   render() {
-    const { visible, buttons } = this.props
+    const { visible, messages, sendQuickReply } = this.props
+
+    const lastMessageWithButtons = findLast(messages, m => {
+      const hasButtons = find(m.responses, ['type', 'button']) ? true : false
+      return hasButtons
+    })
+
+    let buttonElements = []
+    if (lastMessageWithButtons) {
+      const messages = lastMessageWithButtons.responses.filter(m => {
+        return m.type === 'button'
+      })
+      for (let message of messages) {
+        for (let button of message.buttons) {
+          buttonElements.push({
+            label: button,
+            id: lastMessageWithButtons.messageId,
+            visible: visible
+          })
+        }
+      }
+    }
 
     return (
       <Container visible={visible}>
-        {buttons.map((btn, index) => (
+        {buttonElements.map((btn, index) => (
           <Btn
             variant="raised"
             color="primary"
-            key={`MSG_${index}`}
-            visible={visible}
+            key={`${btn.id}-btn${index}`}
+            visible={btn.visible.toString()}
+            onClick={() => sendQuickReply(btn.label)}
           >
             {btn.label}
           </Btn>
@@ -48,12 +73,16 @@ class ButtonBar extends PureComponent {
 const mapStateToProps = state => {
   return {
     visible: state.buttonBar.visible,
-    buttons: state.buttonBar.buttons
+    messages: state.conversation.messages
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return {}
+  return {
+    sendQuickReply: text => {
+      dispatch(sendQuickReply(text))
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ButtonBar)

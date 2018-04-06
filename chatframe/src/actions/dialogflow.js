@@ -1,6 +1,13 @@
 import { ApiAiClient } from 'api-ai-javascript'
-import { SAVE_CLIENT, SAVE_RESPONSE, INITIATE_LOADING } from './actionTypes'
+import {
+  SAVE_CLIENT,
+  SAVE_RESPONSE,
+  INITIATE_LOADING,
+  SHOW_BUTTON_BAR,
+  HIDE_BUTTON_BAR
+} from './actionTypes'
 import get from 'lodash/get'
+import find from 'lodash/find'
 import moment from 'moment'
 
 export function setupDialogflow(token) {
@@ -11,7 +18,7 @@ export function setupDialogflow(token) {
   }
 }
 
-export function sendMessage(message) {
+export function sendMessageWithDialogflow(message) {
   return (dispatch, getState) => {
     const client = getState().conversation.client
     dispatch({ type: INITIATE_LOADING })
@@ -84,6 +91,13 @@ export function getMessageFromDialogflow(response) {
 
 export function saveResponse(data) {
   return (dispatch, getState) => {
+    const hasButtons = find(data.responses, ['type', 'button']) ? true : false
+    if (hasButtons) {
+      dispatch({ type: SHOW_BUTTON_BAR })
+    } else {
+      dispatch({ type: HIDE_BUTTON_BAR })
+    }
+
     dispatch({ type: SAVE_RESPONSE, data })
   }
 }

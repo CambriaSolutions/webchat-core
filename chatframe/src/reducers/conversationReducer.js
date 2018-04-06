@@ -3,6 +3,7 @@ import * as t from '../actions/actionTypes'
 
 const initialState = {
   client: null,
+  clientName: null,
   messages: [],
   lastUpdateTime: moment().format('MM-DD-YYYY hh:mm:ss.SSSa'),
   currentTime: moment().format('MM-DD-YYYY hh:mm:ss.SSSa'),

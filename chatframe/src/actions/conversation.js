@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { SAVE_USER_RESPONSE } from './actionTypes'
-import { setupDialogflow, sendMessage } from './dialogflow'
+import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
+import { saveUserInput, submitUserInput } from './userInput'
 
 export function setupClient(client, token) {
   return (dispatch, getState) => {
@@ -33,5 +34,26 @@ export function createUserResponse() {
     }
     dispatch({ type: SAVE_USER_RESPONSE, response })
     dispatch(sendMessage(userInput))
+  }
+}
+
+export function sendMessage(message) {
+  return (dispatch, getState) => {
+    const clientName = getState().conversation.clientName
+    if (clientName.toLowerCase() === 'dialogflow') {
+      dispatch(sendMessageWithDialogflow(message))
+    } else {
+      // Unrecognized client
+      throw new Error(
+        `${clientName} is not a recognized conversation provider.`
+      )
+    }
+  }
+}
+
+export function sendQuickReply(text) {
+  return (dispatch, getState) => {
+    dispatch(saveUserInput(text))
+    dispatch(submitUserInput())
   }
 }
