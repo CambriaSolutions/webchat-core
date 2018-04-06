@@ -1,5 +1,5 @@
 import { ApiAiClient } from 'api-ai-javascript'
-import { SAVE_CLIENT, SAVE_RESPONSE } from './actionTypes'
+import { SAVE_CLIENT, SAVE_RESPONSE, INITIATE_LOADING } from './actionTypes'
 import get from 'lodash/get'
 import moment from 'moment'
 
@@ -14,6 +14,7 @@ export function setupDialogflow(token) {
 export function sendMessage(message) {
   return (dispatch, getState) => {
     const client = getState().conversation.client
+    dispatch({ type: INITIATE_LOADING })
     client
       .textRequest(message)
       .then(response => {
@@ -28,6 +29,7 @@ export function sendMessage(message) {
 export function sendEvent(event) {
   return (dispatch, getState) => {
     const client = getState().conversation.client
+    dispatch({ type: INITIATE_LOADING })
     client
       .eventRequest(event)
       .then(response => {
@@ -64,6 +66,7 @@ export function getMessageFromDialogflow(response) {
 
     const data = {
       entity: 'bot',
+      loading: false,
       messageId: response.id,
       sessionId: response.sessionId,
       language: response.lang,

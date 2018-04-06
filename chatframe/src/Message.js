@@ -28,23 +28,27 @@ const Text = styled(Paper)`
     color: ${grey[900]};
     max-width: 85%;
 
-    &::after {
-      content: '';
+    &:after {
+      box-shadow: ${p =>
+        p.entity === 'bot'
+          ? '-0.5px 0.5px 1px 0px rgba(0, 0, 0, 0.23)'
+          : '0.5px -0.5px 1px 0px rgba(0, 0, 0, 0.23)'};
+      content: '\00a0';
+      height: 10px;
+      width: 10px;
+
       position: absolute;
-      top: 10px;
-      right: ${p => (p.entity === 'user' ? '-10px' : 'auto')};
-      left: ${p => (p.entity === 'bot' ? '-10px' : 'auto')};
-      width: 0;
-      height: 0;
-      border: 5px solid ${p => (p.entity === 'user' ? grey[400] : '#fff')};
-      width: 0;
-      height: 0;
-      border-top-color: transparent;
-      border-bottom-color: transparent;
+
+      transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+
       ${p =>
-        p.entity === 'user'
-          ? 'border-right-color: transparent;'
-          : 'border-left-color: transparent;'};
+        p.entity === 'bot'
+          ? `top: 16px; left: -5px; background-color: #fff;`
+          : `top: 16px; right: -5px; background-color: ${grey[400]};`};
     }
   }
 `
@@ -52,7 +56,6 @@ const Text = styled(Paper)`
 class Message extends PureComponent {
   render() {
     const { message, entity, avatar, isLoading } = this.props
-
     return (
       <Container entity={entity}>
         <Avatar entity={entity} avatar={avatar} />

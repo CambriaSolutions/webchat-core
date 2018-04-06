@@ -10,10 +10,24 @@ function conversation(state = initialState, action) {
     case t.SAVE_CLIENT:
       return { ...state, client: action.client, clientName: action.clientName }
 
-    case t.SAVE_RESPONSE:
+    case t.INITIATE_LOADING:
+      const newMessage = {
+        loading: true,
+        entity: 'bot',
+        systemTime: moment().format('MM-DD-YYYY hh:mm:ss.SSSa')
+      }
       return {
         ...state,
-        messages: [...state.messages, action.data].sort((a, b) => {
+        messages: [...state.messages, newMessage]
+      }
+
+    case t.SAVE_RESPONSE:
+      const newArray = state.messages.map((msg, index) => {
+        return msg.loading ? action.data : msg
+      })
+      return {
+        ...state,
+        messages: newArray.sort((a, b) => {
           const momentA = moment(a.systemTime, 'MM-DD-YYYY hh:mm:ss.SSSa')
           const momentB = moment(b.systemTime, 'MM-DD-YYYY hh:mm:ss.SSSa')
           const diff = momentB.diff(momentA, 'milliseconds')

@@ -50,21 +50,29 @@ function buildBotMessages(messages) {
   const conversationElements = []
 
   for (let message of botMessages) {
-    for (let key in message.responses) {
-      const subMessage = message.responses[key]
-      if (subMessage.type === 'text') {
-        conversationElements.push({
-          systemTime: message.systemTime,
-          element: (
-            <Message
-              message={subMessage.text}
-              entity={message.entity}
-              key={message.messageId + key}
-            />
-          )
-        })
-      } else if (subMessage.type === 'card') {
-        // build card here
+    if (message.loading) {
+      conversationElements.push({
+        systemTime: message.systemTime,
+        element: <Message key="loading" isLoading={message.loading} />
+      })
+    } else {
+      for (let key in message.responses) {
+        const subMessage = message.responses[key]
+        if (subMessage.type === 'text') {
+          conversationElements.push({
+            systemTime: message.systemTime,
+            element: (
+              <Message
+                message={subMessage.text}
+                entity={message.entity}
+                key={message.messageId + key}
+                isLoading={false}
+              />
+            )
+          })
+        } else if (subMessage.type === 'card') {
+          // build card here
+        }
       }
     }
   }
@@ -75,11 +83,9 @@ function buildBotMessages(messages) {
 class ChatWindow extends PureComponent {
   render() {
     const { messages } = this.props
-
     const botMessages = buildBotMessages(messages)
     const userMessages = buildUserMessages(messages)
     const messageElements = [...botMessages, ...userMessages]
-
     // Sort all messages by systemTime
     messageElements.sort((a, b) => {
       const momentA = moment(a.systemTime, 'MM-DD-YYYY hh:mm:ss.SSSa')
