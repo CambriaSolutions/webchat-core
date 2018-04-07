@@ -31,21 +31,23 @@ class ButtonBar extends PureComponent {
   render() {
     const { visible, messages, sendQuickReply } = this.props
 
-    const lastMessageWithButtons = findLast(messages, m => {
-      const hasButtons = find(m.responses, ['type', 'button']) ? true : false
-      return hasButtons
+    const lastMessageWithSuggestions = findLast(messages, m => {
+      const hasSuggestions = find(m.responses, ['type', 'suggestion'])
+        ? true
+        : false
+      return hasSuggestions
     })
 
-    let buttonElements = []
-    if (lastMessageWithButtons) {
-      const messages = lastMessageWithButtons.responses.filter(m => {
-        return m.type === 'button'
+    let suggestionElements = []
+    if (lastMessageWithSuggestions) {
+      const messages = lastMessageWithSuggestions.responses.filter(m => {
+        return m.type === 'suggestion'
       })
       for (let message of messages) {
-        for (let button of message.buttons) {
-          buttonElements.push({
-            label: button,
-            id: lastMessageWithButtons.messageId,
+        for (let suggestion of message.suggestions) {
+          suggestionElements.push({
+            label: suggestion,
+            id: lastMessageWithSuggestions.messageId,
             visible: visible
           })
         }
@@ -54,7 +56,7 @@ class ButtonBar extends PureComponent {
 
     return (
       <Container visible={visible}>
-        {buttonElements.map((btn, index) => (
+        {suggestionElements.map((btn, index) => (
           <Btn
             variant="raised"
             color="primary"

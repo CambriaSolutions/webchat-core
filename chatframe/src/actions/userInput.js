@@ -7,7 +7,8 @@ export function saveUserInput(value) {
 
 export function submitUserInput() {
   return (dispatch, getState) => {
-    dispatch(createUserResponse())
+    const userInput = getState().userInput
+    dispatch(createUserResponse(userInput))
     dispatch(saveUserInput(''))
   }
 }

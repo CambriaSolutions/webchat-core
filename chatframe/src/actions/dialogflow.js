@@ -55,7 +55,7 @@ export function getMessageFromDialogflow(response) {
       const type = mapMessageTypeToDescriptor(msg.type)
       return {
         type: type,
-        buttons: get(msg, 'replies', []),
+        suggestions: get(msg, 'replies', []),
         text: get(msg, 'speech', ''),
         card: {
           title: get(msg, 'title', ''),
@@ -66,9 +66,9 @@ export function getMessageFromDialogflow(response) {
       }
     })
 
-    const timeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
-    const time = moment(response.timestamp, timeFormat)
-    const systemTime = moment(time).format('MM-DD-YYYY hh:mm:ss.SSSa')
+    // const timeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
+    // const time = moment(response.timestamp, timeFormat)
+    const systemTime = moment().format('MM-DD-YYYY hh:mm:ss.SSSa')
 
     const data = {
       entity: 'bot',
@@ -79,8 +79,7 @@ export function getMessageFromDialogflow(response) {
       timestamp: moment.timestamp,
       systemTime: systemTime,
       status: response.status,
-      botMessage: response,
-      rawResponses: rawResponses,
+      providerResponse: response,
       responseTime: response.result.metadata.webhookResponseTime,
       responses: responses
     }
@@ -91,8 +90,10 @@ export function getMessageFromDialogflow(response) {
 
 export function saveResponse(data) {
   return (dispatch, getState) => {
-    const hasButtons = find(data.responses, ['type', 'button']) ? true : false
-    if (hasButtons) {
+    const hasSuggestion = find(data.responses, ['type', 'suggestion'])
+      ? true
+      : false
+    if (hasSuggestion) {
       dispatch({ type: SHOW_BUTTON_BAR })
     } else {
       dispatch({ type: HIDE_BUTTON_BAR })
@@ -109,7 +110,7 @@ function mapMessageTypeToDescriptor(type) {
     case 1:
       return 'card'
     case 2:
-      return 'button'
+      return 'suggestion'
     default:
       return 'text'
   }
