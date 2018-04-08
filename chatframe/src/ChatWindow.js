@@ -6,6 +6,7 @@ import moment from 'moment'
 
 // Components
 import Message from './Message'
+import CardResponse from './CardResponse'
 
 // Colors
 import grey from 'material-ui/colors/grey'
@@ -46,48 +47,78 @@ function buildUserMessages(messages) {
   return conversationElements
 }
 
-function buildBotMessages(messages) {
-  const botMessages = filter(messages, ['entity', 'bot'])
-  const conversationElements = []
+function buildLoadingMessage(message) {
+  return {
+    systemTime: message.systemTime,
+    element: (
+      <Message
+        key="loading"
+        entity="bot"
+        timestamp={message.systemTime}
+        isLoading={message.loading + moment().format('MMDDYYYYhhmmssSSS')}
+      />
+    )
+  }
+}
 
-  for (let message of botMessages) {
-    if (message.loading) {
-      conversationElements.push({
+function buildTextMessages(message) {
+  const elements = []
+  for (let key in message.responses) {
+    const subMessage = message.responses[key]
+    if (subMessage.type === 'text') {
+      elements.push({
         systemTime: message.systemTime,
         element: (
           <Message
-            key="loading"
-            entity="bot"
+            message={subMessage.text}
+            entity={message.entity}
+            key={message.messageId + key + moment().format('MMDDYYYYhhmmssSSS')}
+            isLoading={false}
             timestamp={message.systemTime}
-            isLoading={message.loading + moment().format('MMDDYYYYhhmmssSSS')}
           />
         )
       })
-    } else {
-      for (let key in message.responses) {
-        const subMessage = message.responses[key]
-        if (subMessage.type === 'text') {
-          conversationElements.push({
-            systemTime: message.systemTime,
-            element: (
-              <Message
-                message={subMessage.text}
-                entity={message.entity}
-                key={
-                  message.messageId + key + moment().format('MMDDYYYYhhmmssSSS')
-                }
-                isLoading={false}
-                timestamp={message.systemTime}
-              />
-            )
-          })
-        } else if (subMessage.type === 'card') {
-          // build card here
-        }
-      }
     }
   }
+  return elements
+}
 
+function buildCardMessages(message) {
+  const elements = []
+  for (let key in message.responses) {
+    const subMessage = message.responses[key]
+    if (subMessage.type === 'card') {
+      elements.push({
+        systemTime: message.systemTime,
+        element: (
+          <CardResponse
+            data={subMessage.card}
+            timestamp={message.systemTime}
+            key={message.messageId + key + moment().format('MMDDYYYYhhmmssSSS')}
+          />
+        )
+      })
+    }
+  }
+  return elements
+}
+
+function buildBotMessages(messages) {
+  const botMessages = filter(messages, ['entity', 'bot'])
+  let conversationElements = []
+
+  for (let message of botMessages) {
+    // Loading message
+    if (message.loading) {
+      conversationElements.push(buildLoadingMessage(message))
+    } else {
+      conversationElements = [
+        ...conversationElements,
+        ...buildTextMessages(message),
+        ...buildCardMessages(message)
+      ]
+    }
+  }
   return conversationElements
 }
 
