@@ -36,6 +36,8 @@ class CardResponse extends PureComponent {
           {buttons.map((b, index) => {
             return (
               <Button
+                href={b.postback}
+                target="_blank"
                 size="small"
                 color="primary"
                 key={'card-' + index + moment().format('MMDDYYYYhhmmssSSS')}
