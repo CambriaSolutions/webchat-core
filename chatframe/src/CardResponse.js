@@ -15,7 +15,7 @@ const CardContainer = styled(Card)`
 
 const CardImage = styled(CardMedia)`
   && {
-    height: 200px;
+    height: ${p => (p.image && p.image !== '' ? '200px' : '0px')};
     background-size: cover;
     background-position: center center;
   }
