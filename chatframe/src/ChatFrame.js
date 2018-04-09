@@ -23,11 +23,15 @@ const store = createStore(
 
 const OuterFrame = styled(Paper)`
   && {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    width: 60%;
+    height: 60%;
     display: flex;
     flex-flow: column nowrap;
     overflow: hidden;
+    z-index: 999;
   }
 `
 

@@ -16,7 +16,7 @@ const Container = styled(Paper)`
     order: ${p => (p.entity === 'user' ? 1 : 0)};
     background-color: #fff;
     background-image: ${p => (p.avatar ? `url(${p.avatar})` : grey['400'])};
-    background-position: center;
+    background-position: center center;
     background-size: 80%;
     background-repeat: no-repeat;
   }
