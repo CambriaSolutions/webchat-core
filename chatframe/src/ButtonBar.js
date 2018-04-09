@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Button from 'material-ui/Button'
-import findLast from 'lodash/findLast'
 import find from 'lodash/find'
 import { sendQuickReply } from './actions/conversation'
 
@@ -30,8 +29,7 @@ const Btn = styled(Button)`
 class ButtonBar extends PureComponent {
   render() {
     const { visible, messages, sendQuickReply } = this.props
-
-    const lastMessageWithSuggestions = findLast(messages, m => {
+    const lastMessageWithSuggestions = find(messages, m => {
       const hasSuggestions = find(m.responses, ['type', 'suggestion'])
         ? true
         : false

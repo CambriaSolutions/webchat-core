@@ -9,6 +9,7 @@ import moment from 'moment'
 const CardContainer = styled(Card)`
   && {
     margin: 16px auto;
+    white-space: pre-line;
   }
 `
 
