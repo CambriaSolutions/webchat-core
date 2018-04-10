@@ -1,6 +1,8 @@
 import moment from 'moment'
 import { SAVE_USER_RESPONSE } from './actionTypes'
 import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
+// Date Format
+import { sysTimeFormat } from '../config/dateFormats'
 
 export function setupClient(client, token) {
   return (dispatch, getState) => {
@@ -24,7 +26,7 @@ export function setupClient(client, token) {
 export function createUserResponse(text) {
   return (dispatch, getState) => {
     const numMessages = getState().conversation.messages.length
-    const systemTime = moment().format('MM-DD-YYYY hh:mm:ss.SSSa')
+    const systemTime = moment().format(sysTimeFormat)
     const response = {
       entity: 'user',
       messageId: `usermessage-${numMessages}`,

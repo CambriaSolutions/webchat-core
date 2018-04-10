@@ -10,6 +10,9 @@ import get from 'lodash/get'
 import find from 'lodash/find'
 import moment from 'moment'
 
+// Date Format
+import { sysTimeFormat } from '../config/dateFormats'
+
 export function setupDialogflow(token) {
   return (dispatch, getState) => {
     const client = new ApiAiClient({ accessToken: token })
@@ -69,7 +72,7 @@ export function getMessageFromDialogflow(response) {
 
     // const timeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
     // const time = moment(response.timestamp, timeFormat)
-    const systemTime = moment().format('MM-DD-YYYY hh:mm:ss.SSSa')
+    const systemTime = moment().format(sysTimeFormat)
 
     const data = {
       entity: 'bot',

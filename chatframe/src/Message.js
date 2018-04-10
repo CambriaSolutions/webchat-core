@@ -8,6 +8,8 @@ import Avatar from './Avatar'
 import Loading from './Loading'
 // Colors
 import grey from 'material-ui/colors/grey'
+// Date Format
+import { sysTimeFormat } from './config/dateFormats'
 
 const Container = styled.div`
   display: flex;
@@ -97,8 +99,8 @@ class Message extends PureComponent {
       currentTime
     } = this.props
 
-    const now = moment(currentTime, 'MM-DD-YYYY hh:mm:ss.SSSa')
-    const then = moment(timestamp, 'MM-DD-YYYY hh:mm:ss.SSSa')
+    const now = moment(currentTime, sysTimeFormat)
+    const then = moment(timestamp, sysTimeFormat)
     const diffMinutes = now.diff(then, 'minutes')
     const diffSeconds = now.diff(then, 'seconds')
     let formattedTimestamp = null
