@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { SAVE_USER_RESPONSE } from './actionTypes'
+import { SAVE_USER_RESPONSE, DISPLAY_ERROR } from './actionTypes'
 import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
@@ -18,6 +18,7 @@ export function setupClient(client, token) {
       dispatch(setupDialogflow(token))
     } else {
       // Unrecognized client
+      dispatch({ type: DISPLAY_ERROR, error: `Unable to connect to ${client}` })
       throw new Error(`${client} is not a recognized conversation provider.`)
     }
   }
@@ -45,6 +46,10 @@ export function sendMessage(message) {
       dispatch(sendMessageWithDialogflow(message))
     } else {
       // Unrecognized client
+      dispatch({
+        type: DISPLAY_ERROR,
+        error: `Unable to connect to ${clientName}`
+      })
       throw new Error(
         `${clientName} is not a recognized conversation provider.`
       )

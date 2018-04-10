@@ -9,6 +9,7 @@ import Header from './Header'
 import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
 import ButtonBar from './ButtonBar'
+import ErrorBar from './ErrorBar'
 
 // Redux
 import thunkMiddleware from 'redux-thunk'
@@ -45,6 +46,7 @@ class ChatFrame extends PureComponent {
           <Header />
           <ChatWindow />
           <ButtonBar />
+          <ErrorBar />
           <UserInput />
         </OuterFrame>
       </Provider>

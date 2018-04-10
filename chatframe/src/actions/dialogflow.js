@@ -4,7 +4,8 @@ import {
   SAVE_RESPONSE,
   INITIATE_LOADING,
   SHOW_BUTTON_BAR,
-  HIDE_BUTTON_BAR
+  HIDE_BUTTON_BAR,
+  DISPLAY_ERROR
 } from './actionTypes'
 import get from 'lodash/get'
 import find from 'lodash/find'
@@ -31,6 +32,10 @@ export function sendMessageWithDialogflow(message) {
         dispatch(getMessageFromDialogflow(response))
       })
       .catch(error => {
+        dispatch({
+          type: DISPLAY_ERROR,
+          error: 'Unable to connect to the chat provider. Please try again.'
+        })
         throw new Error(error)
       })
   }
@@ -46,6 +51,10 @@ export function sendEvent(event) {
         dispatch(getMessageFromDialogflow(response))
       })
       .catch(error => {
+        dispatch({
+          type: DISPLAY_ERROR,
+          error: 'Unable to connect to the chat provider. Please try again.'
+        })
         throw new Error(error)
       })
   }
