@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import Button from 'material-ui/Button'
-import find from 'lodash/find'
-import { sendQuickReply } from './actions/conversation'
 
 // Colors
 import red from 'material-ui/colors/red'
@@ -16,15 +13,8 @@ const Container = styled.div`
   align-items: center;
   padding: ${p => (p.visible ? '24px 16px' : '0 16px')};
   background: ${red[100]};
-  border-top: ${p => (p.visible ? '1px solid ${red[500]}' : 'none')};
+  border-top: ${p => (p.visible ? `1px solid ${red[500]}` : 'none')};
   color: ${red[800]};
-`
-
-const Btn = styled(Button)`
-  && {
-    margin: 8px;
-    display: ${p => (p.visible === 'true' ? 'block' : 'none')};
-  }
 `
 
 class ErrorBar extends PureComponent {
