@@ -1,10 +1,20 @@
 const functions = require('firebase-functions')
-const { WebhookClient, Card, Suggestion } = require('dialogflow-fulfillment')
+const {
+  WebhookClient,
+  Card,
+  Suggestion,
+  Payload
+} = require('dialogflow-fulfillment')
 
 process.env.DEBUG = 'dialogflow:debug' // enables lib debugging statements
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(
   (request, response) => {
+    if (request.body.result.metadata.intentName === 'payload') {
+      payload()
+      return
+    }
+
     const agent = new WebhookClient({ request, response })
     console.log(
       'Dialogflow Request headers: ' + JSON.stringify(request.headers)
@@ -47,11 +57,30 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest(
       })
     }
 
+    function payload(agent) {
+      const payload = {
+        messages: [
+          {
+            payload: {
+              test: 'value'
+            },
+            type: 4
+          },
+          {
+            speech: 'test text',
+            type: 0
+          }
+        ]
+      }
+      response.send(payload)
+    }
+
     // Run the proper function handler based on the matched Dialogflow intent name
     let intentMap = new Map()
     intentMap.set('Default Welcome Intent', welcome)
     intentMap.set('Default Fallback Intent', fallback)
     intentMap.set('custom intent', yourFunctionHandler)
+    intentMap.set('payload', payload)
     agent.handleRequest(intentMap)
   }
 )

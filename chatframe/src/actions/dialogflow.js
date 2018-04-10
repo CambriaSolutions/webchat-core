@@ -53,16 +53,18 @@ export function getMessageFromDialogflow(response) {
     const rawResponses = response.result.fulfillment.messages
     const responses = rawResponses.map(msg => {
       const type = mapMessageTypeToDescriptor(msg.type)
+      console.log(msg)
       return {
         type: type,
         suggestions: get(msg, 'replies', []),
-        text: get(msg, 'speech', ''),
+        text: get(msg, 'speech', null),
         card: {
           title: get(msg, 'title', ''),
           subtitle: get(msg, 'subtitle', ''),
           imageUrl: get(msg, 'imageUrl', ''),
           buttons: get(msg, 'buttons', [])
-        }
+        },
+        payload: get(msg, 'payload', {})
       }
     })
 
@@ -111,6 +113,10 @@ function mapMessageTypeToDescriptor(type) {
       return 'card'
     case 2:
       return 'suggestion'
+    case 3:
+      return 'image'
+    case 4:
+      return 'payload'
     default:
       return 'text'
   }
