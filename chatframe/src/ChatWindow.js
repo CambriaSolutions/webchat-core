@@ -55,7 +55,9 @@ function buildLoadingMessage(message) {
         key="loading"
         entity="bot"
         timestamp={message.systemTime}
-        isLoading={message.loading + moment().format('MMDDYYYYhhmmssSSS')}
+        isLoading={
+          message.loading + moment().format('MM-DD-YYYY hh:mm:ss.SSSa')
+        }
       />
     )
   }
@@ -66,13 +68,24 @@ function buildTextMessages(message) {
   for (let key in message.responses) {
     const subMessage = message.responses[key]
     if (subMessage.type === 'text') {
+      // We add key*10 milliseconds to each text message to ensure that they
+      // display in the correct order. They arrive in the same response from
+      // the provider, which has a single timestamp for all subMessages. This
+      // allows them to be differentiated and sorted.
+      const sysTime = moment(message.systemTime, 'MM-DD-YYYY hh:mm:ss.SSSa')
       elements.push({
-        systemTime: message.systemTime,
+        systemTime: sysTime
+          .add(key * 10, 'milliseconds')
+          .format('MM-DD-YYYY hh:mm:ss.SSSa'),
         element: (
           <Message
             message={subMessage.text}
             entity={message.entity}
-            key={message.messageId + key + moment().format('MMDDYYYYhhmmssSSS')}
+            key={
+              message.messageId +
+              key +
+              moment().format('MM-DD-YYYY hh:mm:ss.SSSa')
+            }
             isLoading={false}
             timestamp={message.systemTime}
           />
@@ -94,7 +107,11 @@ function buildCardMessages(message) {
           <CardResponse
             data={subMessage.card}
             timestamp={message.systemTime}
-            key={message.messageId + key + moment().format('MMDDYYYYhhmmssSSS')}
+            key={
+              message.messageId +
+              key +
+              moment().format('MM-DD-YYYY hh:mm:ss.SSSa')
+            }
           />
         )
       })

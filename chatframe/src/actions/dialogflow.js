@@ -53,7 +53,6 @@ export function getMessageFromDialogflow(response) {
     const rawResponses = response.result.fulfillment.messages
     const responses = rawResponses.map(msg => {
       const type = mapMessageTypeToDescriptor(msg.type)
-      console.log(msg)
       return {
         type: type,
         suggestions: get(msg, 'replies', []),
