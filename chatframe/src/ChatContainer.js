@@ -12,6 +12,8 @@ import ErrorBar from './ErrorBar'
 // Redux
 import { connect } from 'react-redux'
 
+import { media } from './styles/media'
+
 const OuterFrame = styled(Paper)`
   && {
     transform: scale(${p => (p.active ? '1' : '0')});
@@ -35,12 +37,22 @@ const OuterFrame = styled(Paper)`
       right: 48px;
     `
         : ''};
+
+    ${media.phone`
+      width: calc(100% - 48px);
+      height: calc(100% - 48px);
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      max-width: none;
+      max-height: none;
+    `};
   }
 `
 
 class ChatContainer extends PureComponent {
   render() {
-    const { fullscreen, windowVisible } = this.props
+    const { windowVisible, fullscreen } = this.props
     return (
       <OuterFrame
         elevation={6}

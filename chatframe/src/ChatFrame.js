@@ -27,6 +27,7 @@ const OuterContainer = styled.div`
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  align-content: center;
 `
 
 class ChatFrame extends PureComponent {

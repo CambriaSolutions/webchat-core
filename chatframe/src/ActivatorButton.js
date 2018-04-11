@@ -13,6 +13,7 @@ const Btn = styled(Button)`
     bottom: 48px;
     right: 48px;
     pointer-events: auto;
+    padding-top: 8px;
     background: ${p => p.theme.palette.primary.main};
     color: ${p =>
       p.theme.palette.getContrastText(p.theme.palette.primary.main)};
