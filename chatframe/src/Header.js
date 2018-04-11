@@ -4,14 +4,12 @@ import Paper from 'material-ui/Paper'
 import Icon from 'material-ui/Icon'
 import styled from 'styled-components'
 
-// Colors
-import grey from 'material-ui/colors/grey'
-
 const Container = styled(Paper)`
   && {
-    background: ${grey[800]};
+    background: ${p => p.theme.palette.primary.dark};
     padding: 16px;
-    color: ${grey[100]};
+    color: ${p =>
+      p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -47,19 +45,18 @@ const CloseButton = styled.div`
   flex: 0;
   cursor: pointer;
   height: 28px;
-  color: ${grey[400]};
+  color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
   padding: 2px;
   &:hover {
-    background: ${grey[600]};
-    color: ${grey[100]};
+    background: rgba(255, 255, 255, 0.24);
   }
 `
 
 class Header extends PureComponent {
   render() {
-    const { title, timestamp } = this.props
+    const { title, timestamp, theme } = this.props
     return (
-      <Container elevation={3}>
+      <Container elevation={3} theme={theme}>
         <HeaderImage>
           <Icon>chat</Icon>
         </HeaderImage>
@@ -67,7 +64,7 @@ class Header extends PureComponent {
           <PrimaryHeaderText>{title}</PrimaryHeaderText>
           <SecondaryHeaderText>Active {timestamp}</SecondaryHeaderText>
         </HeaderText>
-        <CloseButton>
+        <CloseButton theme={theme}>
           <Icon>close</Icon>
         </CloseButton>
       </Container>
@@ -78,7 +75,8 @@ class Header extends PureComponent {
 const mapStateToProps = state => {
   return {
     title: state.config.title,
-    timestamp: state.conversation.headerTime
+    timestamp: state.conversation.headerTime,
+    theme: state.config.theme
   }
 }
 

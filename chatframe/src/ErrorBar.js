@@ -2,9 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-// Colors
-import red from 'material-ui/colors/red'
-
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -12,22 +9,27 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: ${p => (p.visible ? '24px 16px' : '0 16px')};
-  background: ${red[100]};
-  border-top: ${p => (p.visible ? `1px solid ${red[500]}` : 'none')};
-  color: ${red[800]};
+  background: ${p => p.theme.palette.error.light};
+  border-top: ${p =>
+    p.visible ? `1px solid ${p.theme.palette.error.main}` : 'none'};
+  color: ${p => p.theme.palette.error.dark};
 `
 
 class ErrorBar extends PureComponent {
   render() {
-    const { error } = this.props
-
-    return <Container visible={error !== ''}>{error}</Container>
+    const { error, theme } = this.props
+    return (
+      <Container visible={error !== ''} theme={theme}>
+        {error}
+      </Container>
+    )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    error: state.error
+    error: state.error,
+    theme: state.config.theme
   }
 }
 

@@ -6,9 +6,6 @@ import styled from 'styled-components'
 // Redux
 import { saveUserInput, submitUserInput } from './actions/userInput'
 
-// Colors
-import grey from 'material-ui/colors/grey'
-
 const OuterFrame = styled.div`
   background: #fff;
   flex: 1 0 48px;
@@ -26,11 +23,11 @@ const SendButton = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  color: ${grey[500]};
+  color: ${p => p.theme.palette.primary.dark};
   padding: 0 16px;
   cursor: pointer;
   &:hover {
-    color: ${grey[800]};
+    color: ${p => p.theme.palette.primary[800]};
   }
 `
 
@@ -58,7 +55,7 @@ class UserInput extends PureComponent {
   }
 
   render() {
-    const { saveUserInput, inputValue } = this.props
+    const { saveUserInput, inputValue, theme } = this.props
     return (
       <OuterFrame>
         <TextInput
@@ -68,7 +65,7 @@ class UserInput extends PureComponent {
           value={inputValue}
           onKeyPress={this.handleKeyPress}
         />
-        <SendButton onClick={this.props.submitUserInput}>
+        <SendButton onClick={this.props.submitUserInput} theme={theme}>
           <Icon>send</Icon>
         </SendButton>
       </OuterFrame>
@@ -78,7 +75,8 @@ class UserInput extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    inputValue: state.userInput
+    inputValue: state.userInput,
+    theme: state.config.theme
   }
 }
 

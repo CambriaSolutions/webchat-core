@@ -23,6 +23,9 @@ class App extends Component {
           title="Test Chat Frame"
           client="Dialogflow"
           token={process.env.REACT_APP_DIALOGFLOW_TOKEN}
+          primaryColor="teal"
+          secondaryColor="red"
+          fullscreen={false}
         />
       </OuterAppFrame>
     )

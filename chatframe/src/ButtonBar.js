@@ -5,9 +5,6 @@ import Button from 'material-ui/Button'
 import find from 'lodash/find'
 import { sendQuickReply } from './actions/conversation'
 
-// Colors
-import grey from 'material-ui/colors/grey'
-
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -15,20 +12,28 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: ${p => (p.visible ? '24px 16px' : '0 16px')};
-  background: ${grey[400]};
-  border-top: 1px solid ${grey[500]};
+  background: ${p => p.theme.palette.grey[400]};
+  border-top: 1px solid ${p => p.theme.palette.grey[500]};
 `
 
 const Btn = styled(Button)`
   && {
+    background: ${p => p.theme.palette.secondary[500]};
     margin: 8px;
     display: ${p => (p.visible === 'true' ? 'block' : 'none')};
+    color: ${p =>
+      p.theme.palette.getContrastText(p.theme.palette.secondary[500])};
+    &:hover {
+      background: ${p => p.theme.palette.secondary[700]};
+      color: ${p =>
+        p.theme.palette.getContrastText(p.theme.palette.secondary[700])};
+    }
   }
 `
 
 class ButtonBar extends PureComponent {
   render() {
-    const { visible, messages, sendQuickReply } = this.props
+    const { visible, messages, sendQuickReply, theme } = this.props
     const lastMessageWithSuggestions = find(messages, m => {
       const hasSuggestions = find(m.responses, ['type', 'suggestion'])
         ? true
@@ -53,11 +58,11 @@ class ButtonBar extends PureComponent {
     }
 
     return (
-      <Container visible={visible}>
+      <Container visible={visible} theme={theme}>
         {suggestionElements.map((btn, index) => (
           <Btn
+            theme={theme}
             variant="raised"
-            color="primary"
             key={`${btn.id}-btn${index}`}
             visible={btn.visible.toString()}
             onClick={() => sendQuickReply(btn.label)}
@@ -73,7 +78,8 @@ class ButtonBar extends PureComponent {
 const mapStateToProps = state => {
   return {
     visible: state.buttonBar.visible,
-    messages: state.conversation.messages
+    messages: state.conversation.messages,
+    theme: state.config.theme
   }
 }
 

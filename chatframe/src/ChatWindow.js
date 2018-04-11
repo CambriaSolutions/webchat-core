@@ -8,9 +8,6 @@ import moment from 'moment'
 import Message from './Message'
 import CardResponse from './CardResponse'
 
-// Colors
-import grey from 'material-ui/colors/grey'
-
 // Date Format
 import { sysTimeFormat } from './config/dateFormats'
 
@@ -19,7 +16,7 @@ const Container = styled.div`
   padding: 0 16px 16px 16px;
   overflow-y: auto;
   height: 100%;
-  background: ${grey[300]};
+  background: ${p => p.theme.palette.grey[300]};
 `
 
 const MessagesContainer = styled.div`
@@ -140,7 +137,7 @@ class ChatWindow extends PureComponent {
     chatWindowNode.scrollTop = chatWindowNode.scrollHeight
   }
   render() {
-    const { messages } = this.props
+    const { messages, theme } = this.props
     const botMessages = buildBotMessages(messages)
     const userMessages = buildUserMessages(messages)
     const messageElements = [...botMessages, ...userMessages]
@@ -151,11 +148,9 @@ class ChatWindow extends PureComponent {
       const diff = momentA.diff(momentB, 'milliseconds')
       return diff
     })
-
     const elements = messageElements.map(m => m.element)
-
     return (
-      <Container innerRef={this.chatWindowRef}>
+      <Container innerRef={this.chatWindowRef} theme={theme}>
         <MessagesContainer>{elements}</MessagesContainer>
       </Container>
     )
@@ -164,7 +159,8 @@ class ChatWindow extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    messages: state.conversation.messages
+    messages: state.conversation.messages,
+    theme: state.config.theme
   }
 }
 
