@@ -3,7 +3,11 @@ import {
   SET_AVATAR,
   TIMER_START,
   UPDATE_CURRENT_TIME,
-  CREATE_THEME
+  CREATE_THEME,
+  SHOW_WINDOW,
+  HIDE_WINDOW,
+  FULLSCREEN,
+  WINDOWED
 } from './actionTypes'
 import { createMuiTheme } from 'material-ui/styles'
 import { setupClient } from './conversation'
@@ -12,7 +16,16 @@ import * as colors from 'material-ui/colors'
 
 export function initialize(props) {
   return (dispatch, getState) => {
-    const { title, avatar, client, token, primaryColor, secondaryColor } = props
+    const {
+      title,
+      avatar,
+      client,
+      token,
+      primaryColor,
+      secondaryColor,
+      initialActive,
+      fullscreen
+    } = props
     dispatch({ type: SET_TITLE, title })
     dispatch({ type: SET_AVATAR, avatar })
     dispatch(setupClient(client, token))
@@ -21,6 +34,18 @@ export function initialize(props) {
 
     if (primaryColor || secondaryColor) {
       dispatch(createTheme(primaryColor, secondaryColor))
+    }
+
+    if (initialActive === true) {
+      dispatch(showWindow())
+    } else {
+      dispatch(hideWindow())
+    }
+
+    if (fullscreen === true) {
+      dispatch(showFullscreen())
+    } else {
+      dispatch(showWindowed())
     }
   }
 }
@@ -70,4 +95,17 @@ function createTheme(primaryColor, secondaryColor) {
     const theme = createMuiTheme(newTheme)
     dispatch({ type: CREATE_THEME, theme })
   }
+}
+
+export function showWindow() {
+  return { type: SHOW_WINDOW }
+}
+export function hideWindow() {
+  return { type: HIDE_WINDOW }
+}
+export function showFullscreen() {
+  return { type: FULLSCREEN }
+}
+export function showWindowed() {
+  return { type: WINDOWED }
 }

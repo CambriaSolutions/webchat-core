@@ -16,7 +16,9 @@ const defaultTheme = createMuiTheme({
 const initialState = {
   avatar: defaultAvatar,
   title: 'Chat Window',
-  theme: defaultTheme
+  theme: defaultTheme,
+  windowVisible: false,
+  fullscreen: false
 }
 function config(state = initialState, action) {
   switch (action.type) {
@@ -28,6 +30,18 @@ function config(state = initialState, action) {
 
     case t.CREATE_THEME:
       return { ...state, theme: action.theme }
+
+    case t.SHOW_WINDOW:
+      return { ...state, windowVisible: true }
+
+    case t.HIDE_WINDOW:
+      return { ...state, windowVisible: false }
+
+    case t.FULLSCREEN:
+      return { ...state, fullscreen: true }
+
+    case t.WINDOWED:
+      return { ...state, fullscreen: false }
 
     default:
       return state

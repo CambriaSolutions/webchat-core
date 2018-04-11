@@ -3,6 +3,11 @@ import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import Icon from 'material-ui/Icon'
 import styled from 'styled-components'
+import {
+  hideWindow,
+  showFullscreen,
+  showWindowed
+} from './actions/initialization'
 
 const Container = styled(Paper)`
   && {
@@ -41,7 +46,7 @@ const SecondaryHeaderText = styled.div`
   padding-left: 16px;
 `
 
-const CloseButton = styled.div`
+const HeaderButton = styled.div`
   flex: 0;
   cursor: pointer;
   height: 28px;
@@ -54,7 +59,15 @@ const CloseButton = styled.div`
 
 class Header extends PureComponent {
   render() {
-    const { title, timestamp, theme } = this.props
+    const {
+      title,
+      timestamp,
+      theme,
+      hideWindow,
+      showWindowed,
+      showFullscreen,
+      fullscreen
+    } = this.props
     return (
       <Container elevation={3} theme={theme}>
         <HeaderImage>
@@ -64,9 +77,19 @@ class Header extends PureComponent {
           <PrimaryHeaderText>{title}</PrimaryHeaderText>
           <SecondaryHeaderText>Active {timestamp}</SecondaryHeaderText>
         </HeaderText>
-        <CloseButton theme={theme}>
+
+        {fullscreen ? (
+          <HeaderButton theme={theme} onClick={showWindowed}>
+            <Icon>fullscreen_exit</Icon>
+          </HeaderButton>
+        ) : (
+          <HeaderButton theme={theme} onClick={showFullscreen}>
+            <Icon>fullscreen</Icon>
+          </HeaderButton>
+        )}
+        <HeaderButton theme={theme} onClick={hideWindow}>
           <Icon>close</Icon>
-        </CloseButton>
+        </HeaderButton>
       </Container>
     )
   }
@@ -76,12 +99,23 @@ const mapStateToProps = state => {
   return {
     title: state.config.title,
     timestamp: state.conversation.headerTime,
-    theme: state.config.theme
+    theme: state.config.theme,
+    fullscreen: state.config.fullscreen
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return {}
+  return {
+    hideWindow: () => {
+      dispatch(hideWindow())
+    },
+    showFullscreen: () => {
+      dispatch(showFullscreen())
+    },
+    showWindowed: () => {
+      dispatch(showWindowed())
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

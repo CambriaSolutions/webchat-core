@@ -10,7 +10,6 @@ import avatarImage from './img/wahbexLogo.png'
 const OuterAppFrame = styled.div`
   width: 100vw;
   height: 100vh;
-  padding: 48px;
   background: ${grey[100]};
 `
 
@@ -26,6 +25,7 @@ class App extends Component {
           primaryColor="teal"
           secondaryColor="red"
           fullscreen={false}
+          initialActive={true}
         />
       </OuterAppFrame>
     )
