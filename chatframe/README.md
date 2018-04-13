@@ -2,10 +2,5 @@
 
 TODO
 
-* custom Colors
-* error handling
-* toggle window
-* change window icon near header
-* buttons send text
-* time since message (mins if close, timestamp if far)
-* abstract time string
+* readme
+* explain why we have to use local api-ai-javascript library

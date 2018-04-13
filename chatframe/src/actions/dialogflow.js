@@ -1,4 +1,4 @@
-import { ApiAiClient } from 'api-ai-javascript'
+import { ApiAiClient } from '../api-ai-javascript'
 import {
   SAVE_CLIENT,
   SAVE_RESPONSE,
