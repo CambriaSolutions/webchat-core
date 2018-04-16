@@ -1,5 +1,9 @@
 import moment from 'moment'
-import { SAVE_USER_RESPONSE, DISPLAY_ERROR } from './actionTypes'
+import {
+  SAVE_USER_RESPONSE,
+  DISPLAY_ERROR,
+  HIDE_BUTTON_BAR
+} from './actionTypes'
 import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
@@ -43,6 +47,7 @@ export function sendMessage(message) {
   return (dispatch, getState) => {
     const clientName = getState().conversation.clientName
     if (clientName.toLowerCase() === 'dialogflow') {
+      dispatch({ type: HIDE_BUTTON_BAR })
       dispatch(sendMessageWithDialogflow(message))
     } else {
       // Unrecognized client

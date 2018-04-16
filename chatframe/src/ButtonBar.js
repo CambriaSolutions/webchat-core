@@ -11,6 +11,7 @@ const Container = styled.div`
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
+  align-content: center;
   padding: ${p => (p.visible ? '24px 16px' : '0 16px')};
   background: ${p => p.theme.palette.grey[400]};
   border-top: 1px solid ${p => p.theme.palette.grey[500]};
