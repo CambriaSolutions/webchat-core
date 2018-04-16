@@ -2,6 +2,7 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
+import WebFont from 'webfontloader'
 
 // Components
 import ActivatorButton from './ActivatorButton'
@@ -18,11 +19,20 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunkMiddleware))
 )
 
+WebFont.load({
+  google: {
+    families: ['Roboto:300,400,500,700', 'Material Icons']
+  }
+})
+
 const OuterContainer = styled.div`
   width: 100%;
   height: 100%;
   pointer-events: none;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;

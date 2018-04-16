@@ -26,7 +26,7 @@ class CardResponse extends PureComponent {
     const { title, subtitle, imageUrl, buttons } = this.props.data
     return (
       <CardContainer>
-        <CardImage image={imageUrl} title="Contemplative Reptile" />
+        <CardImage image={encodeURI(imageUrl)} title="" />
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
             {title}

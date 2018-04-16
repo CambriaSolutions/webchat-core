@@ -29,14 +29,9 @@ const OuterFrame = styled(Paper)`
     display: flex;
     flex-flow: column nowrap;
     overflow: hidden;
-    ${p =>
-      !p.fullscreen
-        ? `
-      position: absolute;
-      bottom: 48px;
-      right: 48px;
-    `
-        : ''};
+    position: absolute;
+    bottom: 48px;
+    right: 48px;
 
     ${media.phone`
       width: calc(100% - 48px);
