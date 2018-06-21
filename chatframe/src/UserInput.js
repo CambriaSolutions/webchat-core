@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import Icon from 'material-ui/Icon'
+import Send from '@material-ui/icons/Send'
 import styled from 'styled-components'
 
 // Redux
@@ -66,7 +66,7 @@ class UserInput extends PureComponent {
           onKeyPress={this.handleKeyPress}
         />
         <SendButton onClick={this.props.submitUserInput} theme={theme}>
-          <Icon>send</Icon>
+          <Send />
         </SendButton>
       </OuterFrame>
     )
@@ -76,7 +76,7 @@ class UserInput extends PureComponent {
 const mapStateToProps = state => {
   return {
     inputValue: state.userInput,
-    theme: state.config.theme
+    theme: state.config.theme,
   }
 }
 
@@ -87,8 +87,11 @@ const mapDispatchToProps = dispatch => {
     },
     submitUserInput: () => {
       dispatch(submitUserInput())
-    }
+    },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserInput)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserInput)

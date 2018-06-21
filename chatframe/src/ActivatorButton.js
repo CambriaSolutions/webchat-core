@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-import Button from 'material-ui/Button'
-import Icon from 'material-ui/Icon'
+import Button from '@material-ui/core/Button'
+import Chat from '@material-ui/icons/Chat'
+
 // Redux
 import { connect } from 'react-redux'
 import { showWindow } from './actions/initialization'
@@ -35,7 +36,7 @@ class ActivatorButton extends PureComponent {
         active={windowVisible ? 0 : 1}
         theme={theme}
       >
-        <Icon>chat</Icon>
+        <Chat />
       </Btn>
     )
   }
@@ -44,7 +45,7 @@ class ActivatorButton extends PureComponent {
 const mapStateToProps = state => {
   return {
     windowVisible: state.config.windowVisible,
-    theme: state.config.theme
+    theme: state.config.theme,
   }
 }
 
@@ -52,8 +53,11 @@ const mapDispatchToProps = dispatch => {
   return {
     showWindow: () => {
       dispatch(showWindow())
-    }
+    },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActivatorButton)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ActivatorButton)

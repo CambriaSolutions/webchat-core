@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import find from 'lodash/find'
 import { sendQuickReply } from './actions/conversation'
 
@@ -52,7 +52,7 @@ class ButtonBar extends PureComponent {
           suggestionElements.push({
             label: suggestion,
             id: lastMessageWithSuggestions.messageId,
-            visible: visible
+            visible: visible,
           })
         }
       }
@@ -80,7 +80,7 @@ const mapStateToProps = state => {
   return {
     visible: state.buttonBar.visible,
     messages: state.conversation.messages,
-    theme: state.config.theme
+    theme: state.config.theme,
   }
 }
 
@@ -88,8 +88,11 @@ const mapDispatchToProps = dispatch => {
   return {
     sendQuickReply: text => {
       dispatch(sendQuickReply(text))
-    }
+    },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonBar)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ButtonBar)

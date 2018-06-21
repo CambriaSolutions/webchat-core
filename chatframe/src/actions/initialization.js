@@ -7,12 +7,12 @@ import {
   SHOW_WINDOW,
   HIDE_WINDOW,
   FULLSCREEN,
-  WINDOWED
+  WINDOWED,
 } from './actionTypes'
-import { createMuiTheme } from 'material-ui/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
 import { setupClient } from './conversation'
 import { sendEvent } from './dialogflow'
-import * as colors from 'material-ui/colors'
+import * as colors from '@material-ui/core/colors'
 
 export function initialize(props) {
   return (dispatch, getState) => {
@@ -24,7 +24,7 @@ export function initialize(props) {
       primaryColor,
       secondaryColor,
       initialActive,
-      fullscreen
+      fullscreen,
     } = props
     dispatch({ type: SET_TITLE, title })
     dispatch({ type: SET_AVATAR, avatar })
@@ -76,7 +76,7 @@ function updateIdleTime() {
 function createTheme(primaryColor, secondaryColor) {
   return (dispatch, getState) => {
     let newTheme = {
-      palette: {}
+      palette: {},
     }
     if (primaryColor && colors[primaryColor]) {
       newTheme.palette.primary = colors[primaryColor]

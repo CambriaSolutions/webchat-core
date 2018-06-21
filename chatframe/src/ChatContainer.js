@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
-import Paper from 'material-ui/Paper'
+import Paper from '@material-ui/core/Paper'
 import styled from 'styled-components'
 
+import Zoom from '@material-ui/core/Zoom'
 // Components
 import Header from './Header'
 import ChatWindow from './ChatWindow'
@@ -16,10 +17,7 @@ import { media } from './styles/media'
 
 const OuterFrame = styled(Paper)`
   && {
-    transform: scale(${p => (p.active ? '1' : '0')});
-    opacity: ${p => (p.active ? '1' : '0')};
     transform-origin: bottom right;
-    transition: all 0.2s ease-in-out;
     pointer-events: auto;
     width: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '65%')};
     height: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '60%')};
@@ -49,17 +47,15 @@ class ChatContainer extends PureComponent {
   render() {
     const { windowVisible, fullscreen } = this.props
     return (
-      <OuterFrame
-        elevation={6}
-        fullscreen={fullscreen ? 1 : 0}
-        active={windowVisible ? 1 : 0}
-      >
-        <Header />
-        <ChatWindow />
-        <ButtonBar />
-        <ErrorBar />
-        <UserInput />
-      </OuterFrame>
+      <Zoom in={windowVisible}>
+        <OuterFrame elevation={6} fullscreen={fullscreen ? 1 : 0}>
+          <Header />
+          <ChatWindow />
+          <ButtonBar />
+          <ErrorBar />
+          <UserInput />
+        </OuterFrame>
+      </Zoom>
     )
   }
 }
@@ -67,7 +63,7 @@ class ChatContainer extends PureComponent {
 const mapStateToProps = state => {
   return {
     windowVisible: state.config.windowVisible,
-    fullscreen: state.config.fullscreen
+    fullscreen: state.config.fullscreen,
   }
 }
 
@@ -75,4 +71,7 @@ const mapDispatchToProps = dispatch => {
   return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChatContainer)

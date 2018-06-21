@@ -14,6 +14,7 @@ import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProductio
 import rootReducer from './reducers/rootReducer'
 import { initialize } from './actions/initialization'
 
+// Styles
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunkMiddleware))
@@ -21,8 +22,8 @@ const store = createStore(
 
 WebFont.load({
   google: {
-    families: ['Roboto:300,400,500,700', 'Material Icons']
-  }
+    families: ['Roboto:300,400,500'],
+  },
 })
 
 const OuterContainer = styled.div`
@@ -38,6 +39,12 @@ const OuterContainer = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  & > * {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+  }
 `
 
 class ChatFrame extends PureComponent {

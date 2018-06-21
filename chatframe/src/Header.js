@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import Paper from 'material-ui/Paper'
-import Icon from 'material-ui/Icon'
+import Paper from '@material-ui/core/Paper'
+import Fullscreen from '@material-ui/icons/Fullscreen'
+import FullscreenExit from '@material-ui/icons/FullscreenExit'
+import Close from '@material-ui/icons/Close'
+import Chat from '@material-ui/icons/Chat'
 import styled from 'styled-components'
 import {
   hideWindow,
   showFullscreen,
-  showWindowed
+  showWindowed,
 } from './actions/initialization'
 
 const Container = styled(Paper)`
@@ -66,12 +69,12 @@ class Header extends PureComponent {
       hideWindow,
       showWindowed,
       showFullscreen,
-      fullscreen
+      fullscreen,
     } = this.props
     return (
       <Container elevation={3} theme={theme}>
         <HeaderImage>
-          <Icon>chat</Icon>
+          <Chat />
         </HeaderImage>
         <HeaderText>
           <PrimaryHeaderText>{title}</PrimaryHeaderText>
@@ -80,15 +83,15 @@ class Header extends PureComponent {
 
         {fullscreen ? (
           <HeaderButton theme={theme} onClick={showWindowed}>
-            <Icon>fullscreen_exit</Icon>
+            <FullscreenExit />
           </HeaderButton>
         ) : (
           <HeaderButton theme={theme} onClick={showFullscreen}>
-            <Icon>fullscreen</Icon>
+            <Fullscreen />
           </HeaderButton>
         )}
         <HeaderButton theme={theme} onClick={hideWindow}>
-          <Icon>close</Icon>
+          <Close />
         </HeaderButton>
       </Container>
     )
@@ -100,7 +103,7 @@ const mapStateToProps = state => {
     title: state.config.title,
     timestamp: state.conversation.headerTime,
     theme: state.config.theme,
-    fullscreen: state.config.fullscreen
+    fullscreen: state.config.fullscreen,
   }
 }
 
@@ -114,8 +117,11 @@ const mapDispatchToProps = dispatch => {
     },
     showWindowed: () => {
       dispatch(showWindowed())
-    }
+    },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header)

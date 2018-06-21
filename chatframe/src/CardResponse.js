@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card'
-import Button from 'material-ui/Button'
-import Typography from 'material-ui/Typography'
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import moment from 'moment'
 
@@ -55,15 +58,18 @@ class CardResponse extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    inputValue: state.userInput
+    inputValue: state.userInput,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     saveUserInput: e => {},
-    submitUserInput: () => {}
+    submitUserInput: () => {},
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardResponse)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CardResponse)

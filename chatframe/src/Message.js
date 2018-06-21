@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import moment from 'moment'
-import Paper from 'material-ui/Paper'
+import Paper from '@material-ui/core/Paper'
 // Components
 import Avatar from './Avatar'
 import Loading from './Loading'
 // Colors
-import grey from 'material-ui/colors/grey'
+import grey from '@material-ui/core/colors/grey'
 // Date Format
 import { sysTimeFormat } from './config/dateFormats'
 
@@ -96,7 +96,7 @@ class Message extends PureComponent {
       avatar,
       isLoading,
       timestamp,
-      currentTime
+      currentTime,
     } = this.props
 
     const now = moment(currentTime, sysTimeFormat)
@@ -135,7 +135,7 @@ class Message extends PureComponent {
 const mapStateToProps = state => {
   return {
     avatar: state.config.avatar,
-    currentTime: state.conversation.currentTime
+    currentTime: state.conversation.currentTime,
   }
 }
 
@@ -143,4 +143,7 @@ const mapDispatchToProps = dispatch => {
   return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Message)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Message)

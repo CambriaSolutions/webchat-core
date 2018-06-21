@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 // Colors
-import green from 'material-ui/colors/green'
+import green from '@material-ui/core/colors/green'
 
 const Container = styled.div`
   text-align: center;
