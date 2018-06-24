@@ -1,0 +1,23 @@
+{
+  "name": "search-service",
+  "version": "1.0.0",
+  "description": "Search service for the Mississippi policy document search",
+  "main": "src/index.js",
+  "scripts": {
+    "run:local": "sls invoke local -f helloWorld --path testdata.json",
+    "run:dev": "sls invoke -f helloWorld -s development --aws-profile ms-smartsearch",
+    "run:prod": "sls invoke -f helloWorld -s production --aws-profile ms-smartsearch",
+    "deployfunc:dev": "sls deploy -f helloWorld -s development --aws-profile ms-smartsearch",
+    "deployfunc:prod": "sls deploy -f helloWorld -s production --aws-profile ms-smartsearch",
+    "deploy:dev": "sls deploy -s development --aws-profile ms-smartsearch",
+    "deploy:prod": "sls deploy -s production --aws-profile ms-smartsearch",
+    "test": "jest",
+    "postinstall": "npm rebuild grpc --target=8.1.0 --target_arch=x64 --target_platform=linux --target_libc=glibc"
+  },
+  "author": "Tom Herbert",
+  "license": "ISC",
+  "devDependencies": {},
+  "dependencies": {
+    "dialogflow": "^0.5.0"
+  }
+}

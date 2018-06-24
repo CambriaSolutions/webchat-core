@@ -1,0 +1,33 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+
+# The `service` block is the name of the service
+service: ms-search-service
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  apiKeys:
+    - ms-smartsearch-api-key
+  stage: development
+  runtime: nodejs8.10
+  region: us-east-1
+
+#include node_modules
+package:
+  include:
+    - node_modules/**
+
+# The `functions` block defines what code to deploy
+functions:
+  helloWorld:
+    handler: src/index.helloWorld
+    # The `events` block defines how to trigger the handler.helloWorld code
+    events:
+      - http:
+          path: policyQuery
+          method: get
+          cors: true
