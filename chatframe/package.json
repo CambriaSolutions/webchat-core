@@ -1,8 +1,7 @@
 {
-  "name": "chatframe",
+  "name": "@cambriasolutions/chatframe",
   "version": "1.0.0",
   "description": "Integrated chat window for Dialogflow",
-  "private": true,
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
