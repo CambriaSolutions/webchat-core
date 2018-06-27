@@ -20,6 +20,7 @@ export function initialize(props) {
       title,
       avatar,
       client,
+      clientOptions,
       token,
       primaryColor,
       secondaryColor,
@@ -28,7 +29,7 @@ export function initialize(props) {
     } = props
     dispatch({ type: SET_TITLE, title })
     dispatch({ type: SET_AVATAR, avatar })
-    dispatch(setupClient(client, token))
+    dispatch(setupClient(client, clientOptions))
     dispatch(startTimer())
     dispatch(sendEvent('Welcome'))
 

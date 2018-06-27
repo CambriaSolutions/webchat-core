@@ -14,12 +14,6 @@ import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProductio
 import rootReducer from './reducers/rootReducer'
 import { initialize } from './actions/initialization'
 
-// Styles
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunkMiddleware))
-)
-
 WebFont.load({
   google: {
     families: ['Roboto:300,400,500'],
@@ -48,15 +42,44 @@ const OuterContainer = styled.div`
 `
 
 class ChatFrame extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.store = createStore(
+      rootReducer,
+      composeWithDevTools(applyMiddleware(thunkMiddleware))
+    )
+    this.currentValue = null
+  }
   componentDidMount() {
     // We load the initial options into the Redux store inside of the
     // componentDidMount() lifecycle hook. This lets us use Redux to manage
     // state instead of passing props down manually.
-    store.dispatch(initialize(this.props))
+    this.store.dispatch(initialize(this.props))
+
+    // In order to expose when a webhook payload of custom data is received,
+    // we manually create a subscription to the data piece we want to expose
+    this.unsubscribe = this.store.subscribe(() => this.handleChange(this.store))
   }
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+  select(state) {
+    return state.conversation.webhookPayload
+  }
+
+  handleChange(store) {
+    let previousValue = this.currentValue
+    this.currentValue = this.select(store.getState())
+    if (previousValue !== this.currentValue && this.props.onPayload) {
+      this.props.onPayload(this.currentValue)
+    }
+  }
+
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={this.store}>
         <OuterContainer>
           <ChatContainer />
           <ActivatorButton variant="fab" />

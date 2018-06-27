@@ -1,11 +1,11 @@
-import { ApiAiClient } from '../api-ai-javascript'
 import {
   SAVE_CLIENT,
   SAVE_RESPONSE,
   INITIATE_LOADING,
   SHOW_BUTTON_BAR,
   HIDE_BUTTON_BAR,
-  DISPLAY_ERROR
+  DISPLAY_ERROR,
+  RECEIVE_WEBHOOK_DATA,
 } from './actionTypes'
 import get from 'lodash/get'
 import find from 'lodash/find'
@@ -14,9 +14,11 @@ import moment from 'moment'
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
 
-export function setupDialogflow(token) {
+import { Client } from '../conversationClient'
+
+export function setupDialogflow(clientOptions) {
   return (dispatch, getState) => {
-    const client = new ApiAiClient({ accessToken: token })
+    const client = new Client(clientOptions)
     const clientName = 'dialogflow'
     dispatch({ type: SAVE_CLIENT, client, clientName })
   }
@@ -34,7 +36,7 @@ export function sendMessageWithDialogflow(message) {
       .catch(error => {
         dispatch({
           type: DISPLAY_ERROR,
-          error: 'Unable to connect to the chat provider. Please try again.'
+          error: 'Unable to connect to the chat provider. Please try again.',
         })
         throw new Error(error)
       })
@@ -53,7 +55,7 @@ export function sendEvent(event) {
       .catch(error => {
         dispatch({
           type: DISPLAY_ERROR,
-          error: 'Unable to connect to the chat provider. Please try again.'
+          error: 'Unable to connect to the chat provider. Please try again.',
         })
         throw new Error(error)
       })
@@ -62,39 +64,52 @@ export function sendEvent(event) {
 
 export function getMessageFromDialogflow(response) {
   return (dispatch, getState) => {
-    const rawResponses = response.result.fulfillment.messages
+    const rawResponses = response.queryResult.fulfillmentMessages
     const responses = rawResponses.map(msg => {
-      const type = mapMessageTypeToDescriptor(msg.type)
+      const type = mapMessageTypeToDescriptor(msg.message)
       return {
         type: type,
         suggestions: get(msg, 'replies', []),
-        text: get(msg, 'speech', null),
+        text: get(msg, 'text.text', null),
         card: {
           title: get(msg, 'title', ''),
           subtitle: get(msg, 'subtitle', ''),
           imageUrl: get(msg, 'imageUrl', ''),
-          buttons: get(msg, 'buttons', [])
+          buttons: get(msg, 'buttons', []),
         },
-        payload: get(msg, 'payload', {})
+        payload: get(msg, 'payload', {}),
       }
     })
 
-    // const timeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
-    // const time = moment(response.timestamp, timeFormat)
+    const webhookPayload = get(
+      response,
+      'queryResult.webhookPayload.fields',
+      null
+    )
+
+    // If there is a webhookPayload, parse it to avoid nesting and stringified JSON
+    if (webhookPayload) {
+      for (let [field, data] of Object.entries(webhookPayload)) {
+        if (data.kind === 'stringValue') {
+          webhookPayload[field] = JSON.parse(data.stringValue)
+        }
+      }
+
+      dispatch({ type: RECEIVE_WEBHOOK_DATA, webhookPayload })
+    }
+
     const systemTime = moment().format(sysTimeFormat)
+    const timestamp = moment().valueOf()
 
     const data = {
       entity: 'bot',
       loading: false,
-      messageId: response.id,
-      sessionId: response.sessionId,
-      language: response.lang,
-      timestamp: moment.timestamp,
+      messageId: response.responseId,
+      language: response.queryResult.languageCode,
+      timestamp: timestamp,
       systemTime: systemTime,
-      status: response.status,
       providerResponse: response,
-      responseTime: response.result.metadata.webhookResponseTime,
-      responses: responses
+      responses: responses,
     }
 
     dispatch(saveResponse(data))

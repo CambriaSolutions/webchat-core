@@ -2,24 +2,21 @@ import moment from 'moment'
 import {
   SAVE_USER_RESPONSE,
   DISPLAY_ERROR,
-  HIDE_BUTTON_BAR
+  HIDE_BUTTON_BAR,
 } from './actionTypes'
 import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
 
-export function setupClient(client, token) {
+export function setupClient(client, clientOptions) {
   return (dispatch, getState) => {
-    if (!token) {
-      throw new Error('No conversation token provided.')
-    }
     if (!client) {
       throw new Error('No coversation provider selected.')
     }
 
     // Setup Dialogflow
     if (client.toLowerCase() === 'dialogflow') {
-      dispatch(setupDialogflow(token))
+      dispatch(setupDialogflow(clientOptions))
     } else {
       // Unrecognized client
       dispatch({ type: DISPLAY_ERROR, error: `Unable to connect to ${client}` })
@@ -36,7 +33,7 @@ export function createUserResponse(text) {
       entity: 'user',
       messageId: `usermessage-${numMessages}`,
       systemTime: systemTime,
-      text: text
+      text: text,
     }
     dispatch({ type: SAVE_USER_RESPONSE, response })
     dispatch(sendMessage(text))
@@ -53,7 +50,7 @@ export function sendMessage(message) {
       // Unrecognized client
       dispatch({
         type: DISPLAY_ERROR,
-        error: `Unable to connect to ${clientName}`
+        error: `Unable to connect to ${clientName}`,
       })
       throw new Error(
         `${clientName} is not a recognized conversation provider.`

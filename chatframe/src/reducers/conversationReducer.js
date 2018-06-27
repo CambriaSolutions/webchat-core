@@ -7,10 +7,11 @@ const initialState = {
   client: null,
   clientName: null,
   messages: [],
+  webhookPayload: null,
   lastUpdateTime: moment().format(sysTimeFormat),
   currentTime: moment().format(sysTimeFormat),
   headerTime: 'Now',
-  timer: null
+  timer: null,
 }
 function conversation(state = initialState, action) {
   switch (action.type) {
@@ -32,24 +33,24 @@ function conversation(state = initialState, action) {
       return {
         ...state,
         headerTime: headerTime,
-        currentTime: now.format(sysTimeFormat)
+        currentTime: now.format(sysTimeFormat),
       }
 
     case t.TIMER_START:
       return {
         ...state,
-        timer: action.timer
+        timer: action.timer,
       }
 
     case t.INITIATE_LOADING:
       const newMessage = {
         loading: true,
         entity: 'bot',
-        systemTime: moment().format(sysTimeFormat)
+        systemTime: moment().format(sysTimeFormat),
       }
       return {
         ...state,
-        messages: [...state.messages, newMessage]
+        messages: [...state.messages, newMessage],
       }
 
     case t.SAVE_RESPONSE:
@@ -65,7 +66,7 @@ function conversation(state = initialState, action) {
           const momentB = moment(b.systemTime, sysTimeFormat)
           const diff = momentB.diff(momentA, 'milliseconds')
           return diff
-        })
+        }),
       }
 
     case t.SAVE_USER_RESPONSE:
@@ -78,7 +79,13 @@ function conversation(state = initialState, action) {
           const momentB = moment(b.systemTime, sysTimeFormat)
           const diff = momentA.diff(momentB, 'milliseconds')
           return diff
-        })
+        }),
+      }
+
+    case t.RECEIVE_WEBHOOK_DATA:
+      return {
+        ...state,
+        webhookPayload: action.webhookPayload,
       }
 
     default:
