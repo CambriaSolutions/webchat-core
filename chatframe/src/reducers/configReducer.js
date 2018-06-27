@@ -1,6 +1,5 @@
 import * as t from '../actions/actionTypes'
 import { createMuiTheme } from '@material-ui/core/styles'
-import defaultAvatar from '../img/defaultAvatar.svg'
 
 // Colors
 import pink from '@material-ui/core/colors/pink'
@@ -14,7 +13,7 @@ const defaultTheme = createMuiTheme({
 })
 
 const initialState = {
-  avatar: defaultAvatar,
+  avatar: null,
   title: 'Chat Window',
   theme: defaultTheme,
   windowVisible: false,
