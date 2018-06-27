@@ -8,7 +8,8 @@
     "css",
     "es",
     "lib",
-    "umd"
+    "umd",
+    "src/img/**"
   ],
   "scripts": {
     "build": "nwb build-react-component",
@@ -21,7 +22,6 @@
   "dependencies": {
     "@material-ui/core": "^1.2.2",
     "@material-ui/icons": "^1.1.0",
-    "api-ai-javascript": "^2.0.0-beta.21",
     "lodash": "^4.17.5",
     "moment": "^2.22.0",
     "react-redux": "^5.0.7",
