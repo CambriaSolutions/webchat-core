@@ -5,6 +5,7 @@ import {
   SHOW_BUTTON_BAR,
   HIDE_BUTTON_BAR,
   DISPLAY_ERROR,
+  CLEAR_ERROR,
   RECEIVE_WEBHOOK_DATA,
 } from './actionTypes'
 import get from 'lodash/get'
@@ -31,8 +32,15 @@ export function sendMessageWithDialogflow(message) {
     client
       .textRequest(message)
       .then(response => {
-        dispatch(getMessageFromDialogflow(response))
-        dispatch({ type: CLEAR_ERROR })
+        if (response) {
+          dispatch(getMessageFromDialogflow(response))
+          dispatch({ type: CLEAR_ERROR })
+        } else {
+          dispatch({
+            type: DISPLAY_ERROR,
+            error: 'No response received from chat provider. Please try again.',
+          })
+        }
       })
       .catch(error => {
         dispatch({
@@ -51,8 +59,15 @@ export function sendEvent(event) {
     client
       .eventRequest(event)
       .then(response => {
-        dispatch(getMessageFromDialogflow(response))
-        dispatch({ type: CLEAR_ERROR })
+        if (response) {
+          dispatch(getMessageFromDialogflow(response))
+          dispatch({ type: CLEAR_ERROR })
+        } else {
+          dispatch({
+            type: DISPLAY_ERROR,
+            error: 'No response received from chat provider. Please try again.',
+          })
+        }
       })
       .catch(error => {
         dispatch({
@@ -66,7 +81,7 @@ export function sendEvent(event) {
 
 export function getMessageFromDialogflow(response) {
   return (dispatch, getState) => {
-    const rawResponses = response.queryResult.fulfillmentMessages
+    const rawResponses = get(response, 'queryResult.fulfillmentMessages', {})
     const responses = rawResponses.map(msg => {
       const type = mapMessageTypeToDescriptor(msg.message)
       return {
