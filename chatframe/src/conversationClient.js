@@ -20,7 +20,7 @@ export class Client {
       query: query,
     }
     if (this.apiKey) {
-      params['x-api-key'] = this.apiKey,
+      params['x-api-key'] = this.apiKey
     }
     Object.keys(params).forEach(key =>
       url.searchParams.append(key, params[key])
@@ -40,7 +40,7 @@ export class Client {
       query: query,
     }
     if (this.apiKey) {
-      params['x-api-key'] = this.apiKey,
+      params['x-api-key'] = this.apiKey
     }
     Object.keys(params).forEach(key =>
       url.searchParams.append(key, params[key])
