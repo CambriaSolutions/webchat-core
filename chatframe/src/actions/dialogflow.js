@@ -32,6 +32,7 @@ export function sendMessageWithDialogflow(message) {
       .textRequest(message)
       .then(response => {
         dispatch(getMessageFromDialogflow(response))
+        dispatch({ type: CLEAR_ERROR })
       })
       .catch(error => {
         dispatch({
@@ -51,6 +52,7 @@ export function sendEvent(event) {
       .eventRequest(event)
       .then(response => {
         dispatch(getMessageFromDialogflow(response))
+        dispatch({ type: CLEAR_ERROR })
       })
       .catch(error => {
         dispatch({
