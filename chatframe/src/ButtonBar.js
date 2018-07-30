@@ -19,15 +19,15 @@ const Container = styled.div`
 
 const Btn = styled(Button)`
   && {
-    background: ${p => p.theme.palette.secondary[500]};
+    background: ${p => p.theme.palette.secondary.main};
     margin: 8px;
     display: ${p => (p.visible === 'true' ? 'block' : 'none')};
     color: ${p =>
-      p.theme.palette.getContrastText(p.theme.palette.secondary[500])};
+      p.theme.palette.getContrastText(p.theme.palette.secondary.main)};
     &:hover {
-      background: ${p => p.theme.palette.secondary[700]};
+      background: ${p => p.theme.palette.secondary.dark};
       color: ${p =>
-        p.theme.palette.getContrastText(p.theme.palette.secondary[700])};
+        p.theme.palette.getContrastText(p.theme.palette.secondary.dark)};
     }
   }
 `

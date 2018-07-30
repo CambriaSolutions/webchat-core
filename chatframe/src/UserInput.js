@@ -27,7 +27,7 @@ const SendButton = styled.div`
   padding: 0 16px;
   cursor: pointer;
   &:hover {
-    color: ${p => p.theme.palette.primary[800]};
+    color: ${p => p.theme.palette.primary.dark};
   }
 `
 

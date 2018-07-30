@@ -19,9 +19,9 @@ const Btn = styled(Button)`
     color: ${p =>
       p.theme.palette.getContrastText(p.theme.palette.primary.main)};
     &:hover {
-      background: ${p => p.theme.palette.primary[700]};
+      background: ${p => p.theme.palette.primary.dark};
       color: ${p =>
-        p.theme.palette.getContrastText(p.theme.palette.primary[700])};
+        p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
     }
   }
 `

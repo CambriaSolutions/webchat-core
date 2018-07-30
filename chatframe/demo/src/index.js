@@ -15,6 +15,7 @@ class Demo extends Component {
         <h1>ms-component Demo</h1>
         <div>THis is a test</div>
         <ChatWindow
+          primaryColor='#3bafbf'
           title="Test Chat"
           client="Dialogflow"
           clientOptions={options}

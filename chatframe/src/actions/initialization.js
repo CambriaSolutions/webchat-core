@@ -13,6 +13,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import { setupClient } from './conversation'
 import { sendEvent } from './dialogflow'
 import * as colors from '@material-ui/core/colors'
+import isHexColor from 'validator/lib/isHexColor';
 
 export function initialize(props) {
   return (dispatch, getState) => {
@@ -74,19 +75,39 @@ function updateIdleTime() {
 // Create a color theme to be used by the rest of the chat window. If the user
 // defines a color that isn't available, fall back to default colors and
 // warn user
-function createTheme(primaryColor, secondaryColor) {
+function createTheme(primaryColor = 'lightBlue', secondaryColor = 'pink') {
   return (dispatch, getState) => {
     let newTheme = {
-      palette: {},
+      palette: {
+        error: colors['red'],
+        // Used by `getContrastText()` to maximize the contrast between the background and
+        // the text.
+        contrastThreshold: 3,
+        // Used to shift a color's luminance by approximately
+        // two indexes within its tonal palette.
+        // E.g., shift from Red 500 to Red 300 or Red 700.
+        tonalOffset: 0.2,
+      },
     }
-    if (primaryColor && colors[primaryColor]) {
+    if (isHexColor(primaryColor)) {
+      newTheme.palette.primary = {
+        main: primaryColor
+      }
+    }
+    else if (colors[primaryColor]) {
       newTheme.palette.primary = colors[primaryColor]
     } else {
       console.error(
         `${primaryColor} is not a valid color. Use a color name from https://material.io/guidelines/style/color.html#color-color-palette`
       )
     }
-    if (secondaryColor && colors[secondaryColor]) {
+
+    if (isHexColor(secondaryColor)) {
+      newTheme.palette.secondary = {
+        main: secondaryColor
+      }
+    }
+    else if (secondaryColor && colors[secondaryColor]) {
       newTheme.palette.secondary = colors[secondaryColor]
     } else {
       console.error(
