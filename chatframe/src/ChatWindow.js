@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import filter from 'lodash/filter'
-import moment from 'moment'
 
 // Components
 import Message from './Message'
@@ -10,6 +9,12 @@ import CardResponse from './CardResponse'
 
 // Date Format
 import { sysTimeFormat } from './config/dateFormats'
+import {
+  parse,
+  format,
+  addMilliseconds,
+  differenceInMilliseconds,
+} from 'date-fns'
 
 const Container = styled.div`
   /* box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
@@ -61,7 +66,7 @@ function buildLoadingMessage(message) {
         key="loading"
         entity="bot"
         timestamp={message.systemTime}
-        isLoading={message.loading + moment().format(sysTimeFormat)}
+        isLoading={message.loading + format(new Date(), sysTimeFormat)}
       />
     ),
   }
@@ -76,14 +81,18 @@ function buildTextMessages(message) {
       // display in the correct order. They arrive in the same response from
       // the provider, which has a single timestamp for all subMessages. This
       // allows them to be differentiated and sorted.
-      const sysTime = moment(message.systemTime, sysTimeFormat)
+      const sysTime = parse(
+        message.systemTime,
+        sysTimeFormat,
+        new Date(message.systemTime)
+      )
       elements.push({
-        systemTime: sysTime.add(key * 10, 'milliseconds').format(sysTimeFormat),
+        systemTime: format(addMilliseconds(sysTime, key * 10), sysTimeFormat),
         element: (
           <Message
             message={subMessage.text}
             entity={message.entity}
-            key={message.messageId + key + moment().format(sysTimeFormat)}
+            key={message.messageId + key + format(new Date(), sysTimeFormat)}
             isLoading={false}
             timestamp={message.systemTime}
           />
@@ -105,7 +114,7 @@ function buildCardMessages(message) {
           <CardResponse
             data={subMessage.card}
             timestamp={message.systemTime}
-            key={message.messageId + key + moment().format(sysTimeFormat)}
+            key={message.messageId + key + format(new Date(), sysTimeFormat)}
           />
         ),
       })
@@ -149,9 +158,9 @@ class ChatWindow extends PureComponent {
     const messageElements = [...botMessages, ...userMessages]
     // Sort all messages by systemTime
     messageElements.sort((a, b) => {
-      const momentA = moment(a.systemTime, sysTimeFormat)
-      const momentB = moment(b.systemTime, sysTimeFormat)
-      const diff = momentA.diff(momentB, 'milliseconds')
+      const dateA = parse(a.systemTime, sysTimeFormat, new Date(a.systemTime))
+      const dateB = parse(b.systemTime, sysTimeFormat, new Date(a.systemTime))
+      const diff = differenceInMilliseconds(dateA, dateB)
       return diff
     })
     const elements = messageElements.map(m => m.element)

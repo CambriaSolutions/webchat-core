@@ -19,8 +19,8 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
+    "date-fns": "^2.0.0-alpha.16",
     "lodash": "^4.17.11",
-    "moment": "^2.22.0",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.5",
     "redux": "^4.0.0",

@@ -1,6 +1,11 @@
-import moment from 'moment'
 import * as t from '../actions/actionTypes'
-
+import {
+  parse,
+  format,
+  differenceInMinutes,
+  differenceInSeconds,
+  differenceInMilliseconds,
+} from 'date-fns'
 import { sysTimeFormat } from '../config/dateFormats'
 
 const initialState = {
@@ -8,8 +13,8 @@ const initialState = {
   clientName: null,
   messages: [],
   webhookPayload: null,
-  lastUpdateTime: moment().format(sysTimeFormat),
-  currentTime: moment().format(sysTimeFormat),
+  lastUpdateTime: format(new Date(), sysTimeFormat),
+  currentTime: format(new Date(), sysTimeFormat),
   headerTime: 'Now',
   timer: null,
 }
@@ -19,21 +24,25 @@ function conversation(state = initialState, action) {
       return { ...state, client: action.client, clientName: action.clientName }
 
     case t.UPDATE_CURRENT_TIME:
-      const now = moment()
-      const lastUpdate = moment(state.lastUpdateTime, sysTimeFormat)
-      const diffMinutes = now.diff(lastUpdate, 'minutes')
-      const diffSeconds = now.diff(lastUpdate, 'seconds')
+      const now = new Date()
+      const lastUpdate = parse(
+        state.lastUpdateTime,
+        sysTimeFormat,
+        new Date(state.lastUpdateTime)
+      )
+      const diffMinutes = differenceInMinutes(now, lastUpdate)
+      const diffSeconds = differenceInSeconds(now, lastUpdate)
       let headerTime = 'Now'
       if (diffMinutes >= 1) {
         headerTime = `${diffMinutes} min ago`
-      } else if (diffSeconds >= 10) {
+      } else if (diffSeconds >= 9) {
         headerTime = `${diffSeconds} sec ago`
       }
 
       return {
         ...state,
         headerTime: headerTime,
-        currentTime: now.format(sysTimeFormat),
+        currentTime: format(now, sysTimeFormat),
       }
 
     case t.TIMER_START:
@@ -46,7 +55,7 @@ function conversation(state = initialState, action) {
       const newMessage = {
         loading: true,
         entity: 'bot',
-        systemTime: moment().format(sysTimeFormat),
+        systemTime: format(new Date(), sysTimeFormat),
       }
       return {
         ...state,
@@ -59,12 +68,20 @@ function conversation(state = initialState, action) {
       })
       return {
         ...state,
-        lastUpdateTime: moment().format(sysTimeFormat),
+        lastUpdateTime: format(new Date(), sysTimeFormat),
         headerTime: 'Now',
         messages: newArray.sort((a, b) => {
-          const momentA = moment(a.systemTime, sysTimeFormat)
-          const momentB = moment(b.systemTime, sysTimeFormat)
-          const diff = momentB.diff(momentA, 'milliseconds')
+          const dateA = parse(
+            a.systemTime,
+            sysTimeFormat,
+            new Date(a.systemTime)
+          )
+          const dateB = parse(
+            b.systemTime,
+            sysTimeFormat,
+            new Date(b.systemTime)
+          )
+          const diff = differenceInMilliseconds(dateA, dateB)
           return diff
         }),
       }
@@ -72,12 +89,20 @@ function conversation(state = initialState, action) {
     case t.SAVE_USER_RESPONSE:
       return {
         ...state,
-        lastUpdateTime: moment().format(sysTimeFormat),
+        lastUpdateTime: format(new Date(), sysTimeFormat),
         headerTime: 'Now',
         messages: [...state.messages, action.response].sort((a, b) => {
-          const momentA = moment(a.systemTime, sysTimeFormat)
-          const momentB = moment(b.systemTime, sysTimeFormat)
-          const diff = momentA.diff(momentB, 'milliseconds')
+          const dateA = parse(
+            a.systemTime,
+            sysTimeFormat,
+            new Date(a.systemTime)
+          )
+          const dateB = parse(
+            b.systemTime,
+            sysTimeFormat,
+            new Date(b.systemTime)
+          )
+          const diff = differenceInMilliseconds(dateB, dateA)
           return diff
         }),
       }
