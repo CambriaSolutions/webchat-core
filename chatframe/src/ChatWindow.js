@@ -12,14 +12,20 @@ import CardResponse from './CardResponse'
 import { sysTimeFormat } from './config/dateFormats'
 
 const Container = styled.div`
+  /* box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12); */
   position: relative;
   padding: 0 16px 16px 16px;
   overflow-y: auto;
   height: 100%;
-  background: ${p => p.theme.palette.grey[300]};
+  background: ${p => p.theme.palette.grey[200]};
+  display: flex;
+  flex-direction: column-reverse;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `
 
 const MessagesContainer = styled.div`
+  flex: 1 0 auto;
   min-height: min-content;
   display: flex;
   flex-flow: column nowrap;
@@ -41,7 +47,7 @@ function buildUserMessages(messages) {
           key={message.messageId}
           timestamp={message.systemTime}
         />
-      )
+      ),
     })
   }
   return conversationElements
@@ -57,7 +63,7 @@ function buildLoadingMessage(message) {
         timestamp={message.systemTime}
         isLoading={message.loading + moment().format(sysTimeFormat)}
       />
-    )
+    ),
   }
 }
 
@@ -81,7 +87,7 @@ function buildTextMessages(message) {
             isLoading={false}
             timestamp={message.systemTime}
           />
-        )
+        ),
       })
     }
   }
@@ -101,7 +107,7 @@ function buildCardMessages(message) {
             timestamp={message.systemTime}
             key={message.messageId + key + moment().format(sysTimeFormat)}
           />
-        )
+        ),
       })
     }
   }
@@ -120,7 +126,7 @@ function buildBotMessages(messages) {
       conversationElements = [
         ...conversationElements,
         ...buildTextMessages(message),
-        ...buildCardMessages(message)
+        ...buildCardMessages(message),
       ]
     }
   }
@@ -134,7 +140,7 @@ class ChatWindow extends PureComponent {
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     const chatWindowNode = this.chatWindowRef.current
-    chatWindowNode.scrollTop = chatWindowNode.scrollHeight
+    // chatWindowNode.scrollTop = chatWindowNode.scrollHeight
   }
   render() {
     const { messages, theme } = this.props
@@ -150,7 +156,12 @@ class ChatWindow extends PureComponent {
     })
     const elements = messageElements.map(m => m.element)
     return (
-      <Container innerRef={this.chatWindowRef} theme={theme}>
+      <Container
+        innerRef={this.chatWindowRef}
+        theme={theme}
+        elevation={1}
+        square
+      >
         <MessagesContainer>{elements}</MessagesContainer>
       </Container>
     )
@@ -160,7 +171,7 @@ class ChatWindow extends PureComponent {
 const mapStateToProps = state => {
   return {
     messages: state.conversation.messages,
-    theme: state.config.theme
+    theme: state.config.theme,
   }
 }
 
@@ -168,4 +179,7 @@ const mapDispatchToProps = dispatch => {
   return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatWindow)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChatWindow)

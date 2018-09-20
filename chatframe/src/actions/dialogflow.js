@@ -86,7 +86,7 @@ export function getMessageFromDialogflow(response) {
       const type = mapMessageTypeToDescriptor(msg.message)
       return {
         type: type,
-        suggestions: get(msg, 'replies', []),
+        suggestions: get(msg, 'quickReplies.quickReplies', []),
         text: get(msg, 'text.text', null),
         card: {
           title: get(msg, 'title', ''),
@@ -150,13 +150,13 @@ export function saveResponse(data) {
 
 function mapMessageTypeToDescriptor(type) {
   switch (type) {
-    case 0:
+    case 'text':
       return 'text'
-    case 1:
+    case 'card':
       return 'card'
-    case 2:
+    case 'quickReplies':
       return 'suggestion'
-    case 3:
+    case 'image':
       return 'image'
     case 4:
       return 'payload'

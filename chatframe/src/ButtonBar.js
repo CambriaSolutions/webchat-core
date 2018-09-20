@@ -2,32 +2,37 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
+import { fade } from '@material-ui/core/styles/colorManipulator'
 import find from 'lodash/find'
 import { sendQuickReply } from './actions/conversation'
 
 const Container = styled.div`
   width: 100%;
+  flex: 1 0 auto;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   align-content: center;
-  padding: ${p => (p.visible ? '24px 16px' : '0 16px')};
-  background: ${p => p.theme.palette.grey[400]};
-  border-top: 1px solid ${p => p.theme.palette.grey[500]};
+  padding: ${p => (p.visible ? '8px 8px' : '0 8px')};
+  background: ${p => p.theme.palette.grey[100]};
 `
 
 const Btn = styled(Button)`
   && {
-    background: ${p => p.theme.palette.secondary.main};
+    border-color: ${p => p.theme.palette.secondary.main};
+    color: ${p => p.theme.palette.secondary.main};
     margin: 8px;
     display: ${p => (p.visible === 'true' ? 'block' : 'none')};
-    color: ${p =>
-      p.theme.palette.getContrastText(p.theme.palette.secondary.main)};
     &:hover {
-      background: ${p => p.theme.palette.secondary.dark};
-      color: ${p =>
-        p.theme.palette.getContrastText(p.theme.palette.secondary.dark)};
+      /* background: ${p => p.theme.palette.secondary.dark}; */
+      background-color: ${p =>
+        fade(
+          p.theme.palette.secondary.main,
+          p.theme.palette.action.hoverOpacity
+        )};
+
+    border-color: ${p => p.theme.palette.secondary.main};
     }
   }
 `
@@ -62,8 +67,10 @@ class ButtonBar extends PureComponent {
       <Container visible={visible} theme={theme}>
         {suggestionElements.map((btn, index) => (
           <Btn
+            size="small"
             theme={theme}
-            variant="raised"
+            variant="outlined"
+            color="secondary"
             key={`${btn.id}-btn${index}`}
             visible={btn.visible.toString()}
             onClick={() => sendQuickReply(btn.label)}

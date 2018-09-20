@@ -3,10 +3,9 @@ import { render } from 'react-dom'
 import ChatWindow from '../../src'
 const options = {
   eventUrl:
-    'https://dveqi9j0d2.execute-api.us-east-1.amazonaws.com/development/eventRequest',
-  textUrl:
-    'https://dveqi9j0d2.execute-api.us-east-1.amazonaws.com/development/textRequest',
-  apiKey: 'XwsfZ0JoM214avhOcgqDZ3S50stTX94l8pnZJNxN',
+    'https://us-central1-dhcs-demo-chat.cloudfunctions.net/eventRequest',
+  textUrl: 'https://us-central1-dhcs-demo-chat.cloudfunctions.net/textRequest',
+  // apiKey: 'XwsfZ0JoM214avhOcgqDZ3S50stTX94l8pnZJNxN',
 }
 class Demo extends Component {
   render() {
@@ -15,7 +14,8 @@ class Demo extends Component {
         <h1>ms-component Demo</h1>
         <div>THis is a test</div>
         <ChatWindow
-          primaryColor='#3bafbf'
+          primaryColor="#3bafbf"
+          secondaryColor="#000"
           title="Test Chat"
           client="Dialogflow"
           clientOptions={options}
