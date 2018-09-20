@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { format } from 'date-fns'
 import {
   SAVE_USER_RESPONSE,
   DISPLAY_ERROR,
@@ -28,7 +28,7 @@ export function setupClient(client, clientOptions) {
 export function createUserResponse(text) {
   return (dispatch, getState) => {
     const numMessages = getState().conversation.messages.length
-    const systemTime = moment().format(sysTimeFormat)
+    const systemTime = format(new Date(), sysTimeFormat)
     const response = {
       entity: 'user',
       messageId: `usermessage-${numMessages}`,

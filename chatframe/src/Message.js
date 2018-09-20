@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import moment from 'moment'
+import { parse, differenceInMinutes, differenceInSeconds } from 'date-fns'
 import Paper from '@material-ui/core/Paper'
 // Components
 import Avatar from './Avatar'
@@ -99,10 +99,10 @@ class Message extends PureComponent {
       currentTime,
     } = this.props
 
-    const now = moment(currentTime, sysTimeFormat)
-    const then = moment(timestamp, sysTimeFormat)
-    const diffMinutes = now.diff(then, 'minutes')
-    const diffSeconds = now.diff(then, 'seconds')
+    const now = parse(currentTime, sysTimeFormat, new Date(currentTime))
+    const then = parse(timestamp, sysTimeFormat, new Date(currentTime))
+    const diffMinutes = differenceInMinutes(now, then)
+    const diffSeconds = differenceInSeconds(now, then)
     let formattedTimestamp = null
     if (diffMinutes >= 1) {
       formattedTimestamp = `${diffMinutes} min`

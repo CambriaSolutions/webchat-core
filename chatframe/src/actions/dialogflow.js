@@ -10,7 +10,7 @@ import {
 } from './actionTypes'
 import get from 'lodash/get'
 import find from 'lodash/find'
-import moment from 'moment'
+import { format, getTime } from 'date-fns'
 
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
@@ -115,8 +115,8 @@ export function getMessageFromDialogflow(response) {
       dispatch({ type: RECEIVE_WEBHOOK_DATA, webhookPayload })
     }
 
-    const systemTime = moment().format(sysTimeFormat)
-    const timestamp = moment().valueOf()
+    const systemTime = format(new Date(), sysTimeFormat)
+    const timestamp = getTime(new Date())
 
     const data = {
       entity: 'bot',

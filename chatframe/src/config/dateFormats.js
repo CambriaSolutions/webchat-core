@@ -1,1 +1,1 @@
-export const sysTimeFormat = 'MM-DD-YYYY hh:mm:ss.SSSa'
+export const sysTimeFormat = 'MM-dd-yyyy hh:mm:ss.SSSa'
