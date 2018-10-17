@@ -1,3 +1,5 @@
+import {fetch} from 'whatwg-fetch' 
+
 export class Client {
   constructor(options) {
     if (!options || !options.textUrl) {
