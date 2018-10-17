@@ -1,3 +1,5 @@
+
+import {Card, Payload} from 'dialogflow-fulfillment'
 import * as actions from './../../src/actions/dialogflow'
 
 import configureMockStore from 'redux-mock-store'
@@ -94,6 +96,359 @@ const store = mockStore({
         "message": "Webhook execution successful"
       }
     }
+
+
+    const cardResponse =  
+    {
+      "responseId": "cbcd6179-7899-4144-ade8-a3e218e8b011",
+      "queryResult": {
+        "fulfillmentMessages": [
+          {
+            "platform": "PLATFORM_UNSPECIFIED",
+            "card":  new Card({
+              title: `Title: this is a card title`,
+              imageUrl:
+                'https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png',
+              text: `This is the body text of a card.  You can even use line\n breaks and emoji! 💁`,
+              buttonText: 'This is a button',
+              buttonUrl: 'https://assistant.google.com/'
+            }),
+            "message": "card"
+          }
+        ],
+        "outputContexts": [
+          {
+            "name": "projects/dhcs-demo-chat/agent/sessions/dhcs-demo-chat-session/contexts/waiting-looking-for-support",
+            "lifespanCount": 2,
+            "parameters": null
+          }
+        ],
+        "queryText": "yourFunctionHandler",
+        "speechRecognitionConfidence": 0,
+        "action": "input.yourFunctionHandler",
+        "parameters": {
+          "fields": {}
+        },
+        "allRequiredParamsPresent": true,
+        "fulfillmentText": "Hello I’m the HHS Navigator bot. I can help you find frequently asked questions, program information, and other services provided by the California Health and Human Services Agency and its departments. How can we help you?",
+        "webhookSource": "",
+        "webhookPayload": null,
+        "intent": {
+          "inputContextNames": [],
+          "events": [],
+          "trainingPhrases": [],
+          "outputContexts": [],
+          "parameters": [],
+          "messages": [],
+          "defaultResponsePlatforms": [],
+          "followupIntentInfo": [],
+          "name": "projects/dhcs-demo-chat/agent/intents/5625c545-167f-4a03-99f1-1decea21ce5a",
+          "displayName": "custom intent",
+          "priority": 0,
+          "isFallback": false,
+          "webhookState": "WEBHOOK_STATE_UNSPECIFIED",
+          "action": "",
+          "resetContexts": false,
+          "rootFollowupIntentName": "",
+          "parentFollowupIntentName": "",
+          "mlDisabled": false
+        },
+        "intentDetectionConfidence": 1,
+        "diagnosticInfo": {
+          "fields": {
+            "webhook_latency_ms": {
+              "numberValue": 155,
+              "kind": "numberValue"
+            }
+          }
+        },
+        "languageCode": "en-us"
+      },
+      "webhookStatus": {
+        "details": [],
+        "code": 0,
+        "message": "Webhook execution successful"
+      }
+    }
+
+
+    const payloadResponse =  
+    {
+      "responseId": "cbcd6179-7899-4144-ade8-a3e218e8b011",
+      "queryResult": {
+        "fulfillmentMessages": [
+          {
+            "platform": "PLATFORM_UNSPECIFIED",
+            "payload": { 
+              messages: [{
+                payload: {
+                  test: 'value'
+                },
+                type: 4
+              },
+              {
+                speech: 'test text',
+                type: 4
+               }
+            ]},
+            "message": 4,
+            "type":4
+          }
+        ],
+        "outputContexts": [
+          {
+            "name": "projects/dhcs-demo-chat/agent/sessions/dhcs-demo-chat-session/contexts/waiting-looking-for-support",
+            "lifespanCount": 2,
+            "parameters": null
+          }
+        ],
+        "queryText": "yourFunctionHandler",
+        "speechRecognitionConfidence": 0,
+        "action": "input.payload",
+        "parameters": {
+          "fields": {}
+        },
+        "allRequiredParamsPresent": true,
+        "fulfillmentText": "Hello I’m the HHS Navigator bot. I can help you find frequently asked questions, program information, and other services provided by the California Health and Human Services Agency and its departments. How can we help you?",
+        "webhookSource": "",
+        "webhookPayload": null,
+        "intent": {
+          "inputContextNames": [],
+          "events": [],
+          "trainingPhrases": [],
+          "outputContexts": [],
+          "parameters": [],
+          "messages": [],
+          "defaultResponsePlatforms": [],
+          "followupIntentInfo": [],
+          "name": "projects/dhcs-demo-chat/agent/intents/5625c545-167f-4a03-99f1-1decea21ce5a",
+          "displayName": "payload",
+          "priority": 0,
+          "isFallback": false,
+          "webhookState": "WEBHOOK_STATE_UNSPECIFIED",
+          "action": "",
+          "resetContexts": false,
+          "rootFollowupIntentName": "",
+          "parentFollowupIntentName": "",
+          "mlDisabled": false
+        },
+        "intentDetectionConfidence": 1,
+        "diagnosticInfo": {
+          "fields": {
+            "webhook_latency_ms": {
+              "numberValue": 155,
+              "kind": "numberValue"
+            }
+          }
+        },
+        "languageCode": "en-us"
+      },
+      "webhookStatus": {
+        "details": [],
+        "code": 0,
+        "message": "Webhook execution successful"
+      }
+    }
+
+    const imageResponse =  
+    {
+      "responseId": "cbcd6179-7899-4144-ade8-a3e218e8b011",
+      "queryResult": {
+        "fulfillmentMessages": [
+          {
+            "platform": "PLATFORM_UNSPECIFIED",
+            "image": {messages:[]},
+            "message": 'image'
+          }
+        ],
+        "outputContexts": [
+          {
+            "name": "projects/dhcs-demo-chat/agent/sessions/dhcs-demo-chat-session/contexts/waiting-looking-for-support",
+            "lifespanCount": 2,
+            "parameters": null
+          }
+        ],
+        "queryText": "yourFunctionHandler",
+        "speechRecognitionConfidence": 0,
+        "action": "input.image",
+        "parameters": {
+          "fields": {}
+        },
+        "allRequiredParamsPresent": true,
+        "fulfillmentText": "Hello I’m the HHS Navigator bot. I can help you find frequently asked questions, program information, and other services provided by the California Health and Human Services Agency and its departments. How can we help you?",
+        "webhookSource": "",
+        "webhookPayload": null,
+        "intent": {
+          "inputContextNames": [],
+          "events": [],
+          "trainingPhrases": [],
+          "outputContexts": [],
+          "parameters": [],
+          "messages": [],
+          "defaultResponsePlatforms": [],
+          "followupIntentInfo": [],
+          "name": "projects/dhcs-demo-chat/agent/intents/5625c545-167f-4a03-99f1-1decea21ce5a",
+          "displayName": "image",
+          "priority": 0,
+          "isFallback": false,
+          "webhookState": "WEBHOOK_STATE_UNSPECIFIED",
+          "action": "",
+          "resetContexts": false,
+          "rootFollowupIntentName": "",
+          "parentFollowupIntentName": "",
+          "mlDisabled": false
+        },
+        "intentDetectionConfidence": 1,
+        "diagnosticInfo": {
+          "fields": {
+            "webhook_latency_ms": {
+              "numberValue": 155,
+              "kind": "numberValue"
+            }
+          }
+        },
+        "languageCode": "en-us"
+      },
+      "webhookStatus": {
+        "details": [],
+        "code": 0,
+        "message": "Webhook execution successful"
+      }
+    }
+
+
+    const quickRepliesResponse =  
+    {
+      "responseId": "cbcd6179-7899-4144-ade8-a3e218e8b011",
+      "queryResult": {
+        "fulfillmentMessages": [
+          {
+            "platform": "PLATFORM_UNSPECIFIED",
+            "quickReplies": {messages:[]},
+            "message": 'quickReplies'
+          }
+        ],
+        "outputContexts": [
+          {
+            "name": "projects/dhcs-demo-chat/agent/sessions/dhcs-demo-chat-session/contexts/waiting-looking-for-support",
+            "lifespanCount": 2,
+            "parameters": null
+          }
+        ],
+        "queryText": "yourFunctionHandler",
+        "speechRecognitionConfidence": 0,
+        "action": "input.quickReplies",
+        "parameters": {
+          "fields": {}
+        },
+        "allRequiredParamsPresent": true,
+        "fulfillmentText": "Hello I’m the HHS Navigator bot. I can help you find frequently asked questions, program information, and other services provided by the California Health and Human Services Agency and its departments. How can we help you?",
+        "webhookSource": "",
+        "webhookPayload": null,
+        "intent": {
+          "inputContextNames": [],
+          "events": [],
+          "trainingPhrases": [],
+          "outputContexts": [],
+          "parameters": [],
+          "messages": [],
+          "defaultResponsePlatforms": [],
+          "followupIntentInfo": [],
+          "name": "projects/dhcs-demo-chat/agent/intents/5625c545-167f-4a03-99f1-1decea21ce5a",
+          "displayName": "quickReplies",
+          "priority": 0,
+          "isFallback": false,
+          "webhookState": "WEBHOOK_STATE_UNSPECIFIED",
+          "action": "",
+          "resetContexts": false,
+          "rootFollowupIntentName": "",
+          "parentFollowupIntentName": "",
+          "mlDisabled": false
+        },
+        "intentDetectionConfidence": 1,
+        "diagnosticInfo": {
+          "fields": {
+            "webhook_latency_ms": {
+              "numberValue": 155,
+              "kind": "numberValue"
+            }
+          }
+        },
+        "languageCode": "en-us"
+      },
+      "webhookStatus": {
+        "details": [],
+        "code": 0,
+        "message": "Webhook execution successful"
+      }
+    }
+
+const defaultResponse =  {
+  "responseId": "cbcd6179-7899-4144-ade8-a3e218e8b011",
+  "queryResult": {
+    "fulfillmentMessages": [
+      {
+        "platform": "PLATFORM_UNSPECIFIED",
+        "default": {messages:[]},
+        "message": 'default'
+      }
+    ],
+    "outputContexts": [
+      {
+        "name": "projects/dhcs-demo-chat/agent/sessions/dhcs-demo-chat-session/contexts/waiting-looking-for-support",
+        "lifespanCount": 2,
+        "parameters": null
+      }
+    ],
+    "queryText": "yourFunctionHandler",
+    "speechRecognitionConfidence": 0,
+    "action": "input.default",
+    "parameters": {
+      "fields": {}
+    },
+    "allRequiredParamsPresent": true,
+    "fulfillmentText": "Hello I’m the HHS Navigator bot. I can help you find frequently asked questions, program information, and other services provided by the California Health and Human Services Agency and its departments. How can we help you?",
+    "webhookSource": "",
+    "webhookPayload":null,
+    "intent": {
+      "inputContextNames": [],
+      "events": [],
+      "trainingPhrases": [],
+      "outputContexts": [],
+      "parameters": [],
+      "messages": [],
+      "defaultResponsePlatforms": [],
+      "followupIntentInfo": [],
+      "name": "projects/dhcs-demo-chat/agent/intents/5625c545-167f-4a03-99f1-1decea21ce5a",
+      "displayName": "quickReplies",
+      "priority": 0,
+      "isFallback": false,
+      "webhookState": "WEBHOOK_STATE_UNSPECIFIED",
+      "action": "",
+      "resetContexts": false,
+      "rootFollowupIntentName": "",
+      "parentFollowupIntentName": "",
+      "mlDisabled": false
+    },
+    "intentDetectionConfidence": 1,
+    "diagnosticInfo": {
+      "fields": {
+        "webhook_latency_ms": {
+          "numberValue": 155,
+          "kind": "numberValue"
+        }
+      }
+    },
+    "languageCode": "en-us"
+  },
+  "webhookStatus": {
+    "details": [],
+    "code": 0,
+    "message": "Webhook execution successful"
+  }
+}
+
+
 
 describe('dialog flow actions', () => {
       afterEach(() => {
@@ -233,5 +588,39 @@ describe('dialog flow actions', () => {
     const storedActions = store.getActions()
     expect(storedActions).toEqual(expectedAction) 
   })
+
+
+  it('should save response', () => {
+      store.dispatch(actions.getMessageFromDialogflow(cardResponse))
+    const storedActions = store.getActions()
+    expect(storedActions[1].data.providerResponse.queryResult.fulfillmentMessages).toEqual([{"card": {"buttonText": "This is a button", "buttonUrl": "https://assistant.google.com/", "imageUrl": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png", "text": "This is the body text of a card.  You can even use line\n breaks and emoji! 💁", "title": "Title: this is a card title"}, "message": "card", "platform": "PLATFORM_UNSPECIFIED"}]) 
+  })
+
+
+  it('should save response', () => {
+  store.dispatch(actions.getMessageFromDialogflow(imageResponse))
+  const storedActions = store.getActions()
+  expect(storedActions[1].data.providerResponse.queryResult.fulfillmentMessages).toEqual(  [{"image": {"messages": []}, "message": "image", "platform": "PLATFORM_UNSPECIFIED"}]) 
+})
+
+it('should save response', () => {
+  store.dispatch(actions.getMessageFromDialogflow(quickRepliesResponse))
+ const storedActions = store.getActions()
+ expect(storedActions[1].data.providerResponse.queryResult.fulfillmentMessages).toEqual(   [{"message": "quickReplies", "platform": "PLATFORM_UNSPECIFIED", "quickReplies": {"messages": []}}]) 
+})
+
+
+it('should save response', () => {
+  store.dispatch(actions.getMessageFromDialogflow(defaultResponse))
+ const storedActions = store.getActions()
+ expect(storedActions[1].data.providerResponse.queryResult.fulfillmentMessages).toEqual(      [{"default": {"messages": []}, "message": "default", "platform": "PLATFORM_UNSPECIFIED"}]) 
+})
+
+  it('should save response', () => {
+     store.dispatch(actions.getMessageFromDialogflow(payloadResponse))
+    const storedActions = store.getActions()
+    expect(storedActions[1].data.providerResponse.queryResult.fulfillmentMessages).toEqual([{"message": 4, "payload": {"messages": [{"payload": {"test": "value"}, "type": 4}, {"speech": "test text", "type": 4}]}, "platform": "PLATFORM_UNSPECIFIED", "type": 4}]) 
+  })
+
 
 })

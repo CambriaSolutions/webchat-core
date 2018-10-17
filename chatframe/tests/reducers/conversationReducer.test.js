@@ -238,18 +238,8 @@ const exampleState= {
    
 }
 
-const response = {}
-
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
-
-const store = mockStore({
-    conversation: {
-        client: new Client(options),
-        clientOptions: options, 
-        clientName:'dialogflow', 
-        messages: [] }
-    })
 
 describe('reducer', () => {
   it('should return the initial state', () => {
