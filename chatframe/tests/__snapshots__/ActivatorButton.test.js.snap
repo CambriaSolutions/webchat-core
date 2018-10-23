@@ -388,7 +388,6 @@ exports[`component onClick changes  1`] = `
           "letterSpacing": "0.00714em",
           "lineHeight": 1.57,
         },
-        "suppressDeprecationWarnings": undefined,
         "title": Object {
           "color": "rgba(0, 0, 0, 0.87)",
           "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
@@ -823,7 +822,6 @@ exports[`component onClick changes  2`] = `
           "letterSpacing": "0.00714em",
           "lineHeight": 1.57,
         },
-        "suppressDeprecationWarnings": undefined,
         "title": Object {
           "color": "rgba(0, 0, 0, 0.87)",
           "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
@@ -1258,7 +1256,6 @@ exports[`component onClick changes  3`] = `
           "letterSpacing": "0.00714em",
           "lineHeight": 1.57,
         },
-        "suppressDeprecationWarnings": undefined,
         "title": Object {
           "color": "rgba(0, 0, 0, 0.87)",
           "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
