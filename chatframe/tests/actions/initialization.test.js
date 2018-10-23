@@ -109,18 +109,6 @@ describe('initialization actions', () => {
     store.dispatch(actions.initialize(props));
     expect(console.error).toHaveBeenCalled();
     restoreConsole();
-
-    // store.dispatch(actions.initialize(props))
-    // const storedActions = store.getActions()
-    // expect(storedActions[0]).toEqual({"title": "hello", "type": "SET_TITLE"})
-    // expect(storedActions[1]).toEqual({"avatar": "the dude", "type": "SET_AVATAR"})
-    // expect(storedActions[2].type).toEqual( "SAVE_CLIENT")
-    // expect(storedActions[3]).toEqual(  {"newTimer": 10, "type": "TIMER_START"})
-    // expect(storedActions[4]).toEqual( {"type": "UPDATE_CURRENT_TIME"})
-    // expect(storedActions[5]).toEqual(  {"type": "INITIATE_LOADING"})
-    // expect(storedActions[6].type).toEqual("CREATE_THEME")
-    // expect(storedActions[7]).toEqual({"type": "HIDE_WINDOW"})
-    // expect(storedActions[8]).toEqual({"type": "FULLSCREEN"})
   });
 
   it('should set up dialog flow with correct options', () => {

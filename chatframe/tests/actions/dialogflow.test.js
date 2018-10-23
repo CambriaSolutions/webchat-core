@@ -522,16 +522,6 @@ describe('dialog flow actions', () => {
     }).toThrow('Query should not be empty');
   });
 
-  // it('should get Message From Dialogflow for empty response', () => {
-  //   //#TODO: address dialog flow handling empty response? throw error?
-  //   const response = ''
-  //   const expectedAction= [{"type": "INITIATE_LOADING"}]
-
-  //   store.dispatch(actions.getMessageFromDialogflow(response))
-  //   const storedActions = store.getActions()
-  //   expect(storedActions).toEqual(expectedAction)
-  // })
-
   test('should get Message From Dialogflow for correct response', () => {
     const expectedAction = { type: 'HIDE_BUTTON_BAR' };
     store.dispatch(actions.getMessageFromDialogflow(response));
@@ -622,7 +612,7 @@ describe('dialog flow actions', () => {
     expect(storedActions).toEqual(expectedAction);
   });
 
-  it('should save response', () => {
+  it('get message from dialog flow for card type', () => {
     store.dispatch(actions.getMessageFromDialogflow(cardResponse));
     const storedActions = store.getActions();
     expect(
@@ -644,7 +634,7 @@ describe('dialog flow actions', () => {
     ]);
   });
 
-  it('should save response', () => {
+  it('get message from dialog flow for image type', () => {
     store.dispatch(actions.getMessageFromDialogflow(imageResponse));
     const storedActions = store.getActions();
     expect(
@@ -658,7 +648,7 @@ describe('dialog flow actions', () => {
     ]);
   });
 
-  it('should save response', () => {
+  it('get message from dialog flow for quick replies type', () => {
     store.dispatch(actions.getMessageFromDialogflow(quickRepliesResponse));
     const storedActions = store.getActions();
     expect(
@@ -672,7 +662,7 @@ describe('dialog flow actions', () => {
     ]);
   });
 
-  it('should save response', () => {
+  it('get message from dialog flow for default type', () => {
     store.dispatch(actions.getMessageFromDialogflow(defaultResponse));
     const storedActions = store.getActions();
     expect(
@@ -686,7 +676,7 @@ describe('dialog flow actions', () => {
     ]);
   });
 
-  it('should save response', () => {
+  it('get message from dialog flow for payload type', () => {
     store.dispatch(actions.getMessageFromDialogflow(payloadResponse));
     const storedActions = store.getActions();
     expect(

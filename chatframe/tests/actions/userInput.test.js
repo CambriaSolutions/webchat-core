@@ -3,7 +3,7 @@ import * as types from '././../../src/actions/actionTypes';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import expect from 'expect'; // You can use any testing library​
+import expect from 'expect'; 
 
 import { Client } from './../../src/conversationClient';
 
