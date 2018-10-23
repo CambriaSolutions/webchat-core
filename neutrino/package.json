@@ -1,7 +1,7 @@
 {
-  "name": "neutrino",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@cambriasolutions/chatframe",
+  "version": "1.6.4",
+  "main": "build/chatframe.js",
   "license": "MIT",
   "scripts": {
     "build": "neutrino build",
