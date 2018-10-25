@@ -10,7 +10,6 @@ import ChatContainer from './ChatContainer'
 
 // Redux
 import thunkMiddleware from 'redux-thunk'
-import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction'
 import rootReducer from './reducers/rootReducer'
 import { initialize } from './actions/initialization'
 
@@ -44,10 +43,7 @@ const OuterContainer = styled.div`
 class ChatFrame extends PureComponent {
   constructor(props) {
     super(props)
-    this.store = createStore(
-      rootReducer,
-      composeWithDevTools(applyMiddleware(thunkMiddleware))
-    )
+    this.store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
     this.currentValue = null
   }
   componentDidMount() {

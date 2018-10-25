@@ -11,7 +11,7 @@ import { sysTimeFormat } from '../config/dateFormats'
 export function setupClient(client, clientOptions) {
   return (dispatch, getState) => {
     if (!client) {
-      throw new Error('No coversation provider selected.')
+      throw new Error('No conversation provider selected.')
     }
 
     // Setup Dialogflow
@@ -44,7 +44,6 @@ export function sendMessage(message) {
   return (dispatch, getState) => {
     const clientName = getState().conversation.clientName
     if (clientName.toLowerCase() === 'dialogflow') {
-      dispatch({ type: HIDE_BUTTON_BAR })
       dispatch(sendMessageWithDialogflow(message))
     } else {
       // Unrecognized client

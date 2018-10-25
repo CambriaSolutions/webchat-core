@@ -1,6 +1,7 @@
 module.exports = {
   use: [
     '@neutrinojs/react-components',
-    '@neutrinojs/jest'
-  ]
-};
+    '@neutrinojs/jest',
+    // '@neutrinojs/minify',
+  ],
+}
