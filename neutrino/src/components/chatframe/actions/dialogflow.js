@@ -91,7 +91,7 @@ export function getMessageFromDialogflow(response) {
         card: {
           title: get(msg, 'card.title', ''),
           subtitle: get(msg, 'card.subtitle', ''),
-          imageUrl: get(msg, 'card.imageUrl', ''),
+          imageUrl: get(msg, 'card.imageUri', ''),
           buttons: get(msg, 'card.buttons', []),
         },
         payload: get(msg, 'payload', {}),
