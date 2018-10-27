@@ -165,12 +165,7 @@ class ChatWindow extends PureComponent {
     })
     const elements = messageElements.map(m => m.element)
     return (
-      <Container
-        innerRef={this.chatWindowRef}
-        theme={theme}
-        elevation={1}
-        square
-      >
+      <Container ref={this.chatWindowRef} theme={theme} elevation={1} square>
         <MessagesContainer>{elements}</MessagesContainer>
       </Container>
     )

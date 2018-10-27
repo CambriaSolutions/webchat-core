@@ -13,7 +13,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import { setupClient } from './conversation'
 import { sendEvent } from './dialogflow'
 import * as colors from '@material-ui/core/colors'
-import isHexColor from 'validator/lib/isHexColor';
+import isHexColor from 'validator/lib/isHexColor'
 
 export function initialize(props) {
   return (dispatch, getState) => {
@@ -88,13 +88,15 @@ function createTheme(primaryColor = 'lightBlue', secondaryColor = 'pink') {
         // E.g., shift from Red 500 to Red 300 or Red 700.
         tonalOffset: 0.2,
       },
+      typography: {
+        useNextVariants: true,
+      },
     }
     if (isHexColor(primaryColor)) {
       newTheme.palette.primary = {
-        main: primaryColor
+        main: primaryColor,
       }
-    }
-    else if (colors[primaryColor]) {
+    } else if (colors[primaryColor]) {
       newTheme.palette.primary = colors[primaryColor]
     } else {
       console.error(
@@ -104,10 +106,9 @@ function createTheme(primaryColor = 'lightBlue', secondaryColor = 'pink') {
 
     if (isHexColor(secondaryColor)) {
       newTheme.palette.secondary = {
-        main: secondaryColor
+        main: secondaryColor,
       }
-    }
-    else if (secondaryColor && colors[secondaryColor]) {
+    } else if (secondaryColor && colors[secondaryColor]) {
       newTheme.palette.secondary = colors[secondaryColor]
     } else {
       console.error(

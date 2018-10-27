@@ -10,6 +10,7 @@ import Loading from './Loading'
 import grey from '@material-ui/core/colors/grey'
 // Date Format
 import { sysTimeFormat } from './config/dateFormats'
+import Typography from '@material-ui/core/Typography'
 
 const Container = styled.div`
   display: flex;
@@ -31,25 +32,8 @@ const ExternalMessage = styled(Paper)`
   && {
     background: #fff;
     border-radius: 3px;
-    font-size: 16px;
-    line-height: 1.2rem;
     padding: 12px;
-    position: relative;
     color: ${grey[900]};
-    max-width: 85%;
-
-    &:after {
-      content: '\\00a0';
-      height: 10px;
-      width: 10px;
-      position: absolute;
-      transform: rotate(-45deg);
-      top: 16px;
-      left: -6px;
-      background-color: #fff;
-      border-top: 1px solid ${grey[400]};
-      border-left: 1px solid ${grey[400]};
-    }
   }
 `
 
@@ -57,34 +41,18 @@ const UserMessage = styled(Paper)`
   && {
     background-color: ${grey[400]};
     border-radius: 3px;
-    font-size: 16px;
-    line-height: 1.2rem;
     padding: 12px;
-    width: auto;
-    position: relative;
     color: ${grey[900]};
-    max-width: 85%;
-
-    &:after {
-      height: 10px;
-      width: 10px;
-      position: absolute;
-      transform: rotate(-45deg);
-      top: 16px;
-      right: -6px;
-      background-color: ${grey[400]};
-      border-bottom: 1px solid ${grey[300]};
-      border-right: 1px solid ${grey[300]};
-    }
   }
 `
 
-const Timestamp = styled.div`
-  font-size: 12px;
-  color: ${grey[500]};
-  margin-top: 8px;
-  padding-left: 62px;
-  padding-right: 2px;
+const Timestamp = styled(Typography)`
+  && {
+    color: ${grey[500]};
+    margin-top: 8px;
+    padding-left: 62px;
+    padding-right: 2px;
+  }
 `
 
 class Message extends PureComponent {
@@ -113,10 +81,16 @@ class Message extends PureComponent {
 
     const chatMessage =
       entity === 'user' ? (
-        <UserMessage elevation={1}>{message}</UserMessage>
+        <UserMessage elevation={1}>
+          <Typography variant="body1">{message}</Typography>
+        </UserMessage>
       ) : (
         <ExternalMessage elevation={1}>
-          {isLoading ? <Loading /> : message}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Typography variant="body1">{message}</Typography>
+          )}
         </ExternalMessage>
       )
     return (
@@ -125,7 +99,7 @@ class Message extends PureComponent {
           <Avatar entity={entity} avatar={avatar} />
           {chatMessage}
         </ChatBubble>
-        <Timestamp>{formattedTimestamp}</Timestamp>
+        <Timestamp variant="caption">{formattedTimestamp}</Timestamp>
       </Container>
     )
   }

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Send from '@material-ui/icons/Send'
 import styled from 'styled-components'
+import Input from '@material-ui/core/Input'
 
 // Redux
 import { saveUserInput, submitUserInput } from './actions/userInput'
@@ -31,14 +32,11 @@ const SendButton = styled.div`
   }
 `
 
-const TextInput = styled.input`
-  width: 100%;
-  height: 100%;
-  font-size: 16px;
-  line-height: 16px;
-  outline: none;
-  border: none;
-  padding: 0 16px;
+const TextInput = styled(Input)`
+  && {
+    height: 100%;
+    padding: 0 16px;
+  }
 `
 
 class UserInput extends PureComponent {
@@ -59,7 +57,8 @@ class UserInput extends PureComponent {
     return (
       <OuterFrame>
         <TextInput
-          type="text"
+          fullWidth
+          disableUnderline
           placeholder="Send a message"
           onChange={saveUserInput}
           value={inputValue}

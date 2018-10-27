@@ -31,10 +31,10 @@ class CardResponse extends PureComponent {
       <CardContainer>
         <CardImage image={encodeURI(imageUrl)} title="" />
         <CardContent>
-          <Typography gutterBottom variant="headline" component="h2">
+          <Typography gutterBottom variant="h6">
             {title}
           </Typography>
-          <Typography component="p">{subtitle}</Typography>
+          <Typography variant="body1">{subtitle}</Typography>
         </CardContent>
         <CardActions>
           {buttons.map((b, index) => {
