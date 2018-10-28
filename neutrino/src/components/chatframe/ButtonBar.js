@@ -9,19 +9,21 @@ import { sendQuickReply } from './actions/conversation'
 import grey from '@material-ui/core/colors/grey'
 
 const Container = styled.div`
-  width: 100%;
+  width: calc(100% - 20px);
   flex: 1 0 auto;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   align-content: center;
-  padding: ${p => (p.visible ? '16px' : '0 16px')};
+  padding: ${p => (p.visible ? '4px 4px 16px 16px' : '0 16px')};
   background: ${p => grey[100]};
 `
 
 const Btn = styled(Button)`
   && {
+    margin-right: 12px;
+    margin-top: 12px;
     display: ${p => (p.visible === 'true' ? 'block' : 'none')};
   }
 `
