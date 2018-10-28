@@ -27,20 +27,10 @@ const Container = styled(Paper)`
   }
 `
 
-const HeaderText = styled.div`
-  flex: 1;
-`
-
-const PrimaryHeaderText = styled(Typography)`
+const HeaderText = styled(Typography)`
   && {
+    flex: 1;
     line-height: 20px;
-    color: ${p =>
-      p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
-  }
-`
-
-const SecondaryHeaderText = styled(Typography)`
-  && {
     color: ${p =>
       p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
   }
@@ -61,7 +51,6 @@ class Header extends PureComponent {
   render() {
     const {
       title,
-      timestamp,
       theme,
       hideWindow,
       showWindowed,
@@ -70,13 +59,8 @@ class Header extends PureComponent {
     } = this.props
     return (
       <Container elevation={3} theme={theme}>
-        <HeaderText>
-          <PrimaryHeaderText theme={theme} variant="subtitle1">
-            {title}
-          </PrimaryHeaderText>
-          <SecondaryHeaderText theme={theme} variant="caption">
-            Active {timestamp}
-          </SecondaryHeaderText>
+        <HeaderText theme={theme} variant="body1">
+          {title}
         </HeaderText>
 
         {fullscreen ? (
@@ -99,7 +83,6 @@ class Header extends PureComponent {
 const mapStateToProps = state => {
   return {
     title: state.config.title,
-    timestamp: state.conversation.headerTime,
     fullscreen: state.config.fullscreen,
   }
 }

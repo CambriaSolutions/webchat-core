@@ -1,5 +1,9 @@
 import { format } from 'date-fns'
-import { SAVE_USER_RESPONSE, DISPLAY_ERROR } from './actionTypes'
+import {
+  SAVE_USER_RESPONSE,
+  DISPLAY_ERROR,
+  HIDE_BUTTON_BAR,
+} from './actionTypes'
 import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
@@ -54,6 +58,7 @@ export function createUserResponse(text) {
 
 export function sendQuickReply(text) {
   return dispatch => {
+    dispatch({ type: HIDE_BUTTON_BAR })
     dispatch(createUserResponse(text))
   }
 }
