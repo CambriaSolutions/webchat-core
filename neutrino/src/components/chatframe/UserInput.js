@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Send from '@material-ui/icons/Send'
 import styled from 'styled-components'
 import Input from '@material-ui/core/Input'
+import IconButton from '@material-ui/core/IconButton'
 
 // Redux
 import { saveUserInput, submitUserInput } from './actions/userInput'
@@ -19,22 +20,12 @@ const OuterFrame = styled.div`
   justify-content: center;
   box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, 0.23);
 `
-const SendButton = styled.div`
+const SendButton = styled(IconButton)`
   flex: 0;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  color: ${p => p.theme.palette.primary.dark};
-  padding: 0 16px;
-  cursor: pointer;
-  &:hover {
-    color: ${p => p.theme.palette.primary.dark};
-  }
 `
 
 const TextInput = styled(Input)`
   && {
-    height: 100%;
     padding: 0 16px;
   }
 `
@@ -53,7 +44,7 @@ class UserInput extends PureComponent {
   }
 
   render() {
-    const { saveUserInput, inputValue, theme } = this.props
+    const { saveUserInput, inputValue } = this.props
     return (
       <OuterFrame>
         <TextInput
@@ -64,9 +55,13 @@ class UserInput extends PureComponent {
           value={inputValue}
           onKeyPress={this.handleKeyPress}
         />
-        <SendButton onClick={this.props.submitUserInput} theme={theme}>
+        <IconButton
+          onClick={this.props.submitUserInput}
+          aria-label="Send"
+          color="primary"
+        >
           <Send />
-        </SendButton>
+        </IconButton>
       </OuterFrame>
     )
   }
@@ -75,7 +70,6 @@ class UserInput extends PureComponent {
 const mapStateToProps = state => {
   return {
     inputValue: state.userInput,
-    theme: state.config.theme,
   }
 }
 

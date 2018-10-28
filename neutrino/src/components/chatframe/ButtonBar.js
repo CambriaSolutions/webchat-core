@@ -6,41 +6,29 @@ import { fade } from '@material-ui/core/styles/colorManipulator'
 import findLast from 'lodash/findLast'
 import find from 'lodash/find'
 import { sendQuickReply } from './actions/conversation'
+import grey from '@material-ui/core/colors/grey'
 
 const Container = styled.div`
   width: 100%;
   flex: 1 0 auto;
   display: flex;
   flex-flow: row wrap;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   align-content: center;
-  padding: ${p => (p.visible ? '8px 8px' : '0 8px')};
-  background: ${p => p.theme.palette.grey[100]};
+  padding: ${p => (p.visible ? '16px' : '0 16px')};
+  background: ${p => grey[100]};
 `
 
 const Btn = styled(Button)`
   && {
-    border-color: ${p => p.theme.palette.secondary.main};
-    color: ${p => p.theme.palette.secondary.main};
-    margin: 8px;
     display: ${p => (p.visible === 'true' ? 'block' : 'none')};
-    &:hover {
-      /* background: ${p => p.theme.palette.secondary.dark}; */
-      background-color: ${p =>
-        fade(
-          p.theme.palette.secondary.main,
-          p.theme.palette.action.hoverOpacity
-        )};
-
-    border-color: ${p => p.theme.palette.secondary.main};
-    }
   }
 `
 
 class ButtonBar extends PureComponent {
   render() {
-    const { visible, messages, sendQuickReply, theme } = this.props
+    const { visible, messages, sendQuickReply } = this.props
     const lastMessageWithSuggestions = findLast(messages, m => {
       const hasSuggestions = find(m.responses, ['type', 'suggestion'])
         ? true
@@ -65,11 +53,10 @@ class ButtonBar extends PureComponent {
     }
 
     return (
-      <Container visible={visible} theme={theme}>
+      <Container visible={visible}>
         {suggestionElements.map((btn, index) => (
           <Btn
             size="small"
-            theme={theme}
             variant="outlined"
             color="secondary"
             key={`${btn.id}-btn${index}`}
@@ -88,7 +75,6 @@ const mapStateToProps = state => {
   return {
     visible: state.buttonBar.visible,
     messages: state.conversation.messages,
-    theme: state.config.theme,
   }
 }
 

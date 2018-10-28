@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { withTheme } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 import Fullscreen from '@material-ui/icons/Fullscreen'
 import FullscreenExit from '@material-ui/icons/FullscreenExit'
 import Close from '@material-ui/icons/Close'
-import Chat from '@material-ui/icons/Chat'
 import styled from 'styled-components'
 import {
   hideWindow,
@@ -16,8 +17,6 @@ const Container = styled(Paper)`
   && {
     background: ${p => p.theme.palette.primary.dark};
     padding: 16px;
-    color: ${p =>
-      p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -36,17 +35,19 @@ const HeaderText = styled.div`
   flex: 1;
 `
 
-const PrimaryHeaderText = styled.div`
-  font-size: 16px;
-  line-height: 16px;
-  padding-left: 16px;
+const PrimaryHeaderText = styled(Typography)`
+  && {
+    line-height: 20px;
+    color: ${p =>
+      p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+  }
 `
 
-const SecondaryHeaderText = styled.div`
-  padding-top: 2px;
-  font-size: 10px;
-  line-height: 10px;
-  padding-left: 16px;
+const SecondaryHeaderText = styled(Typography)`
+  && {
+    color: ${p =>
+      p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+  }
 `
 
 const HeaderButton = styled.div`
@@ -73,12 +74,13 @@ class Header extends PureComponent {
     } = this.props
     return (
       <Container elevation={3} theme={theme}>
-        <HeaderImage>
-          <Chat />
-        </HeaderImage>
         <HeaderText>
-          <PrimaryHeaderText>{title}</PrimaryHeaderText>
-          <SecondaryHeaderText>Active {timestamp}</SecondaryHeaderText>
+          <PrimaryHeaderText theme={theme} variant="subtitle1">
+            {title}
+          </PrimaryHeaderText>
+          <SecondaryHeaderText theme={theme} variant="caption">
+            Active {timestamp}
+          </SecondaryHeaderText>
         </HeaderText>
 
         {fullscreen ? (
@@ -102,7 +104,6 @@ const mapStateToProps = state => {
   return {
     title: state.config.title,
     timestamp: state.conversation.headerTime,
-    theme: state.config.theme,
     fullscreen: state.config.fullscreen,
   }
 }
@@ -121,7 +122,9 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Header)
+export default withTheme()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Header)
+)

@@ -1,21 +1,13 @@
 import * as t from '../actions/actionTypes'
-import { createMuiTheme } from '@material-ui/core/styles'
 
 // Colors
 import pink from '@material-ui/core/colors/pink'
 import blue from '@material-ui/core/colors/blue'
 
-const defaultTheme = createMuiTheme({
-  palette: {
-    primary: blue,
-    secondary: pink,
-  },
-})
-
 const initialState = {
   avatar: null,
   title: 'Chat Window',
-  theme: defaultTheme,
+  theme: null,
   windowVisible: false,
   fullscreen: false,
 }

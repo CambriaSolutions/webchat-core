@@ -4,6 +4,10 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import WebFont from 'webfontloader'
 
+// Theme
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import createTheme from './createTheme'
+
 // Components
 import ActivatorButton from './ActivatorButton'
 import ChatContainer from './ChatContainer'
@@ -45,12 +49,16 @@ class ChatFrame extends PureComponent {
     super(props)
     this.store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
     this.currentValue = null
+    const { primaryColor, secondaryColor } = this.props
+    this.theme = createTheme(primaryColor, secondaryColor)
   }
   componentDidMount() {
+    const { primaryColor, secondaryColor } = this.props
+
     // We load the initial options into the Redux store inside of the
     // componentDidMount() lifecycle hook. This lets us use Redux to manage
     // state instead of passing props down manually.
-    this.store.dispatch(initialize(this.props))
+    this.store.dispatch(initialize(this.props, this.theme))
 
     // In order to expose when a webhook payload of custom data is received,
     // we manually create a subscription to the data piece we want to expose
@@ -76,10 +84,12 @@ class ChatFrame extends PureComponent {
   render() {
     return (
       <Provider store={this.store}>
-        <OuterContainer>
-          <ChatContainer />
-          <ActivatorButton variant="fab" />
-        </OuterContainer>
+        <MuiThemeProvider theme={this.theme}>
+          <OuterContainer>
+            <ChatContainer />
+            <ActivatorButton variant="fab" />
+          </OuterContainer>
+        </MuiThemeProvider>
       </Provider>
     )
   }

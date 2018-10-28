@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import filter from 'lodash/filter'
+import grey from '@material-ui/core/colors/grey'
 
 // Components
 import Message from './Message'
@@ -23,7 +24,7 @@ const Container = styled.div`
   padding: 0 16px 16px 16px;
   overflow-y: auto;
   height: 100%;
-  background: ${p => p.theme.palette.grey[200]};
+  background: ${grey[200]};
   display: flex;
   flex-direction: column-reverse;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -152,7 +153,7 @@ class ChatWindow extends PureComponent {
     // chatWindowNode.scrollTop = chatWindowNode.scrollHeight
   }
   render() {
-    const { messages, theme } = this.props
+    const { messages } = this.props
     const botMessages = buildBotMessages(messages)
     const userMessages = buildUserMessages(messages)
     const messageElements = [...botMessages, ...userMessages]
@@ -165,7 +166,7 @@ class ChatWindow extends PureComponent {
     })
     const elements = messageElements.map(m => m.element)
     return (
-      <Container ref={this.chatWindowRef} theme={theme} elevation={1} square>
+      <Container ref={this.chatWindowRef} elevation={1} square>
         <MessagesContainer>{elements}</MessagesContainer>
       </Container>
     )
@@ -175,7 +176,6 @@ class ChatWindow extends PureComponent {
 const mapStateToProps = state => {
   return {
     messages: state.conversation.messages,
-    theme: state.config.theme,
   }
 }
 
