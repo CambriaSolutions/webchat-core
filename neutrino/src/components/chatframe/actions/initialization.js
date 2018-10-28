@@ -3,7 +3,6 @@ import {
   SET_AVATAR,
   TIMER_START,
   UPDATE_CURRENT_TIME,
-  CREATE_THEME,
   SHOW_WINDOW,
   HIDE_WINDOW,
   FULLSCREEN,
@@ -13,7 +12,7 @@ import { setupClient } from './conversation'
 import { sendEvent } from './dialogflow'
 import defaultavatar from '../defaultavatar.png'
 
-export function initialize(props, theme) {
+export function initialize(props) {
   return (dispatch, getState) => {
     const {
       title,
@@ -27,7 +26,6 @@ export function initialize(props, theme) {
       fullscreen,
     } = props
     let userAvatar = avatar ? avatar : defaultavatar
-    dispatch({ type: CREATE_THEME, theme })
     dispatch({ type: SET_TITLE, title })
     dispatch({ type: SET_AVATAR, avatar: userAvatar })
     dispatch(setupClient(client, clientOptions))

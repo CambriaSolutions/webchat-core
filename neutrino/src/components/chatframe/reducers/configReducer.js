@@ -7,7 +7,6 @@ import blue from '@material-ui/core/colors/blue'
 const initialState = {
   avatar: null,
   title: 'Chat Window',
-  theme: null,
   windowVisible: false,
   fullscreen: false,
 }
@@ -22,9 +21,6 @@ function config(state = initialState, action) {
 
     case t.SET_TITLE:
       return { ...state, title: action.title }
-
-    case t.CREATE_THEME:
-      return { ...state, theme: action.theme }
 
     case t.SHOW_WINDOW:
       return { ...state, windowVisible: true }
