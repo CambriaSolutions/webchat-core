@@ -3,19 +3,15 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import filter from 'lodash/filter'
 import grey from '@material-ui/core/colors/grey'
-
-// Components
-import Message from './Message'
-import CardResponse from './CardResponse'
-
-// Date Format
-import { sysTimeFormat } from './config/dateFormats'
 import {
   parse,
   format,
   addMilliseconds,
   differenceInMilliseconds,
 } from 'date-fns'
+import Message from './Message'
+import CardResponse from './CardResponse'
+import { sysTimeFormat } from './config/dateFormats'
 
 const Container = styled.div`
   /* box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
@@ -43,7 +39,7 @@ const MessagesContainer = styled.div`
 function buildUserMessages(messages) {
   const userMessages = filter(messages, ['entity', 'user'])
   const conversationElements = []
-  for (let message of userMessages) {
+  for (const message of userMessages) {
     conversationElements.push({
       systemTime: message.systemTime,
       element: (
@@ -75,7 +71,7 @@ function buildLoadingMessage(message) {
 
 function buildTextMessages(message) {
   const elements = []
-  for (let key in message.responses) {
+  for (const key in message.responses) {
     const subMessage = message.responses[key]
     if (subMessage.type === 'text') {
       // We add key*10 milliseconds to each text message to ensure that they
@@ -85,7 +81,7 @@ function buildTextMessages(message) {
       const sysTime = parse(
         message.systemTime,
         sysTimeFormat,
-        new Date(message.systemTime)
+        new Date(message.systemTime),
       )
       elements.push({
         systemTime: format(addMilliseconds(sysTime, key * 10), sysTimeFormat),
@@ -106,7 +102,7 @@ function buildTextMessages(message) {
 
 function buildCardMessages(message) {
   const elements = []
-  for (let key in message.responses) {
+  for (const key in message.responses) {
     const subMessage = message.responses[key]
     if (subMessage.type === 'card') {
       elements.push({
@@ -128,7 +124,7 @@ function buildBotMessages(messages) {
   const botMessages = filter(messages, ['entity', 'bot'])
   let conversationElements = []
 
-  for (let message of botMessages) {
+  for (const message of botMessages) {
     // Loading message
     if (message.loading) {
       conversationElements.push(buildLoadingMessage(message))
@@ -148,10 +144,10 @@ class ChatWindow extends PureComponent {
     super(props)
     this.chatWindowRef = React.createRef()
   }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const chatWindowNode = this.chatWindowRef.current
-    // chatWindowNode.scrollTop = chatWindowNode.scrollHeight
-  }
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   const chatWindowNode = this.chatWindowRef.current
+  //   chatWindowNode.scrollTop = chatWindowNode.scrollHeight
+  // }
   render() {
     const { messages } = this.props
     const botMessages = buildBotMessages(messages)
@@ -179,11 +175,8 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {}
-}
+// const mapDispatchToProps = dispatch => {
+//   return {}
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChatWindow)
+export default connect(mapStateToProps)(ChatWindow)

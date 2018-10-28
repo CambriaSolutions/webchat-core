@@ -3,14 +3,11 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { parse, differenceInMinutes, differenceInSeconds } from 'date-fns'
 import Paper from '@material-ui/core/Paper'
-// Components
+import grey from '@material-ui/core/colors/grey'
+import Typography from '@material-ui/core/Typography'
+import { sysTimeFormat } from './config/dateFormats'
 import Avatar from './Avatar'
 import Loading from './Loading'
-// Colors
-import grey from '@material-ui/core/colors/grey'
-// Date Format
-import { sysTimeFormat } from './config/dateFormats'
-import Typography from '@material-ui/core/Typography'
 
 const Container = styled.div`
   display: flex;
@@ -112,11 +109,8 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {}
-}
+// const mapDispatchToProps = dispatch => {
+//   return {}
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Message)
+export default connect(mapStateToProps)(Message)

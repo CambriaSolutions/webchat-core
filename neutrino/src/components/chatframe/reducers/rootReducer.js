@@ -10,6 +10,6 @@ const rootReducer = combineReducers({
   conversation,
   buttonBar,
   userInput,
-  error
+  error,
 })
 export default rootReducer

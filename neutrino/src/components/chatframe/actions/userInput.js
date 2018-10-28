@@ -7,7 +7,7 @@ export function saveUserInput(value) {
 
 export function submitUserInput() {
   return (dispatch, getState) => {
-    const userInput = getState().userInput
+    const { userInput } = getState()
     if (!userInput || userInput === '') {
       return
     }

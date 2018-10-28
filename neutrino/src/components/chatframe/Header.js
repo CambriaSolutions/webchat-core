@@ -27,10 +27,6 @@ const Container = styled(Paper)`
   }
 `
 
-const HeaderImage = styled.div`
-  flex: 0;
-`
-
 const HeaderText = styled.div`
   flex: 1;
 `
@@ -125,6 +121,6 @@ const mapDispatchToProps = dispatch => {
 export default withTheme()(
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )(Header)
+    mapDispatchToProps,
+  )(Header),
 )

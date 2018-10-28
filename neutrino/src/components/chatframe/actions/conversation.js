@@ -1,15 +1,11 @@
 import { format } from 'date-fns'
-import {
-  SAVE_USER_RESPONSE,
-  DISPLAY_ERROR,
-  HIDE_BUTTON_BAR,
-} from './actionTypes'
+import { SAVE_USER_RESPONSE, DISPLAY_ERROR } from './actionTypes'
 import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
 
 export function setupClient(client, clientOptions) {
-  return (dispatch, getState) => {
+  return dispatch => {
     if (!client) {
       throw new Error('No conversation provider selected.')
     }
@@ -24,25 +20,9 @@ export function setupClient(client, clientOptions) {
     }
   }
 }
-
-export function createUserResponse(text) {
-  return (dispatch, getState) => {
-    const numMessages = getState().conversation.messages.length
-    const systemTime = format(new Date(), sysTimeFormat)
-    const response = {
-      entity: 'user',
-      messageId: `usermessage-${numMessages}`,
-      systemTime: systemTime,
-      text: text,
-    }
-    dispatch({ type: SAVE_USER_RESPONSE, response })
-    dispatch(sendMessage(text))
-  }
-}
-
 export function sendMessage(message) {
   return (dispatch, getState) => {
-    const clientName = getState().conversation.clientName
+    const { clientName } = getState().conversation
     if (clientName.toLowerCase() === 'dialogflow') {
       dispatch(sendMessageWithDialogflow(message))
     } else {
@@ -52,14 +32,28 @@ export function sendMessage(message) {
         error: `Unable to connect to ${clientName}`,
       })
       throw new Error(
-        `${clientName} is not a recognized conversation provider.`
+        `${clientName} is not a recognized conversation provider.`,
       )
     }
   }
 }
+export function createUserResponse(text) {
+  return (dispatch, getState) => {
+    const numMessages = getState().conversation.messages.length
+    const systemTime = format(new Date(), sysTimeFormat)
+    const response = {
+      entity: 'user',
+      messageId: `usermessage-${numMessages}`,
+      systemTime,
+      text,
+    }
+    dispatch({ type: SAVE_USER_RESPONSE, response })
+    dispatch(sendMessage(text))
+  }
+}
 
 export function sendQuickReply(text) {
-  return (dispatch, getState) => {
+  return dispatch => {
     dispatch(createUserResponse(text))
   }
 }

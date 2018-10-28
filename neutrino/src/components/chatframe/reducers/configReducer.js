@@ -1,9 +1,5 @@
 import * as t from '../actions/actionTypes'
 
-// Colors
-import pink from '@material-ui/core/colors/pink'
-import blue from '@material-ui/core/colors/blue'
-
 const initialState = {
   avatar: null,
   title: 'Chat Window',
@@ -13,11 +9,7 @@ const initialState = {
 function config(state = initialState, action) {
   switch (action.type) {
     case t.SET_AVATAR:
-      if (action.avatar) {
-        return { ...state, avatar: action.avatar }
-      } else {
-        return state
-      }
+      return { ...state, avatar: action.avatar }
 
     case t.SET_TITLE:
       return { ...state, title: action.title }

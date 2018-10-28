@@ -20,9 +20,6 @@ const OuterFrame = styled.div`
   justify-content: center;
   box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, 0.23);
 `
-const SendButton = styled(IconButton)`
-  flex: 0;
-`
 
 const TextInput = styled(Input)`
   && {
@@ -67,15 +64,15 @@ class UserInput extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     inputValue: state.userInput,
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    saveUserInput: e => {
+    saveUserInput: (e) => {
       dispatch(saveUserInput(e.target.value))
     },
     submitUserInput: () => {
@@ -86,5 +83,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UserInput)

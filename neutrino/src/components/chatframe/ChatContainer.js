@@ -1,18 +1,13 @@
 import React, { PureComponent } from 'react'
 import Paper from '@material-ui/core/Paper'
 import styled from 'styled-components'
-
+import { connect } from 'react-redux'
 import Zoom from '@material-ui/core/Zoom'
-// Components
 import Header from './Header'
 import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
 import ButtonBar from './ButtonBar'
 import ErrorBar from './ErrorBar'
-
-// Redux
-import { connect } from 'react-redux'
-
 import { media } from './styles/media'
 
 const OuterFrame = styled(Paper)`
@@ -67,11 +62,8 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {}
-}
+// const mapDispatchToProps = dispatch => {
+//   return {}
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChatContainer)
+export default connect(mapStateToProps)(ChatContainer)

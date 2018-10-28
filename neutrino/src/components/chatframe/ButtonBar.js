@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
-import { fade } from '@material-ui/core/styles/colorManipulator'
 import findLast from 'lodash/findLast'
 import find from 'lodash/find'
-import { sendQuickReply } from './actions/conversation'
 import grey from '@material-ui/core/colors/grey'
+import { sendQuickReply } from './actions/conversation'
 
 const Container = styled.div`
   width: calc(100% - 20px);
@@ -17,7 +16,7 @@ const Container = styled.div`
   align-items: center;
   align-content: center;
   padding: ${p => (p.visible ? '4px 4px 16px 16px' : '0 16px')};
-  background: ${p => grey[100]};
+  background: ${grey[100]};
 `
 
 const Btn = styled(Button)`
@@ -33,22 +32,20 @@ class ButtonBar extends PureComponent {
     const { visible, messages, sendQuickReply } = this.props
     const lastMessageWithSuggestions = findLast(messages, m => {
       const hasSuggestions = find(m.responses, ['type', 'suggestion'])
-        ? true
-        : false
       return hasSuggestions
     })
 
-    let suggestionElements = []
+    const suggestionElements = []
     if (lastMessageWithSuggestions) {
       const messages = lastMessageWithSuggestions.responses.filter(m => {
         return m.type === 'suggestion'
       })
-      for (let message of messages) {
-        for (let suggestion of message.suggestions) {
+      for (const message of messages) {
+        for (const suggestion of message.suggestions) {
           suggestionElements.push({
             label: suggestion,
             id: lastMessageWithSuggestions.messageId,
-            visible: visible,
+            visible,
           })
         }
       }
@@ -90,5 +87,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ButtonBar)

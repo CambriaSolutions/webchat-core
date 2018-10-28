@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { render } from 'react-dom'
 import ChatWindow from './components/chatframe'
+
 const options = {
   eventUrl:
     'https://us-central1-dhcs-demo-chat.cloudfunctions.net/eventRequest',
@@ -17,7 +18,7 @@ render(
     client="Dialogflow"
     clientOptions={options}
     fullscreen={false}
-    initialActive={true}
+    initialActive
   />,
-  root
+  root,
 )

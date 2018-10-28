@@ -4,7 +4,7 @@ export class Client {
   constructor(options) {
     if (!options || !options.textUrl) {
       throw new Error(
-        'Fulfillment URL is required to generate a conversation client'
+        'Fulfillment URL is required to generate a conversation client',
       )
     }
     this.textUrl = options.textUrl
@@ -14,8 +14,9 @@ export class Client {
 
   encodeQueryData(data) {
     const ret = []
-    for (let d in data)
-      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]))
+    for (const d in data) {
+      ret.push(`${encodeURIComponent(d)}=${encodeURIComponent(data[d])}`)
+    }
     return ret.join('&')
   }
 
@@ -24,22 +25,21 @@ export class Client {
       throw new Error('Query should not be empty')
     }
     const params = {
-      query: query,
+      query,
     }
     if (this.apiKey) {
       params['x-api-key'] = this.apiKey
     }
 
-    let url = this.textUrl
     const queryParams = this.encodeQueryData(params)
-    url = url + '?' + queryParams
+    const url = `${this.textUrl}?${queryParams}`
 
     return fetch(url)
       .then(response => {
         return response.json()
       })
       .catch(err => {
-        console.log(err)
+        throw new Error(err)
       })
   }
 
@@ -49,19 +49,18 @@ export class Client {
     }
 
     const params = {
-      query: query,
+      query,
     }
 
-    let url = this.eventUrl
     const queryParams = this.encodeQueryData(params)
-    url = url + '?' + queryParams
+    const url = `${this.eventUrl}?${queryParams}`
 
     return fetch(url)
       .then(response => {
         return response.json()
       })
       .catch(err => {
-        console.log(err)
+        throw new Error(err)
       })
   }
 }

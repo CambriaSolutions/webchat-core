@@ -7,11 +7,11 @@ import isHexColor from 'validator/lib/isHexColor'
 // warn user
 export default function createTheme(
   primaryColor = 'lightBlue',
-  secondaryColor = 'pink'
+  secondaryColor = 'pink',
 ) {
-  let newTheme = {
+  const newTheme = {
     palette: {
-      error: colors['red'],
+      error: colors.red,
       // Used by `getContrastText()` to maximize the contrast between the background and
       // the text.
       contrastThreshold: 3,
@@ -31,8 +31,8 @@ export default function createTheme(
   } else if (colors[primaryColor]) {
     newTheme.palette.primary = colors[primaryColor]
   } else {
-    console.error(
-      `${primaryColor} is not a valid color. Use a color name from https://material.io/guidelines/style/color.html#color-color-palette`
+    throw new Error(
+      `${primaryColor} is not a valid color. Use a color name from https://material.io/guidelines/style/color.html#color-color-palette`,
     )
   }
 
@@ -43,8 +43,9 @@ export default function createTheme(
   } else if (secondaryColor && colors[secondaryColor]) {
     newTheme.palette.secondary = colors[secondaryColor]
   } else {
-    console.error(
-      `${secondaryColor} is not a valid color. Use a color name from https://material.io/guidelines/style/color.html#color-color-palette`
+    throw new Error(
+      `${secondaryColor} is not a valid color. 
+      Use a color name from https://material.io/guidelines/style/color.html#color-color-palette`,
     )
   }
   return createMuiTheme(newTheme)

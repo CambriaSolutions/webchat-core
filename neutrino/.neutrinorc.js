@@ -1,7 +1,32 @@
 module.exports = {
   use: [
+    [
+      '@neutrinojs/airbnb',
+      {
+        eslint: {
+          rules: {
+            semi: 'off',
+            indent: 'off',
+            'linebreak-style': 0,
+            'import/prefer-default-export': 'off',
+            'react/jsx-filename-extension': 'off',
+            'react/no-array-index-key': 'off',
+            'react/prefer-stateless-function': 'off',
+            'no-restricted-syntax': 'off',
+            'arrow-body-style': 'off',
+            'react/prop-types': 'off',
+            'no-shadow': 'off',
+            'arrow-parens': 'off',
+            'object-curly-newline': 'off',
+            'guard-for-in': 'off',
+            'class-methods-use-this': 'off',
+            'function-paren-newline': 'off',
+            'no-console': 'warn',
+          },
+        },
+      },
+    ],
     '@neutrinojs/react-components',
     '@neutrinojs/jest',
-    // '@neutrinojs/minify',
   ],
 }

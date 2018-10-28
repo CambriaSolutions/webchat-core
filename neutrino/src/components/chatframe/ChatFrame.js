@@ -3,17 +3,11 @@ import { createStore, applyMiddleware } from 'redux'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import WebFont from 'webfontloader'
-
-// Theme
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import thunkMiddleware from 'redux-thunk'
 import createTheme from './createTheme'
-
-// Components
 import ActivatorButton from './ActivatorButton'
 import ChatContainer from './ChatContainer'
-
-// Redux
-import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers/rootReducer'
 import { initialize } from './actions/initialization'
 
@@ -49,12 +43,9 @@ class ChatFrame extends PureComponent {
     super(props)
     this.store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
     this.currentValue = null
-    const { primaryColor, secondaryColor } = this.props
-    this.theme = createTheme(primaryColor, secondaryColor)
+    this.theme = createTheme(this.props.primaryColor, this.props.secondaryColor)
   }
   componentDidMount() {
-    const { primaryColor, secondaryColor } = this.props
-
     // We load the initial options into the Redux store inside of the
     // componentDidMount() lifecycle hook. This lets us use Redux to manage
     // state instead of passing props down manually.
@@ -74,7 +65,7 @@ class ChatFrame extends PureComponent {
   }
 
   handleChange(store) {
-    let previousValue = this.currentValue
+    const previousValue = this.currentValue
     this.currentValue = this.select(store.getState())
     if (previousValue !== this.currentValue && this.props.onPayload) {
       this.props.onPayload(this.currentValue)
