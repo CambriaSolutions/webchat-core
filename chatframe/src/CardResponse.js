@@ -9,6 +9,9 @@ import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 
+// Date Format
+import { sysTimeFormat } from './config/dateFormats'
+
 const CardContainer = styled(Card)`
   && {
     margin: 16px auto;
@@ -44,7 +47,7 @@ class CardResponse extends PureComponent {
                 target="_blank"
                 size="small"
                 color="primary"
-                key={'card-' + index + format(new date(), 'MMDDYYYYhhmmssSSS')}
+                key={'card-' + index + format(new Date(), sysTimeFormat)}
               >
                 {b.text}
               </Button>
