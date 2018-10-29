@@ -14,10 +14,10 @@ const OuterFrame = styled(Paper)`
   && {
     transform-origin: bottom right;
     pointer-events: auto;
-    width: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '65%')};
-    height: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '60%')};
-    max-width: ${p => (p.fullscreen ? '' : '700px')};
-    max-height: ${p => (p.fullscreen ? '' : '1000px')};
+    width: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '400px')};
+    height: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '600px')};
+    max-width: calc(100% - 96px);
+    max-height: calc(100% - 96px);
     background: none;
     display: flex;
     flex-flow: column nowrap;

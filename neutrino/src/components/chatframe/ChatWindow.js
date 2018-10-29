@@ -14,8 +14,6 @@ import CardResponse from './CardResponse'
 import { sysTimeFormat } from './config/dateFormats'
 
 const Container = styled.div`
-  /* box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12); */
   position: relative;
   padding: 0 16px 16px 16px;
   overflow-y: auto;
@@ -23,7 +21,7 @@ const Container = styled.div`
   background: ${grey[200]};
   display: flex;
   flex-direction: column-reverse;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  z-index: 4;
 `
 
 const MessagesContainer = styled.div`
@@ -144,10 +142,10 @@ class ChatWindow extends PureComponent {
     super(props)
     this.chatWindowRef = React.createRef()
   }
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   const chatWindowNode = this.chatWindowRef.current
-  //   chatWindowNode.scrollTop = chatWindowNode.scrollHeight
-  // }
+  componentDidUpdate() {
+    const chatWindowNode = this.chatWindowRef.current
+    chatWindowNode.scrollTop = chatWindowNode.scrollHeight
+  }
   render() {
     const { messages } = this.props
     const botMessages = buildBotMessages(messages)

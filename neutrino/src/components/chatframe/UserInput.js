@@ -18,7 +18,8 @@ const OuterFrame = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, 0.23);
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  z-index: 4;
 `
 
 const TextInput = styled(Input)`
@@ -64,15 +65,15 @@ class UserInput extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     inputValue: state.userInput,
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    saveUserInput: (e) => {
+    saveUserInput: e => {
       dispatch(saveUserInput(e.target.value))
     },
     submitUserInput: () => {
