@@ -1,4 +1,4 @@
-import { format, getTime, parse, differenceInMilliseconds } from 'date-fns'
+import { format, parse, differenceInMilliseconds } from 'date-fns'
 import get from 'lodash/get'
 import find from 'lodash/find'
 import {
@@ -68,7 +68,6 @@ export function getMessageFromDialogflow(response) {
           return 'text'
       }
     }
-
     const rawResponses = get(response, 'queryResult.fulfillmentMessages', {})
     const responses = rawResponses.map(msg => {
       const type = mapMessageTypeToDescriptor(msg.message)
@@ -104,14 +103,11 @@ export function getMessageFromDialogflow(response) {
     }
 
     const systemTime = format(new Date(), sysTimeFormat)
-    const timestamp = getTime(new Date())
-
     const data = {
       entity: 'bot',
       loading: false,
       messageId: response.responseId,
       language: response.queryResult.languageCode,
-      timestamp,
       systemTime,
       providerResponse: response,
       responses,

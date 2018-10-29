@@ -52,13 +52,13 @@ export function createUserResponse(text) {
       text,
     }
     dispatch({ type: SAVE_USER_RESPONSE, response })
+    dispatch({ type: HIDE_BUTTON_BAR })
     dispatch(sendMessage(text))
   }
 }
 
 export function sendQuickReply(text) {
   return dispatch => {
-    dispatch({ type: HIDE_BUTTON_BAR })
     dispatch(createUserResponse(text))
   }
 }
