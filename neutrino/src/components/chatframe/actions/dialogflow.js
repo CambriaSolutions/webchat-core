@@ -76,10 +76,10 @@ export function getMessageFromDialogflow(response) {
         suggestions: get(msg, 'quickReplies.quickReplies', []),
         text: get(msg, 'text.text', null),
         card: {
-          title: get(msg, 'title', ''),
-          subtitle: get(msg, 'subtitle', ''),
-          imageUrl: get(msg, 'imageUrl', ''),
-          buttons: get(msg, 'buttons', []),
+          title: get(msg, 'card.title', ''),
+          subtitle: get(msg, 'card.subtitle', ''),
+          imageUrl: get(msg, 'card.imageUri', ''),
+          buttons: get(msg, 'card.buttons', []),
         },
         payload: get(msg, 'payload', {}),
       }
