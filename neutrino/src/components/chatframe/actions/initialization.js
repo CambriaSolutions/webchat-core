@@ -13,6 +13,7 @@ import {
   HIDE_WINDOW,
   FULLSCREEN,
   WINDOWED,
+  SET_CONVERSATION_STARTED,
 } from './actionTypes'
 
 import { sysTimeFormat } from '../config/dateFormats'
@@ -21,7 +22,14 @@ import { sendEvent } from './dialogflow'
 import defaultavatar from '../defaultavatar.png'
 
 export function showWindow() {
-  return { type: SHOW_WINDOW }
+  return (dispatch, getState) => {
+    const { conversationStarted } = getState().conversation
+    dispatch({ type: SHOW_WINDOW })
+    if (!conversationStarted) {
+      dispatch(sendEvent('Welcome'))
+      dispatch({ type: SET_CONVERSATION_STARTED })
+    }
+  }
 }
 export function hideWindow() {
   return { type: HIDE_WINDOW }
@@ -91,10 +99,11 @@ export function initialize(props) {
     dispatch({ type: SET_AVATAR, avatar: userAvatar })
     dispatch(setupClient(client, clientOptions))
     dispatch(startTimer())
-    dispatch(sendEvent('Welcome'))
 
     if (initialActive === true) {
+      dispatch(sendEvent('Welcome'))
       dispatch(showWindow())
+      dispatch({ type: SET_CONVERSATION_STARTED })
     } else {
       dispatch(hideWindow())
     }
