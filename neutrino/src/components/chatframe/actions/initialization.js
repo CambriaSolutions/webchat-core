@@ -1,60 +1,65 @@
 import {
+  parse,
+  format,
+  differenceInMinutes,
+  differenceInSeconds,
+} from 'date-fns'
+import {
   SET_TITLE,
   SET_AVATAR,
   TIMER_START,
   UPDATE_CURRENT_TIME,
-  CREATE_THEME,
   SHOW_WINDOW,
   HIDE_WINDOW,
   FULLSCREEN,
   WINDOWED,
 } from './actionTypes'
-import { createMuiTheme } from '@material-ui/core/styles'
+
+import { sysTimeFormat } from '../config/dateFormats'
 import { setupClient } from './conversation'
 import { sendEvent } from './dialogflow'
-import * as colors from '@material-ui/core/colors'
-import isHexColor from 'validator/lib/isHexColor';
+import defaultavatar from '../defaultavatar.png'
 
-export function initialize(props) {
+export function showWindow() {
+  return { type: SHOW_WINDOW }
+}
+export function hideWindow() {
+  return { type: HIDE_WINDOW }
+}
+export function showFullscreen() {
+  return { type: FULLSCREEN }
+}
+export function showWindowed() {
+  return { type: WINDOWED }
+}
+
+function updateIdleTime() {
   return (dispatch, getState) => {
-    const {
-      title,
-      avatar,
-      client,
-      clientOptions,
-      token,
-      primaryColor,
-      secondaryColor,
-      initialActive,
-      fullscreen,
-    } = props
-    dispatch({ type: SET_TITLE, title })
-    dispatch({ type: SET_AVATAR, avatar })
-    dispatch(setupClient(client, clientOptions))
-    dispatch(startTimer())
-    dispatch(sendEvent('Welcome'))
-
-    if (primaryColor || secondaryColor) {
-      dispatch(createTheme(primaryColor, secondaryColor))
+    const { lastUpdateTime } = getState().conversation
+    const now = new Date()
+    const lastUpdate = parse(
+      lastUpdateTime,
+      sysTimeFormat,
+      new Date(lastUpdateTime),
+    )
+    const diffMinutes = differenceInMinutes(now, lastUpdate)
+    const diffSeconds = differenceInSeconds(now, lastUpdate)
+    let headerTime = 'Now'
+    if (diffMinutes >= 1) {
+      headerTime = `${diffMinutes} min ago`
+    } else if (diffSeconds >= 9) {
+      headerTime = `${diffSeconds} sec ago`
     }
 
-    if (initialActive === true) {
-      dispatch(showWindow())
-    } else {
-      dispatch(hideWindow())
-    }
+    const currentTime = format(now, sysTimeFormat)
 
-    if (fullscreen === true) {
-      dispatch(showFullscreen())
-    } else {
-      dispatch(showWindowed())
-    }
+    dispatch({ type: UPDATE_CURRENT_TIME, headerTime, currentTime })
   }
 }
 
 export function startTimer() {
   return (dispatch, getState) => {
-    const timer = getState().conversation.timer
+    const { timer } = getState().conversation
     // If there's an existing timer, clear it
     if (timer) {
       clearInterval(timer)
@@ -68,66 +73,36 @@ export function startTimer() {
   }
 }
 
-function updateIdleTime() {
-  return { type: UPDATE_CURRENT_TIME }
-}
+export function initialize(props) {
+  return dispatch => {
+    const {
+      title,
+      avatar,
+      client,
+      clientOptions,
+      initialActive,
+      fullscreen,
+    } = props
+    let userAvatar = avatar
+    if (!userAvatar) {
+      userAvatar = defaultavatar
+    }
+    dispatch({ type: SET_TITLE, title })
+    dispatch({ type: SET_AVATAR, avatar: userAvatar })
+    dispatch(setupClient(client, clientOptions))
+    dispatch(startTimer())
+    dispatch(sendEvent('Welcome'))
 
-// Create a color theme to be used by the rest of the chat window. If the user
-// defines a color that isn't available, fall back to default colors and
-// warn user
-function createTheme(primaryColor = 'lightBlue', secondaryColor = 'pink') {
-  return (dispatch, getState) => {
-    let newTheme = {
-      palette: {
-        error: colors['red'],
-        // Used by `getContrastText()` to maximize the contrast between the background and
-        // the text.
-        contrastThreshold: 3,
-        // Used to shift a color's luminance by approximately
-        // two indexes within its tonal palette.
-        // E.g., shift from Red 500 to Red 300 or Red 700.
-        tonalOffset: 0.2,
-      },
-    }
-    if (isHexColor(primaryColor)) {
-      newTheme.palette.primary = {
-        main: primaryColor
-      }
-    }
-    else if (colors[primaryColor]) {
-      newTheme.palette.primary = colors[primaryColor]
+    if (initialActive === true) {
+      dispatch(showWindow())
     } else {
-      console.error(
-        `${primaryColor} is not a valid color. Use a color name from https://material.io/guidelines/style/color.html#color-color-palette`
-      )
+      dispatch(hideWindow())
     }
 
-    if (isHexColor(secondaryColor)) {
-      newTheme.palette.secondary = {
-        main: secondaryColor
-      }
-    }
-    else if (secondaryColor && colors[secondaryColor]) {
-      newTheme.palette.secondary = colors[secondaryColor]
+    if (fullscreen === true) {
+      dispatch(showFullscreen())
     } else {
-      console.error(
-        `${secondaryColor} is not a valid color. Use a color name from https://material.io/guidelines/style/color.html#color-color-palette`
-      )
+      dispatch(showWindowed())
     }
-    const theme = createMuiTheme(newTheme)
-    dispatch({ type: CREATE_THEME, theme })
   }
-}
-
-export function showWindow() {
-  return { type: SHOW_WINDOW }
-}
-export function hideWindow() {
-  return { type: HIDE_WINDOW }
-}
-export function showFullscreen() {
-  return { type: FULLSCREEN }
-}
-export function showWindowed() {
-  return { type: WINDOWED }
 }

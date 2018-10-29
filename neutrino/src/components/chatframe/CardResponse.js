@@ -30,24 +30,29 @@ const CardImage = styled(CardMedia)`
 class CardResponse extends PureComponent {
   render() {
     const { title, subtitle, imageUrl, buttons } = this.props.data
+
     return (
       <CardContainer>
         <CardImage image={encodeURI(imageUrl)} title="" />
         <CardContent>
-          <Typography gutterBottom variant="headline" component="h2">
+          <Typography gutterBottom variant="h6">
             {title}
           </Typography>
-          <Typography component="p">{subtitle}</Typography>
+          <Typography variant="body1">{subtitle}</Typography>
         </CardContent>
         <CardActions>
           {buttons.map((b, index) => {
+            const cardKey = `card-${index}${format(
+              new Date(),
+              sysTimeFormat,
+            )}`
             return (
               <Button
                 href={b.postback}
                 target="_blank"
                 size="small"
                 color="primary"
-                key={'card-' + index + format(new Date(), sysTimeFormat)}
+                key={cardKey}
               >
                 {b.text}
               </Button>
@@ -65,14 +70,11 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    saveUserInput: e => {},
-    submitUserInput: () => {},
-  }
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     saveUserInput: e => {},
+//     submitUserInput: () => {},
+//   }
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CardResponse)
+export default connect(mapStateToProps)(CardResponse)

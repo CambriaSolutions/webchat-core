@@ -15,26 +15,18 @@ const Btn = styled(Button)`
     right: 48px;
     pointer-events: auto;
     padding-top: 8px;
-    background: ${p => p.theme.palette.primary.main};
-    color: ${p =>
-      p.theme.palette.getContrastText(p.theme.palette.primary.main)};
-    &:hover {
-      background: ${p => p.theme.palette.primary.dark};
-      color: ${p =>
-        p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
-    }
   }
 `
 
 class ActivatorButton extends PureComponent {
   render() {
-    const { windowVisible, showWindow, theme } = this.props
+    const { windowVisible, showWindow } = this.props
     return (
       <Btn
+        color="primary"
         variant="fab"
         onClick={showWindow}
         active={windowVisible ? 0 : 1}
-        theme={theme}
       >
         <Chat />
       </Btn>
@@ -45,7 +37,6 @@ class ActivatorButton extends PureComponent {
 const mapStateToProps = state => {
   return {
     windowVisible: state.config.windowVisible,
-    theme: state.config.theme,
   }
 }
 
@@ -59,5 +50,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ActivatorButton)

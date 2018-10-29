@@ -1,28 +1,23 @@
 import React, { PureComponent } from 'react'
 import Paper from '@material-ui/core/Paper'
 import styled from 'styled-components'
-
+import { connect } from 'react-redux'
 import Zoom from '@material-ui/core/Zoom'
-// Components
 import Header from './Header'
 import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
 import ButtonBar from './ButtonBar'
 import ErrorBar from './ErrorBar'
-
-// Redux
-import { connect } from 'react-redux'
-
 import { media } from './styles/media'
 
 const OuterFrame = styled(Paper)`
   && {
     transform-origin: bottom right;
     pointer-events: auto;
-    width: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '65%')};
-    height: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '60%')};
-    max-width: ${p => (p.fullscreen ? '' : '700px')};
-    max-height: ${p => (p.fullscreen ? '' : '1000px')};
+    width: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '400px')};
+    height: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '600px')};
+    max-width: calc(100% - 96px);
+    max-height: calc(100% - 96px);
     background: none;
     display: flex;
     flex-flow: column nowrap;
@@ -67,11 +62,8 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {}
-}
+// const mapDispatchToProps = dispatch => {
+//   return {}
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChatContainer)
+export default connect(mapStateToProps)(ChatContainer)

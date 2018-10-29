@@ -1,3 +1,6 @@
+import { format, parse, differenceInMilliseconds } from 'date-fns'
+import get from 'lodash/get'
+import find from 'lodash/find'
 import {
   SAVE_CLIENT,
   SAVE_RESPONSE,
@@ -8,9 +11,6 @@ import {
   CLEAR_ERROR,
   RECEIVE_WEBHOOK_DATA,
 } from './actionTypes'
-import get from 'lodash/get'
-import find from 'lodash/find'
-import { format, getTime } from 'date-fns'
 
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
@@ -18,16 +18,108 @@ import { sysTimeFormat } from '../config/dateFormats'
 import { Client } from '../conversationClient'
 
 export function setupDialogflow(clientOptions) {
-  return (dispatch, getState) => {
+  return dispatch => {
     const client = new Client(clientOptions)
     const clientName = 'dialogflow'
     dispatch({ type: SAVE_CLIENT, client, clientName })
   }
 }
 
+export function saveResponse(data) {
+  return (dispatch, getState) => {
+    const { messages } = getState().conversation
+    const hasSuggestion = find(data.responses, ['type', 'suggestion'])
+    if (hasSuggestion) {
+      dispatch({ type: SHOW_BUTTON_BAR })
+    } else {
+      dispatch({ type: HIDE_BUTTON_BAR })
+    }
+
+    const newConversationArray = messages
+      .map(msg => {
+        return msg.loading ? data : msg
+      })
+      .sort((a, b) => {
+        const dateA = parse(a.systemTime, sysTimeFormat, new Date(a.systemTime))
+        const dateB = parse(b.systemTime, sysTimeFormat, new Date(b.systemTime))
+        const diff = differenceInMilliseconds(dateA, dateB)
+        return diff
+      })
+
+    dispatch({ type: SAVE_RESPONSE, newConversationArray })
+  }
+}
+
+export function getMessageFromDialogflow(response) {
+  return dispatch => {
+    function mapMessageTypeToDescriptor(type) {
+      switch (type) {
+        case 'text':
+          return 'text'
+        case 'card':
+          return 'card'
+        case 'quickReplies':
+          return 'suggestion'
+        case 'image':
+          return 'image'
+        case 4:
+          return 'payload'
+        default:
+          return 'text'
+      }
+    }
+    const rawResponses = get(response, 'queryResult.fulfillmentMessages', {})
+    const responses = rawResponses.map(msg => {
+      const type = mapMessageTypeToDescriptor(msg.message)
+      return {
+        type,
+        suggestions: get(msg, 'quickReplies.quickReplies', []),
+        text: get(msg, 'text.text', null),
+        card: {
+          title: get(msg, 'card.title', ''),
+          subtitle: get(msg, 'card.subtitle', ''),
+          imageUrl: get(msg, 'card.imageUri', ''),
+          buttons: get(msg, 'card.buttons', []),
+        },
+        payload: get(msg, 'payload', {}),
+      }
+    })
+
+    const webhookPayload = get(
+      response,
+      'queryResult.webhookPayload.fields',
+      null,
+    )
+
+    // If there is a webhookPayload, parse it to avoid nesting and stringified JSON
+    if (webhookPayload) {
+      for (const [field, data] of Object.entries(webhookPayload)) {
+        if (data.kind === 'stringValue') {
+          webhookPayload[field] = JSON.parse(data.stringValue)
+        }
+      }
+
+      dispatch({ type: RECEIVE_WEBHOOK_DATA, webhookPayload })
+    }
+
+    const systemTime = format(new Date(), sysTimeFormat)
+    const data = {
+      entity: 'bot',
+      loading: false,
+      messageId: response.responseId,
+      language: response.queryResult.languageCode,
+      systemTime,
+      providerResponse: response,
+      responses,
+    }
+
+    dispatch(saveResponse(data))
+  }
+}
+
 export function sendMessageWithDialogflow(message) {
   return (dispatch, getState) => {
-    const client = getState().conversation.client
+    const { client } = getState().conversation
     dispatch({ type: INITIATE_LOADING })
     client
       .textRequest(message)
@@ -54,7 +146,7 @@ export function sendMessageWithDialogflow(message) {
 
 export function sendEvent(event) {
   return (dispatch, getState) => {
-    const client = getState().conversation.client
+    const { client } = getState().conversation
     dispatch({ type: INITIATE_LOADING })
     client
       .eventRequest(event)
@@ -76,91 +168,5 @@ export function sendEvent(event) {
         })
         throw new Error(error)
       })
-  }
-}
-
-export function getMessageFromDialogflow(response) {
-  return (dispatch, getState) => {
-    const rawResponses = get(response, 'queryResult.fulfillmentMessages', {})
-    const responses = rawResponses.map(msg => {
-      const type = mapMessageTypeToDescriptor(msg.message)
-      return {
-        type: type,
-        suggestions: get(msg, 'quickReplies.quickReplies', []),
-        text: get(msg, 'text.text', null),
-        card: {
-          title: get(msg, 'card.title', ''),
-          subtitle: get(msg, 'card.subtitle', ''),
-          imageUrl: get(msg, 'card.imageUri', ''),
-          buttons: get(msg, 'card.buttons', []),
-        },
-        payload: get(msg, 'payload', {}),
-      }
-    })
-
-    const webhookPayload = get(
-      response,
-      'queryResult.webhookPayload.fields',
-      null
-    )
-
-    // If there is a webhookPayload, parse it to avoid nesting and stringified JSON
-    if (webhookPayload) {
-      for (let [field, data] of Object.entries(webhookPayload)) {
-        if (data.kind === 'stringValue') {
-          webhookPayload[field] = JSON.parse(data.stringValue)
-        }
-      }
-
-      dispatch({ type: RECEIVE_WEBHOOK_DATA, webhookPayload })
-    }
-
-    const systemTime = format(new Date(), sysTimeFormat)
-    const timestamp = getTime(new Date())
-
-    const data = {
-      entity: 'bot',
-      loading: false,
-      messageId: response.responseId,
-      language: response.queryResult.languageCode,
-      timestamp: timestamp,
-      systemTime: systemTime,
-      providerResponse: response,
-      responses: responses,
-    }
-
-    dispatch(saveResponse(data))
-  }
-}
-
-export function saveResponse(data) {
-  return (dispatch, getState) => {
-    const hasSuggestion = find(data.responses, ['type', 'suggestion'])
-      ? true
-      : false
-    if (hasSuggestion) {
-      dispatch({ type: SHOW_BUTTON_BAR })
-    } else {
-      dispatch({ type: HIDE_BUTTON_BAR })
-    }
-
-    dispatch({ type: SAVE_RESPONSE, data })
-  }
-}
-
-function mapMessageTypeToDescriptor(type) {
-  switch (type) {
-    case 'text':
-      return 'text'
-    case 'card':
-      return 'card'
-    case 'quickReplies':
-      return 'suggestion'
-    case 'image':
-      return 'image'
-    case 4:
-      return 'payload'
-    default:
-      return 'text'
   }
 }

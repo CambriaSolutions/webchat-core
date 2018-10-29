@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Send from '@material-ui/icons/Send'
 import styled from 'styled-components'
+import Input from '@material-ui/core/Input'
+import IconButton from '@material-ui/core/IconButton'
 
 // Redux
 import { saveUserInput, submitUserInput } from './actions/userInput'
@@ -16,29 +18,14 @@ const OuterFrame = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, 0.23);
-`
-const SendButton = styled.div`
-  flex: 0;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  color: ${p => p.theme.palette.primary.dark};
-  padding: 0 16px;
-  cursor: pointer;
-  &:hover {
-    color: ${p => p.theme.palette.primary.dark};
-  }
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  z-index: 4;
 `
 
-const TextInput = styled.input`
-  width: 100%;
-  height: 100%;
-  font-size: 16px;
-  line-height: 16px;
-  outline: none;
-  border: none;
-  padding: 0 16px;
+const TextInput = styled(Input)`
+  && {
+    padding: 0 16px;
+  }
 `
 
 class UserInput extends PureComponent {
@@ -55,19 +42,24 @@ class UserInput extends PureComponent {
   }
 
   render() {
-    const { saveUserInput, inputValue, theme } = this.props
+    const { saveUserInput, inputValue } = this.props
     return (
       <OuterFrame>
         <TextInput
-          type="text"
+          fullWidth
+          disableUnderline
           placeholder="Send a message"
           onChange={saveUserInput}
           value={inputValue}
           onKeyPress={this.handleKeyPress}
         />
-        <SendButton onClick={this.props.submitUserInput} theme={theme}>
+        <IconButton
+          onClick={this.props.submitUserInput}
+          aria-label="Send"
+          color="primary"
+        >
           <Send />
-        </SendButton>
+        </IconButton>
       </OuterFrame>
     )
   }
@@ -76,7 +68,6 @@ class UserInput extends PureComponent {
 const mapStateToProps = state => {
   return {
     inputValue: state.userInput,
-    theme: state.config.theme,
   }
 }
 
@@ -93,5 +84,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UserInput)

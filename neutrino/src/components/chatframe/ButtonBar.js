@@ -2,74 +2,61 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button'
-import { fade } from '@material-ui/core/styles/colorManipulator'
 import findLast from 'lodash/findLast'
 import find from 'lodash/find'
+import grey from '@material-ui/core/colors/grey'
 import { sendQuickReply } from './actions/conversation'
 
 const Container = styled.div`
-  width: 100%;
+  width: calc(100% - 20px);
   flex: 1 0 auto;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   align-items: center;
   align-content: center;
-  padding: ${p => (p.visible ? '8px 8px' : '0 8px')};
-  background: ${p => p.theme.palette.grey[100]};
+  padding: ${p => (p.visible ? '4px 4px 16px 16px' : '0 16px')};
+  background: ${grey[400]};
+  border-top: ${p => (p.visible ? '1px solid rgba(0, 0, 0, 0.35)' : 'none')};
 `
 
 const Btn = styled(Button)`
   && {
-    border-color: ${p => p.theme.palette.secondary.main};
-    color: ${p => p.theme.palette.secondary.main};
-    margin: 8px;
+    margin-right: 12px;
+    margin-top: 12px;
     display: ${p => (p.visible === 'true' ? 'block' : 'none')};
-    &:hover {
-      /* background: ${p => p.theme.palette.secondary.dark}; */
-      background-color: ${p =>
-        fade(
-          p.theme.palette.secondary.main,
-          p.theme.palette.action.hoverOpacity
-        )};
-
-    border-color: ${p => p.theme.palette.secondary.main};
-    }
   }
 `
 
 class ButtonBar extends PureComponent {
   render() {
-    const { visible, messages, sendQuickReply, theme } = this.props
+    const { visible, messages, sendQuickReply } = this.props
     const lastMessageWithSuggestions = findLast(messages, m => {
       const hasSuggestions = find(m.responses, ['type', 'suggestion'])
-        ? true
-        : false
       return hasSuggestions
     })
 
-    let suggestionElements = []
+    const suggestionElements = []
     if (lastMessageWithSuggestions) {
       const messages = lastMessageWithSuggestions.responses.filter(m => {
         return m.type === 'suggestion'
       })
-      for (let message of messages) {
-        for (let suggestion of message.suggestions) {
+      for (const message of messages) {
+        for (const suggestion of message.suggestions) {
           suggestionElements.push({
             label: suggestion,
             id: lastMessageWithSuggestions.messageId,
-            visible: visible,
+            visible,
           })
         }
       }
     }
 
     return (
-      <Container visible={visible} theme={theme}>
+      <Container visible={visible}>
         {suggestionElements.map((btn, index) => (
           <Btn
             size="small"
-            theme={theme}
             variant="outlined"
             color="secondary"
             key={`${btn.id}-btn${index}`}
@@ -88,7 +75,6 @@ const mapStateToProps = state => {
   return {
     visible: state.buttonBar.visible,
     messages: state.conversation.messages,
-    theme: state.config.theme,
   }
 }
 
@@ -102,5 +88,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ButtonBar)
