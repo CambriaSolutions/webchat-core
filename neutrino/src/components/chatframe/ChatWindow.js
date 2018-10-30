@@ -2,6 +2,12 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import filter from 'lodash/filter'
+import {
+  CellMeasurer,
+  CellMeasurerCache,
+  List,
+  AutoSizer,
+} from 'react-virtualized'
 import grey from '@material-ui/core/colors/grey'
 import {
   parse,
@@ -13,25 +19,10 @@ import Message from './Message'
 import CardResponse from './CardResponse'
 import { sysTimeFormat } from './config/dateFormats'
 
-const Container = styled.div`
-  position: relative;
-  padding: 0 16px 16px 16px;
-  overflow-y: auto;
-  height: 100%;
+const ContentWrapper = styled.div`
   background: ${grey[200]};
-  display: flex;
-  flex-direction: column-reverse;
   z-index: 4;
-`
-
-const MessagesContainer = styled.div`
-  flex: 1 0 auto;
-  min-height: min-content;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-end;
-  min-height: 100%;
-  height: auto;
+  grid-area: chatwindow;
 `
 
 function buildUserMessages(messages) {
@@ -140,17 +131,31 @@ function buildBotMessages(messages) {
 class ChatWindow extends PureComponent {
   constructor(props) {
     super(props)
-    this.chatWindowRef = React.createRef()
+    this.ListRef = React.createRef()
+    this.WrapperRef = React.createRef()
+    this.cache = new CellMeasurerCache({
+      defaultHeight: 150,
+      fixedWidth: true,
+    })
+    this.messageElements = []
   }
   componentDidUpdate() {
-    const chatWindowNode = this.chatWindowRef.current
-    chatWindowNode.scrollTop = chatWindowNode.scrollHeight
+    this.cache.clearAll()
+    if (this.ListRef.current) {
+      this.ListRef.current.recomputeRowHeights()
+    }
+    // this.ListRef.current.scrollToRow(this.props.messages.length)
+    // this.ListRef.current.forceUpdateGrid()
   }
-  render() {
+  onResize = () => {
+    this.ListRef.current.scrollToRow(this.props.messages.length)
+  }
+  rowRenderer = ({ index, key, parent, style }) => {
     const { messages } = this.props
     const botMessages = buildBotMessages(messages)
     const userMessages = buildUserMessages(messages)
     const messageElements = [...botMessages, ...userMessages]
+
     // Sort all messages by systemTime
     messageElements.sort((a, b) => {
       const dateA = parse(a.systemTime, sysTimeFormat, new Date(a.systemTime))
@@ -158,11 +163,44 @@ class ChatWindow extends PureComponent {
       const diff = differenceInMilliseconds(dateA, dateB)
       return diff
     })
-    const elements = messageElements.map(m => m.element)
+    this.messageElements = messageElements.map(m => m.element)
     return (
-      <Container ref={this.chatWindowRef} elevation={1} square>
-        <MessagesContainer>{elements}</MessagesContainer>
-      </Container>
+      <CellMeasurer
+        cache={this.cache}
+        key={key}
+        parent={parent}
+        rowIndex={index}
+      >
+        <div style={style}>{messageElements[index].element}</div>
+      </CellMeasurer>
+    )
+  }
+
+  render() {
+    return (
+      <ContentWrapper elevation={1} square ref={this.WrapperRef}>
+        <AutoSizer onResize={this.onResize}>
+          {({ height, width }) => (
+            <List
+              messages={this.props.messages}
+              style={{
+                outline: 'none',
+                padding: '0 16px 0 16px',
+              }}
+              ref={this.ListRef}
+              height={height}
+              width={width}
+              rowCount={this.props.messages.length}
+              deferredMeasurementCache={this.cache}
+              rowHeight={this.cache.rowHeight}
+              rowRenderer={this.rowRenderer}
+              onScroll={this.onScroll}
+              scrollToIndex={this.props.messages.length}
+              scrollToAlignment="end"
+            />
+          )}
+        </AutoSizer>
+      </ContentWrapper>
     )
   }
 }
@@ -170,6 +208,8 @@ class ChatWindow extends PureComponent {
 const mapStateToProps = state => {
   return {
     messages: state.conversation.messages,
+    buttonBarVisible: state.buttonBar.visible,
+    error: state.error,
   }
 }
 

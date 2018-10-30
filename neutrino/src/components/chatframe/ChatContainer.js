@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import Zoom from '@material-ui/core/Zoom'
+import grey from '@material-ui/core/colors/grey'
 import Header from './Header'
 import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
@@ -16,15 +17,19 @@ const OuterFrame = styled(Paper)`
     pointer-events: auto;
     width: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '400px')};
     height: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '600px')};
-    max-width: calc(100% - 96px);
-    max-height: calc(100% - 96px);
-    background: none;
-    display: flex;
-    flex-flow: column nowrap;
-    overflow: hidden;
+    background: ${grey[200]};
     position: absolute;
     bottom: 48px;
     right: 48px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 48px 1fr auto 0px 48px;
+    grid-template-areas:
+      'header'
+      'chatwindow'
+      'buttonbar'
+      'errorbar'
+      'userinput';
 
     ${media.phone`
       width: calc(100% - 48px);

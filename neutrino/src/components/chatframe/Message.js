@@ -12,14 +12,14 @@ import Loading from './Loading'
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  margin-top: 24px;
-  min-height: 32px;
+  margin: 16px 0;
+  height: min-content;
   align-items: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
 `
 
 const ChatBubble = styled.div`
   width: 100%;
-  height: 100%;
+  height: min-content;
   display: flex;
   flex-flow: row nowrap;
   justify-content: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};

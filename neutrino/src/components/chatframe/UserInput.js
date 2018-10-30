@@ -9,11 +9,8 @@ import IconButton from '@material-ui/core/IconButton'
 import { saveUserInput, submitUserInput } from './actions/userInput'
 
 const OuterFrame = styled.div`
+  grid-area: userinput;
   background: #fff;
-  flex: 1 0 48px;
-  max-height: 48px;
-  width: 100%;
-  position: relative;
   z-index: 1;
   display: flex;
   flex-flow: row nowrap;

@@ -8,16 +8,16 @@ import grey from '@material-ui/core/colors/grey'
 import { sendQuickReply } from './actions/conversation'
 
 const Container = styled.div`
-  width: calc(100% - 20px);
-  flex: 1 0 auto;
+  grid-area: buttonbar;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-  align-items: center;
-  align-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
   padding: ${p => (p.visible ? '4px 4px 16px 16px' : '0 16px')};
   background: ${grey[400]};
   border-top: ${p => (p.visible ? '1px solid rgba(0, 0, 0, 0.35)' : 'none')};
+  overflow-y: auto;
 `
 
 const Btn = styled(Button)`

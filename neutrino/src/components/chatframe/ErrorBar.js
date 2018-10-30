@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import red from '@material-ui/core/colors/red'
 
 const Container = styled.div`
-  width: 100%;
+  grid-area: errorbar;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;

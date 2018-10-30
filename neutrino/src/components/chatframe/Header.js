@@ -22,8 +22,8 @@ const Container = styled(Paper)`
     align-items: center;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    position: relative;
     z-index: 1;
+    grid-area: header;
   }
 `
 
