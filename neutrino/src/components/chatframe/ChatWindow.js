@@ -144,8 +144,8 @@ class ChatWindow extends PureComponent {
     if (this.ListRef.current) {
       this.ListRef.current.recomputeRowHeights()
     }
-    // this.ListRef.current.scrollToRow(this.props.messages.length)
-    // this.ListRef.current.forceUpdateGrid()
+    this.ListRef.current.scrollToRow(this.props.messages.length)
+    this.ListRef.current.forceUpdateGrid()
   }
   onResize = () => {
     this.ListRef.current.scrollToRow(this.props.messages.length)
