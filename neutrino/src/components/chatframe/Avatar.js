@@ -24,8 +24,8 @@ const Container = styled(Paper)`
 
 class Avatar extends PureComponent {
   render() {
-    const { entity, avatar } = this.props
-    return <Container entity={entity} avatar={avatar} />
+    const { avatar } = this.props
+    return <Container avatar={avatar} />
   }
 }
 

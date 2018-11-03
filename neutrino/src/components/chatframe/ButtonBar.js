@@ -15,8 +15,8 @@ const Container = styled.div`
   align-items: flex-start;
   align-content: flex-start;
   padding: ${p => (p.visible ? '4px 4px 16px 16px' : '0 16px')};
-  background: ${grey[400]};
-  border-top: ${p => (p.visible ? '1px solid rgba(0, 0, 0, 0.35)' : 'none')};
+  background: ${grey[300]};
+  border-top: ${p => (p.visible ? '1px solid rgba(0, 0, 0, 0.2)' : 'none')};
   overflow-y: auto;
 `
 

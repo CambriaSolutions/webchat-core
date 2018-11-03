@@ -10,13 +10,15 @@ import { saveUserInput, submitUserInput } from './actions/userInput'
 
 const OuterFrame = styled.div`
   grid-area: userinput;
-  background: #fff;
+  background: #fefefe;
   z-index: 1;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 4;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 `
 
 const TextInput = styled(Input)`

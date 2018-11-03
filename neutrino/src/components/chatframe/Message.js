@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { parse, differenceInMinutes, differenceInSeconds } from 'date-fns'
-import Paper from '@material-ui/core/Paper'
 import grey from '@material-ui/core/colors/grey'
 import Typography from '@material-ui/core/Typography'
+import { withTheme } from '@material-ui/core/styles'
 import { sysTimeFormat } from './config/dateFormats'
-import Avatar from './Avatar'
 import Loading from './Loading'
 
 const Container = styled.div`
@@ -25,21 +24,27 @@ const ChatBubble = styled.div`
   justify-content: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
 `
 
-const ExternalMessage = styled(Paper)`
+const ExternalMessage = styled.div`
   && {
-    background: #fff;
-    border-radius: 3px;
+    background: ${grey[400]};
+    border-top-right-radius: 10px;
+    border-top-left-radius: 1px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
     padding: 12px;
-    color: ${grey[900]};
   }
 `
 
-const UserMessage = styled(Paper)`
+const UserMessage = styled.div`
   && {
-    background-color: ${grey[400]};
-    border-radius: 3px;
+    background-color: ${p => p.theme.palette.primary.main};
+    color: ${p =>
+      p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+    border-top-left-radius: 10px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
     padding: 12px;
-    color: ${grey[900]};
   }
 `
 
@@ -47,7 +52,7 @@ const Timestamp = styled(Typography)`
   && {
     color: ${grey[500]};
     margin-top: 8px;
-    padding-left: 62px;
+    padding-left: 12px;
     padding-right: 2px;
   }
 `
@@ -57,10 +62,10 @@ class Message extends PureComponent {
     const {
       message,
       entity,
-      avatar,
       isLoading,
       timestamp,
       currentTime,
+      theme,
     } = this.props
 
     const now = parse(currentTime, sysTimeFormat, new Date(currentTime))
@@ -78,7 +83,7 @@ class Message extends PureComponent {
 
     const chatMessage =
       entity === 'user' ? (
-        <UserMessage elevation={1}>
+        <UserMessage elevation={1} theme={theme}>
           <Typography variant="body1">{message}</Typography>
         </UserMessage>
       ) : (
@@ -92,10 +97,7 @@ class Message extends PureComponent {
       )
     return (
       <Container entity={entity}>
-        <ChatBubble entity={entity}>
-          <Avatar entity={entity} avatar={avatar} />
-          {chatMessage}
-        </ChatBubble>
+        <ChatBubble entity={entity}>{chatMessage}</ChatBubble>
         <Timestamp variant="caption">{formattedTimestamp}</Timestamp>
       </Container>
     )
@@ -104,7 +106,6 @@ class Message extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    avatar: state.config.avatar,
     currentTime: state.conversation.currentTime,
   }
 }
@@ -113,4 +114,4 @@ const mapStateToProps = state => {
 //   return {}
 // }
 
-export default connect(mapStateToProps)(Message)
+export default withTheme()(connect(mapStateToProps)(Message))

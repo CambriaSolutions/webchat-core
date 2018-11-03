@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { withTheme } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Fullscreen from '@material-ui/icons/Fullscreen'
 import FullscreenExit from '@material-ui/icons/FullscreenExit'
+import Avatar from '@material-ui/core/Avatar'
+import IconButton from '@material-ui/core/IconButton'
 import Close from '@material-ui/icons/Close'
+import grey from '@material-ui/core/colors/grey'
 import styled from 'styled-components'
 import {
   hideWindow,
@@ -13,15 +15,39 @@ import {
   showWindowed,
 } from './actions/initialization'
 
-const Container = styled(Paper)`
+const BotAvatar = styled(Avatar)`
   && {
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    margin-right: 16px;
+  }
+`
+
+const Carat = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 26px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid ${grey[100]};
+`
+
+const Container = styled.div`
+  && {
+    position: relative;
     background: ${p => p.theme.palette.primary.dark};
     padding: 16px;
+    height: 32px;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
     z-index: 1;
     grid-area: header;
   }
@@ -29,21 +55,27 @@ const Container = styled(Paper)`
 
 const HeaderText = styled(Typography)`
   && {
+    font-family: 'Product Sans';
+    font-weight: 400;
+    height: 32px;
+    font-size: 18px;
+    line-height: 32px;
     flex: 1;
-    line-height: 20px;
     color: ${p =>
       p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
   }
 `
 
-const HeaderButton = styled.div`
-  flex: 0;
-  cursor: pointer;
-  height: 28px;
-  color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
-  padding: 2px;
-  &:hover {
-    background: rgba(255, 255, 255, 0.24);
+const HeaderButton = styled(IconButton)`
+  && {
+    padding: 6px;
+    flex: 0;
+    cursor: pointer;
+    color: ${p =>
+      p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
   }
 `
 
@@ -56,24 +88,35 @@ class Header extends PureComponent {
       showWindowed,
       showFullscreen,
       fullscreen,
+      avatar,
     } = this.props
     return (
-      <Container elevation={3} theme={theme}>
-        <HeaderText theme={theme} variant="body1">
+      <Container theme={theme}>
+        <Carat />
+        <BotAvatar alt={title} src={avatar} />
+        <HeaderText theme={theme} variant="h6">
           {title}
         </HeaderText>
 
         {fullscreen ? (
-          <HeaderButton theme={theme} onClick={showWindowed}>
-            <FullscreenExit />
+          <HeaderButton
+            theme={theme}
+            onClick={showWindowed}
+            aria-label="Windowed"
+          >
+            <FullscreenExit fontSize="small" />
           </HeaderButton>
         ) : (
-          <HeaderButton theme={theme} onClick={showFullscreen}>
-            <Fullscreen />
+          <HeaderButton
+            theme={theme}
+            onClick={showFullscreen}
+            aria-label="Fullscreen"
+          >
+            <Fullscreen fontSize="small" />
           </HeaderButton>
         )}
-        <HeaderButton theme={theme} onClick={hideWindow}>
-          <Close />
+        <HeaderButton theme={theme} onClick={hideWindow} aria-label="Close">
+          <Close fontSize="small" />
         </HeaderButton>
       </Container>
     )
@@ -84,6 +127,7 @@ const mapStateToProps = state => {
   return {
     title: state.config.title,
     fullscreen: state.config.fullscreen,
+    avatar: state.config.avatar,
   }
 }
 

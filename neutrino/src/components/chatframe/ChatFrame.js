@@ -13,7 +13,7 @@ import { initialize } from './actions/initialization'
 
 WebFont.load({
   google: {
-    families: ['Roboto:300,400,500'],
+    families: ['Roboto:300,400,500', 'Product Sans:400'],
   },
 })
 

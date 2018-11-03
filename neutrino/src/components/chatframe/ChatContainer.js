@@ -17,13 +17,13 @@ const OuterFrame = styled(Paper)`
     pointer-events: auto;
     width: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '400px')};
     height: ${p => (p.fullscreen ? 'calc(100% - 96px)' : '600px')};
-    background: ${grey[200]};
+    background: ${grey[100]};
     position: absolute;
     bottom: 48px;
     right: 48px;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 48px 1fr auto 0px 48px;
+    grid-template-rows: 64px 1fr auto 0px 48px;
     grid-template-areas:
       'header'
       'chatwindow'
@@ -48,7 +48,7 @@ class ChatContainer extends PureComponent {
     const { windowVisible, fullscreen } = this.props
     return (
       <Zoom in={windowVisible}>
-        <OuterFrame elevation={6} fullscreen={fullscreen ? 1 : 0}>
+        <OuterFrame elevation={4} fullscreen={fullscreen ? 1 : 0}>
           <Header />
           <ChatWindow />
           <ButtonBar />

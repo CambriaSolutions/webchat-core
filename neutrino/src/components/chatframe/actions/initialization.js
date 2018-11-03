@@ -18,7 +18,7 @@ import {
 import { sysTimeFormat } from '../config/dateFormats'
 import { setupClient } from './conversation'
 import { sendEvent } from './dialogflow'
-import defaultavatar from '../defaultavatar.png'
+import femaleavatar from '../femaleavatar.svg'
 
 export function showWindow() {
   return { type: SHOW_WINDOW }
@@ -85,7 +85,7 @@ export function initialize(props) {
     } = props
     let userAvatar = avatar
     if (!userAvatar) {
-      userAvatar = defaultavatar
+      userAvatar = femaleavatar
     }
     dispatch({ type: SET_TITLE, title })
     dispatch({ type: SET_AVATAR, avatar: userAvatar })
