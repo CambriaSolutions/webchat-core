@@ -27,7 +27,7 @@ const BotAvatar = styled(Avatar)`
 const Carat = styled.div`
   position: absolute;
   bottom: 0;
-  left: 26px;
+  left: 28px;
   width: 0;
   height: 0;
   border-left: 5px solid transparent;

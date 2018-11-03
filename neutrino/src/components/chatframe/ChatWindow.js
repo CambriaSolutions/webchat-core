@@ -10,6 +10,8 @@ import {
   AutoSizer,
 } from 'react-virtualized'
 import grey from '@material-ui/core/colors/grey'
+import { parse, differenceInMilliseconds } from 'date-fns'
+import { sysTimeFormat } from './config/dateFormats'
 import Message from './Message'
 import CardResponse from './CardResponse'
 
@@ -159,6 +161,21 @@ class ChatWindow extends PureComponent {
       } else {
         msgElements.push(buildBotTextMessage({ text: 'Something went wrong.' }))
       }
+    })
+
+    msgElements.sort((a, b) => {
+      const dateA = parse(
+        a.props.timestamp,
+        sysTimeFormat,
+        new Date(a.props.timestamp),
+      )
+      const dateB = parse(
+        b.props.timestamp,
+        sysTimeFormat,
+        new Date(b.props.timestamp),
+      )
+      const diff = differenceInMilliseconds(dateA, dateB)
+      return diff
     })
 
     this.messageElements = msgElements
