@@ -118,6 +118,7 @@ describe('dialogflow actions', () => {
     const storedActions = store.getActions()
     expect(storedActions[0].response.text).toEqual('text')
     expect(storedActions[0].type).toEqual('SAVE_USER_RESPONSE')
-    expect(storedActions[1].type).toEqual('INITIATE_LOADING')
+    expect(storedActions[1].type).toEqual('HIDE_BUTTON_BAR')
+    expect(storedActions[2].type).toEqual('INITIATE_LOADING')
   })
 })

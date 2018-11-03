@@ -26,13 +26,13 @@ const BotAvatar = styled(Avatar)`
 
 const Carat = styled.div`
   position: absolute;
-  bottom: 0;
-  left: 28px;
+  bottom: -1px;
+  left: 27px;
   width: 0;
   height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid ${grey[100]};
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid ${grey[100]};
 `
 
 const Container = styled.div`

@@ -29,7 +29,14 @@ module.exports = {
         },
       },
     ],
-    '@neutrinojs/react-components',
+    [
+      '@neutrinojs/react-components',
+      {
+        html: {
+          appMountId: 'cambria-chatframe',
+        },
+      },
+    ],
     '@neutrinojs/jest',
   ],
 }

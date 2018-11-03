@@ -8,7 +8,8 @@ const options = {
   textUrl: 'https://us-central1-dhcs-demo-chat.cloudfunctions.net/textRequest',
   // apiKey: 'XwsfZ0JoM214avhOcgqDZ3S50stTX94l8pnZJNxN',
 }
-const root = document.getElementById('root')
+
+const root = document.getElementById('cambria-chatframe')
 
 render(
   <ChatWindow
