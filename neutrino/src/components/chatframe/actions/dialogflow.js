@@ -34,19 +34,30 @@ export function saveResponse(data) {
     } else {
       dispatch({ type: HIDE_BUTTON_BAR })
     }
+    if (messages.length === 0) {
+      dispatch({ type: SAVE_RESPONSE, newConversationArray: [data] })
+    } else {
+      const newConversationArray = messages
+        .map(msg => {
+          return msg.loading ? data : msg
+        })
+        .sort((a, b) => {
+          const dateA = parse(
+            a.systemTime,
+            sysTimeFormat,
+            new Date(a.systemTime),
+          )
+          const dateB = parse(
+            b.systemTime,
+            sysTimeFormat,
+            new Date(b.systemTime),
+          )
+          const diff = differenceInMilliseconds(dateA, dateB)
+          return diff
+        })
 
-    const newConversationArray = messages
-      .map(msg => {
-        return msg.loading ? data : msg
-      })
-      .sort((a, b) => {
-        const dateA = parse(a.systemTime, sysTimeFormat, new Date(a.systemTime))
-        const dateB = parse(b.systemTime, sysTimeFormat, new Date(b.systemTime))
-        const diff = differenceInMilliseconds(dateA, dateB)
-        return diff
-      })
-
-    dispatch({ type: SAVE_RESPONSE, newConversationArray })
+      dispatch({ type: SAVE_RESPONSE, newConversationArray })
+    }
   }
 }
 
@@ -68,7 +79,7 @@ export function getMessageFromDialogflow(response) {
           return 'text'
       }
     }
-    const rawResponses = get(response, 'queryResult.fulfillmentMessages', {})
+    const rawResponses = get(response, 'queryResult.fulfillmentMessages', [])
     const responses = rawResponses.map(msg => {
       const type = mapMessageTypeToDescriptor(msg.message)
       return {
