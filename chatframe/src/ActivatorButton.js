@@ -25,7 +25,6 @@ const Btn = styled(Button)`
     }
   }
 `
-
 class ActivatorButton extends PureComponent {
   render() {
     const { windowVisible, showWindow, theme } = this.props

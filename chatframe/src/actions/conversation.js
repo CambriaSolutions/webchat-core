@@ -11,7 +11,7 @@ import { sysTimeFormat } from '../config/dateFormats'
 export function setupClient(client, clientOptions) {
   return (dispatch, getState) => {
     if (!client) {
-      throw new Error('No coversation provider selected.')
+      throw new Error('No conversation provider selected.')
     }
 
     // Setup Dialogflow
