@@ -1,0 +1,37 @@
+{
+  "name": "@cambriasolutions/chatframe",
+  "version": "1.6.4",
+  "main": "build/chatframe.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "neutrino build",
+    "start": "neutrino start",
+    "test": "neutrino test"
+  },
+  "devDependencies": {
+    "@neutrinojs/airbnb": "^8.3.0",
+    "@neutrinojs/jest": "^8.3.0",
+    "@neutrinojs/react-components": "^8.3.0",
+    "fetch-mock": "^7.2.0",
+    "neutrino": "^8.3.0",
+    "prop-types": "^15.6.2",
+    "redux-mock-store": "^1.5.3"
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.3.1",
+    "@material-ui/icons": "^3.0.1",
+    "date-fns": "^2.0.0-alpha.24",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.11",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-redux": "^5.1.0",
+    "react-virtualized": "^9.21.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^4.0.2",
+    "validator": "^10.8.0",
+    "webfontloader": "^1.6.28",
+    "whatwg-fetch": "^3.0.0"
+  }
+}
