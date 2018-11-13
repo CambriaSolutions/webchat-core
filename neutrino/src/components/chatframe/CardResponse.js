@@ -17,7 +17,6 @@ const CardContainer = styled(Card)`
   && {
     border-top-left-radius: 1px;
     border-top-right-radius: 10px;
-    border-top-left-radius: 1px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     background: ${grey[400]};

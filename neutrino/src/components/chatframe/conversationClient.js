@@ -4,7 +4,7 @@ export class Client {
   constructor(options) {
     if (!options || !options.textUrl) {
       throw new Error(
-        'Fulfillment URL is required to generate a conversation client',
+        'Fulfillment URL is required to generate a conversation client'
       )
     }
     this.textUrl = options.textUrl
@@ -13,11 +13,11 @@ export class Client {
   }
 
   encodeQueryData(data) {
-    const ret = []
+    const params = []
     for (const d in data) {
-      ret.push(`${encodeURIComponent(d)}=${encodeURIComponent(data[d])}`)
+      params.push(`${encodeURIComponent(d)}=${encodeURIComponent(data[d])}`)
     }
-    return ret.join('&')
+    return params.join('&')
   }
 
   textRequest(query) {
