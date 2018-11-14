@@ -11,6 +11,7 @@ const initialState = {
   currentTime: format(new Date(), sysTimeFormat),
   headerTime: 'Now',
   timer: null,
+  conversationStarted: false,
 }
 function conversation(state = initialState, action) {
   switch (action.type) {
@@ -76,6 +77,12 @@ function conversation(state = initialState, action) {
       return {
         ...state,
         webhookPayload: action.webhookPayload,
+      }
+
+    case t.SET_CONVERSATION_STARTED:
+      return {
+        ...state,
+        conversationStarted: true,
       }
 
     default:
