@@ -91,6 +91,14 @@ class ChatWindow extends PureComponent {
     this.messages = []
     this.messageElements = []
   }
+
+  // When we receive new props, react-virtualized is going to recalculate:
+  // 1. The total size of the chat window container
+  // 2. The estimated size of each message
+  // 3. Where the window should scroll to
+  // Because we have items with wildly different sizes (e.g. Cards vs. Messages),
+  // we need to forcibly clear our cached size data when new messages are received
+  // Before trying to scroll to bottom
   componentDidUpdate() {
     const newMessages = this.parseMessages()
     if (!isEqual(this.messages, newMessages)) {
@@ -104,6 +112,7 @@ class ChatWindow extends PureComponent {
       }
     }
   }
+
   onResize = () => {
     this.ListRef.current.scrollToRow(this.messages.length)
   }
@@ -167,12 +176,12 @@ class ChatWindow extends PureComponent {
       const dateA = parse(
         a.props.timestamp,
         sysTimeFormat,
-        new Date(a.props.timestamp),
+        new Date(a.props.timestamp)
       )
       const dateB = parse(
         b.props.timestamp,
         sysTimeFormat,
-        new Date(b.props.timestamp),
+        new Date(b.props.timestamp)
       )
       const diff = differenceInMilliseconds(dateA, dateB)
       return diff

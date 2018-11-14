@@ -60,10 +60,12 @@ class ChatFrame extends PureComponent {
     this.unsubscribe()
   }
 
+  // Select the current conversation payload from our Redux store
   select(state) {
     return state.conversation.webhookPayload
   }
 
+  // When props are updated (e.g. Theme changes), update entire component
   handleChange(store) {
     const previousValue = this.currentValue
     this.currentValue = this.select(store.getState())

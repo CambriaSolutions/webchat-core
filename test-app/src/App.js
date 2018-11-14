@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import ChatWindow from '@cambriasolutions/chatframe'
-import logo from './logo.svg'
-import './App.css'
 const options = {
   eventUrl:
     'https://us-central1-dhcs-demo-chat.cloudfunctions.net/eventRequest',
