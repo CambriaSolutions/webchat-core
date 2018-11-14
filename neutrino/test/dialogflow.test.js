@@ -2,8 +2,6 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import * as actions from '../src/components/chatframe/actions/dialogflow'
 import { Client } from '../src/components/chatframe/conversationClient'
-//import fetchMock from 'fetch-mock'
-//import 'isomorphic-fetch'
 import { cardResponse } from './cardResponse'
 import { response } from './textResponse'
 

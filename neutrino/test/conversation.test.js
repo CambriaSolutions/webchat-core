@@ -2,8 +2,6 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import * as actions from '../src/components/chatframe/actions/conversation'
 import { Client } from '../src/components/chatframe/conversationClient'
-//import fetchMock from 'fetch-mock'
-//import 'isomorphic-fetch'
 import { response } from './textResponse'
 
 const middlewares = [thunk]
@@ -44,7 +42,6 @@ function encodeQueryData(data) {
 describe('dialogflow actions', () => {
   afterEach(() => {
     store.clearActions()
-  //  fetchMock.restore()
   })
   it('should set client with correct options', () => {
     store.dispatch(actions.setupClient('dialogflow', options))
@@ -82,7 +79,6 @@ describe('dialogflow actions', () => {
     }
     const queryParams = encodeQueryData(params)
     url = url + '?' + queryParams
-
     store.dispatch(actions.createUserResponse(query))
     const storedActions = store.getActions()
     expect(storedActions[0].response.text).toEqual(query)
@@ -96,7 +92,6 @@ describe('dialogflow actions', () => {
 
     store.dispatch(actions.sendMessage(query))
     const storedActions = store.getActions()
-
     expect(storedActions[0].type).toEqual("INITIATE_LOADING")
   })
 
