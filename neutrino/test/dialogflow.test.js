@@ -2,8 +2,8 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import * as actions from '../src/components/chatframe/actions/dialogflow'
 import { Client } from '../src/components/chatframe/conversationClient'
-import fetchMock from 'fetch-mock'
-import 'isomorphic-fetch'
+//import fetchMock from 'fetch-mock'
+//import 'isomorphic-fetch'
 import { cardResponse } from './cardResponse'
 import { response } from './textResponse'
 
@@ -108,7 +108,7 @@ describe('dialogflow actions', () => {
     )
     const storedActions = store.getActions()
     expect(storedActions[1].newConversationArray[0].providerResponse).toEqual(
-      cardResponse.providerResponse,
+      cardResponse.providerResponse
     )
   })
 

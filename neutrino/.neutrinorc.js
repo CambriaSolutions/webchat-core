@@ -1,6 +1,7 @@
 module.exports = {
   use: [
     [
+      '@neutrinojs/node',
       '@neutrinojs/airbnb',
       {
         eslint: {

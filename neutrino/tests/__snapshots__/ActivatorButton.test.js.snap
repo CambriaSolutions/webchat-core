@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component onClick changes  1`] = `
+<button
+  active={1}
+  className="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-fab-18 MuiButton-contained-12 MuiButton-containedPrimary-13 MuiButton-raised-15 MuiButton-raisedPrimary-16 sc-bdVaJa glmwSz"
+  disabled={false}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseLeave={[Function]}
+  onMouseUp={[Function]}
+  onTouchEnd={[Function]}
+  onTouchMove={[Function]}
+  onTouchStart={[Function]}
+  tabIndex="0"
+  type="button"
+>
+  <span
+    className="MuiButton-label-2"
+  >
+    <svg
+      aria-hidden="true"
+      className="MuiSvgIcon-root-30"
+      color={undefined}
+      focusable="false"
+      role="presentation"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"
+      />
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+    </svg>
+  </span>
+  <span
+    className="MuiTouchRipple-root-39"
+  />
+</button>
+`;
+
+exports[`component onClick changes  2`] = `
+<button
+  active={0}
+  className="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-fab-18 MuiButton-contained-12 MuiButton-containedPrimary-13 MuiButton-raised-15 MuiButton-raisedPrimary-16 sc-bdVaJa dCrmCg"
+  disabled={false}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseLeave={[Function]}
+  onMouseUp={[Function]}
+  onTouchEnd={[Function]}
+  onTouchMove={[Function]}
+  onTouchStart={[Function]}
+  tabIndex="0"
+  type="button"
+>
+  <span
+    className="MuiButton-label-2"
+  >
+    <svg
+      aria-hidden="true"
+      className="MuiSvgIcon-root-30"
+      color={undefined}
+      focusable="false"
+      role="presentation"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"
+      />
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+    </svg>
+  </span>
+  <span
+    className="MuiTouchRipple-root-39"
+  />
+</button>
+`;
+
+exports[`component onClick changes  3`] = `
+<button
+  active={0}
+  className="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-fab-18 MuiButton-contained-12 MuiButton-containedPrimary-13 MuiButton-raised-15 MuiButton-raisedPrimary-16 sc-bdVaJa dCrmCg"
+  disabled={false}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseLeave={[Function]}
+  onMouseUp={[Function]}
+  onTouchEnd={[Function]}
+  onTouchMove={[Function]}
+  onTouchStart={[Function]}
+  tabIndex="0"
+  type="button"
+>
+  <span
+    className="MuiButton-label-2"
+  >
+    <svg
+      aria-hidden="true"
+      className="MuiSvgIcon-root-30"
+      color={undefined}
+      focusable="false"
+      role="presentation"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"
+      />
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+    </svg>
+  </span>
+  <span
+    className="MuiTouchRipple-root-39"
+  />
+</button>
+`;
