@@ -85,6 +85,12 @@ function conversation(state = initialState, action) {
         conversationStarted: true,
       }
 
+    case t.SET_CONVERSATION_ENDED:
+      return {
+        ...state,
+        conversationStarted: false,
+      }
+
     default:
       return state
   }
