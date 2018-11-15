@@ -176,12 +176,12 @@ class ChatWindow extends PureComponent {
       const dateA = parse(
         a.props.timestamp,
         sysTimeFormat,
-        new Date(a.props.timestamp)
+        new Date(a.props.timestamp),
       )
       const dateB = parse(
         b.props.timestamp,
         sysTimeFormat,
-        new Date(b.props.timestamp)
+        new Date(b.props.timestamp),
       )
       const diff = differenceInMilliseconds(dateA, dateB)
       return diff

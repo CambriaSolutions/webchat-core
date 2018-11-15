@@ -4,7 +4,7 @@ export class Client {
   constructor(options) {
     if (!options || !options.textUrl) {
       throw new Error(
-        'Fulfillment URL is required to generate a conversation client'
+        'Fulfillment URL is required to generate a conversation client',
       )
     }
     this.textUrl = options.textUrl
