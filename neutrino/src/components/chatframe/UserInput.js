@@ -23,7 +23,15 @@ const OuterFrame = styled.div`
 
 const TextInput = styled(Input)`
   && {
+    width: 100%;
+    font-size: 16px;
+    height: 100%;
+    line-height: 16px;
+    outline: none;
+    border: none;
     padding: 0 16px;
+    color: #000;
+    border-color: none;
   }
 `
 
