@@ -15,6 +15,8 @@ import { sysTimeFormat } from './config/dateFormats'
 import Message from './Message'
 import CardResponse from './CardResponse'
 
+import { calculateNumMessages } from './actions/conversation'
+
 const ContentWrapper = styled.div`
   background: ${grey[100]};
   z-index: 4;
@@ -188,6 +190,7 @@ class ChatWindow extends PureComponent {
     })
 
     this.messageElements = msgElements
+    this.props.calculateNumMessages(msgElements.length)
   }
 
   // Render each row. During the render step, measure the size of
@@ -206,12 +209,13 @@ class ChatWindow extends PureComponent {
   }
 
   render() {
+    const { messages, numMessages } = this.props
     return (
       <ContentWrapper elevation={1} square>
         <AutoSizer onResize={this.onResize}>
           {({ height, width }) => (
             <List
-              messages={this.props.messages}
+              messages={messages}
               style={{
                 outline: 'none',
                 padding: '0 16px 0 16px',
@@ -219,12 +223,12 @@ class ChatWindow extends PureComponent {
               ref={this.ListRef}
               height={height}
               width={width}
-              rowCount={this.props.messages.length}
+              rowCount={numMessages}
               deferredMeasurementCache={this.cache}
               rowHeight={this.cache.rowHeight}
               rowRenderer={this.rowRenderer}
               onScroll={this.onScroll}
-              scrollToIndex={this.props.messages.length}
+              scrollToIndex={numMessages}
               scrollToAlignment="end"
             />
           )}
@@ -239,11 +243,15 @@ const mapStateToProps = state => {
     messages: state.conversation.messages,
     buttonBarVisible: state.buttonBar.visible,
     error: state.error,
+    numMessages: state.conversation.numMessages,
   }
 }
 
-// const mapDispatchToProps = dispatch => {
-//   return {}
-// }
+const mapDispatchToProps = {
+  calculateNumMessages,
+}
 
-export default connect(mapStateToProps)(ChatWindow)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ChatWindow)
