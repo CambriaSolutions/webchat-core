@@ -10,6 +10,7 @@ import {
   DISPLAY_ERROR,
   CLEAR_ERROR,
   RECEIVE_WEBHOOK_DATA,
+  SET_CONVERSATION_ENDED,
 } from './actionTypes'
 
 // Date Format
@@ -170,6 +171,7 @@ export function sendEvent(event) {
             type: DISPLAY_ERROR,
             error: 'No response received from chat provider. Please try again.',
           })
+          dispatch({ type: SET_CONVERSATION_ENDED })
         }
       })
       .catch(error => {
