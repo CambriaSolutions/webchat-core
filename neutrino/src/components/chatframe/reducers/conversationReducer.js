@@ -79,12 +79,13 @@ function conversation(state = initialState, action) {
         ...state,
         webhookPayload: action.webhookPayload,
       }
-      
+
     case t.SET_NUM_MESSAGES:
       return {
         ...state,
         numMessages: action.numMessages,
-        
+      }
+
     case t.SET_CONVERSATION_STARTED:
       return {
         ...state,
