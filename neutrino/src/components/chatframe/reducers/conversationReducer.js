@@ -12,6 +12,7 @@ const initialState = {
   headerTime: 'Now',
   timer: null,
   numMessages: 0,
+  conversationStarted: false,
 }
 function conversation(state = initialState, action) {
   switch (action.type) {
@@ -78,11 +79,22 @@ function conversation(state = initialState, action) {
         ...state,
         webhookPayload: action.webhookPayload,
       }
-
+      
     case t.SET_NUM_MESSAGES:
       return {
         ...state,
         numMessages: action.numMessages,
+        
+    case t.SET_CONVERSATION_STARTED:
+      return {
+        ...state,
+        conversationStarted: true,
+      }
+
+    case t.SET_CONVERSATION_ENDED:
+      return {
+        ...state,
+        conversationStarted: false,
       }
 
     default:
