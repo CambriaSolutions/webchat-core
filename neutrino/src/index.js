@@ -19,7 +19,7 @@ render(
     client="Dialogflow"
     clientOptions={options}
     fullscreen={false}
-    initialActive
+    initialActive={false}
   />,
   root,
 )
