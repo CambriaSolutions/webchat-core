@@ -22,16 +22,17 @@ const OuterFrame = styled.div`
 `
 
 const TextInput = styled(Input)`
-  &&&& {
+  && {
     width: 100%;
     font-size: 16px;
-    height: 100%;
     line-height: 16px;
     outline: none;
-    border: none;
-    padding: 0px 16px 0px 16px;
-    color: #000;
-    border-color: none;
+    & > input[type='text'] {
+      border: none;
+      color: #000;
+      height: 100%;
+      padding: 0px 16px 0px 16px;
+    }
   }
 `
 
