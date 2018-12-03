@@ -48,10 +48,10 @@ const Container = styled.div`
     border-bottom-right-radius: 0px;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
-    box-sizing: content-box;
     z-index: 1;
     grid-area: header;
-    line-height: normal;
+    box-sizing: content-box; /*For WordPress*/
+    line-height: normal; /*For WordPress*/
   }
 `
 
