@@ -187,15 +187,15 @@
   border-bottom-right-radius: 4px;
 `,Wt=D()(Gt.a)`
   && {
-    width: 100%;
-    font-size: 16px;
-    line-height: 16px;
-    outline: none;
     & > input[type='text'] {
       border: none;
+      width: 100%;
+      line-height: 16px;
+      outline: none;
       color: #000;
       height: 100%;
       padding: 0px 16px 0px 16px;
+      font-size: 16px;
     }
   }
 `;class Ht extends E.PureComponent{constructor(){super(),this.handleKeyPress=this.handleKeyPress.bind(this)}handleKeyPress(t){13===t.charCode&&this.props.submitUserInput()}render(){var e=this.props;const t=e.saveUserInput,n=e.inputValue;return Object(E.createElement)(At,null,Object(E.createElement)(Wt,{fullWidth:!0,disableUnderline:!0,placeholder:'Send a message',onChange:t,value:n,onKeyPress:this.handleKeyPress}),Object(E.createElement)(Ve.a,{onClick:this.props.submitUserInput,"aria-label":'Send',color:'primary'},Object(E.createElement)(Rt.a,null)))}}var Qt=Object(z.connect)((e)=>({inputValue:e.userInput}),(t)=>({saveUserInput:(n)=>{t(j(n.target.value))},submitUserInput:()=>{t(w())}}))(Ht),Zt=n(38),Ft=n.n(Zt);const Bt=D.a.div`
