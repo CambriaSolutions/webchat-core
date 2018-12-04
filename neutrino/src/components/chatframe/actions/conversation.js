@@ -3,7 +3,6 @@ import {
   SAVE_USER_RESPONSE,
   DISPLAY_ERROR,
   HIDE_BUTTON_BAR,
-  SET_NUM_MESSAGES,
 } from './actionTypes'
 import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
 // Date Format
@@ -62,12 +61,5 @@ export function createUserResponse(text) {
 export function sendQuickReply(text) {
   return dispatch => {
     dispatch(createUserResponse(text))
-  }
-}
-
-export function calculateNumMessages(messages) {
-  return dispatch => {
-    const numMessages = messages
-    dispatch({ type: SET_NUM_MESSAGES, numMessages })
   }
 }

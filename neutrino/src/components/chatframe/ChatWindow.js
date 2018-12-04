@@ -15,8 +15,6 @@ import { sysTimeFormat } from './config/dateFormats'
 import Message from './Message'
 import CardResponse from './CardResponse'
 
-import { calculateNumMessages } from './actions/conversation'
-
 const ContentWrapper = styled.div`
   background: ${grey[100]};
   z-index: 4;
@@ -92,6 +90,7 @@ class ChatWindow extends PureComponent {
     })
     this.messages = []
     this.messageElements = []
+    this.state = { numMessages: 0 }
   }
 
   // When we receive new props, react-virtualized is going to recalculate:
@@ -190,7 +189,7 @@ class ChatWindow extends PureComponent {
     })
 
     this.messageElements = msgElements
-    this.props.calculateNumMessages(msgElements.length)
+    this.setState({ numMessages: msgElements.length })
   }
 
   // Render each row. During the render step, measure the size of
@@ -209,7 +208,8 @@ class ChatWindow extends PureComponent {
   }
 
   render() {
-    const { messages, numMessages } = this.props
+    const { messages } = this.props
+    const { numMessages } = this.state
     return (
       <ContentWrapper elevation={1} square>
         <AutoSizer onResize={this.onResize}>
@@ -243,15 +243,11 @@ const mapStateToProps = state => {
     messages: state.conversation.messages,
     buttonBarVisible: state.buttonBar.visible,
     error: state.error,
-    numMessages: state.conversation.numMessages,
   }
 }
 
-const mapDispatchToProps = {
-  calculateNumMessages,
-}
+// const mapDispatchToProps = dispatch => {
+//   return {}
+// }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ChatWindow)
+export default connect(mapStateToProps)(ChatWindow)
