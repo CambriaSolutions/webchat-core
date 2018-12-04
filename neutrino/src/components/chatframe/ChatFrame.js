@@ -32,6 +32,7 @@ const OuterContainer = styled.div`
   align-content: center;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  line-height: normal; /*For WordPress*/
   & > * {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;

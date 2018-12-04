@@ -50,6 +50,8 @@ const Container = styled.div`
     border-top-left-radius: 4px;
     z-index: 1;
     grid-area: header;
+    box-sizing: content-box; /*For WordPress*/
+    line-height: normal; /*For WordPress*/
   }
 `
 
