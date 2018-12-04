@@ -41,6 +41,7 @@ export function sendMessage(message) {
     }
   }
 }
+
 export function createUserResponse(text) {
   return (dispatch, getState) => {
     const numMessages = getState().conversation.messages.length

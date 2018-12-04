@@ -90,6 +90,7 @@ class ChatWindow extends PureComponent {
     })
     this.messages = []
     this.messageElements = []
+    this.state = { numMessages: 0 }
   }
 
   // When we receive new props, react-virtualized is going to recalculate:
@@ -188,6 +189,7 @@ class ChatWindow extends PureComponent {
     })
 
     this.messageElements = msgElements
+    this.setState({ numMessages: msgElements.length })
   }
 
   // Render each row. During the render step, measure the size of
@@ -206,12 +208,14 @@ class ChatWindow extends PureComponent {
   }
 
   render() {
+    const { messages } = this.props
+    const { numMessages } = this.state
     return (
       <ContentWrapper elevation={1} square>
         <AutoSizer onResize={this.onResize}>
           {({ height, width }) => (
             <List
-              messages={this.props.messages}
+              messages={messages}
               style={{
                 outline: 'none',
                 padding: '0 16px 0 16px',
@@ -219,12 +223,12 @@ class ChatWindow extends PureComponent {
               ref={this.ListRef}
               height={height}
               width={width}
-              rowCount={this.props.messages.length}
+              rowCount={numMessages}
               deferredMeasurementCache={this.cache}
               rowHeight={this.cache.rowHeight}
               rowRenderer={this.rowRenderer}
               onScroll={this.onScroll}
-              scrollToIndex={this.props.messages.length}
+              scrollToIndex={numMessages}
               scrollToAlignment="end"
             />
           )}
