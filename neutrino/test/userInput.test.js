@@ -36,15 +36,11 @@ describe('userInput actions', () => {
     store.dispatch(actions.saveUserInput('testing'))
     store.dispatch(actions.submitUserInput())
     const storedActions = store.getActions()
-    const responseAction = find(storedActions, {
-      type: t.SAVE_USER_RESPONSE,
-    })
-    const systemTime = responseAction.response.systemTime
     const saveResponseAction = {
       response: {
         entity: 'user',
         messageId: 'usermessage-0',
-        systemTime: systemTime,
+        systemTime: expect.anything(),
         text: 'testing',
       },
       type: t.SAVE_USER_RESPONSE,

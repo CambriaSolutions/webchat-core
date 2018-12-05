@@ -74,26 +74,42 @@ export function getMessageFromDialogflow(response) {
           return 'suggestion'
         case 'image':
           return 'image'
-        case 4:
-          return 'payload'
         default:
           return 'text'
       }
     }
     const rawResponses = get(response, 'queryResult.fulfillmentMessages', [])
     const responses = rawResponses.map(msg => {
-      const type = mapMessageTypeToDescriptor(msg.message)
-      return {
-        type,
-        suggestions: get(msg, 'quickReplies.quickReplies', []),
-        text: get(msg, 'text.text', null),
-        card: {
-          title: get(msg, 'card.title', ''),
-          subtitle: get(msg, 'card.subtitle', ''),
-          imageUrl: get(msg, 'card.imageUri', ''),
-          buttons: get(msg, 'card.buttons', []),
-        },
-        payload: get(msg, 'payload', {}),
+      let type = mapMessageTypeToDescriptor(msg.message)
+      if (msg.webhookPayload) {
+        type = 'custom'
+      }
+      console.log(type)
+      const suggestions = get(msg, 'quickReplies.quickReplies', [])
+      const text = get(msg, 'text.text', null)
+      const card = {
+        title: get(msg, 'card.title', ''),
+        subtitle: get(msg, 'card.subtitle', ''),
+        imageUrl: get(msg, 'card.imageUri', ''),
+        buttons: get(msg, 'card.buttons', []),
+      }
+      const payload = get(msg, 'payload', {})
+
+      switch (type) {
+        case 'text':
+          return { type, text }
+
+        case 'suggestion':
+          return { type, suggestions }
+
+        case 'card':
+          return { type, card }
+
+        case 'payload':
+          return { type, payload }
+
+        default:
+          return { type, text }
       }
     })
 
@@ -124,7 +140,8 @@ export function getMessageFromDialogflow(response) {
       // providerResponse: response,
       responses,
     }
-
+    console.log(JSON.stringify(response))
+    console.log(JSON.stringify(data))
     dispatch(saveResponse(data))
   }
 }
