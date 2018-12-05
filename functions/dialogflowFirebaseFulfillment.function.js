@@ -5,7 +5,7 @@ const {
   Card,
   Image,
   Suggestion,
-  Payload
+  Payload,
 } = require('dialogflow-fulfillment')
 
 // const admin = require('firebase-admin')
@@ -46,7 +46,7 @@ exports = module.exports = functions.https.onRequest((request, response) => {
         text:
           'Did you know that temperature is really just a measure of how fast molecules are vibrating around?! 😱',
         buttonText: 'Temperature Wikipedia Page',
-        buttonUrl: wikipediaTemperatureUrl
+        buttonUrl: wikipediaTemperatureUrl,
       })
     )
   }
@@ -70,7 +70,13 @@ exports = module.exports = functions.https.onRequest((request, response) => {
 
   // User says = payload
   function payloadResponse(agent) {
-    agent.add(new Payload(agent.UNSPECIFIED, { test: 'this' }))
+    agent.add(
+      new Payload(
+        agent.UNSPECIFIED,
+        { test: 'this' },
+        { sendAsMessage: true, rawPayload: true }
+      )
+    )
   }
 
   // User says = context
@@ -78,7 +84,7 @@ exports = module.exports = functions.https.onRequest((request, response) => {
     agent.add(`Context set for welcome intent`)
     agent.setContext({
       name: 'waiting-context-setting',
-      lifespan: 2
+      lifespan: 2,
     })
   }
 
