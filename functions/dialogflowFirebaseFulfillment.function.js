@@ -73,6 +73,15 @@ exports = module.exports = functions.https.onRequest((request, response) => {
     agent.add(new Payload(agent.UNSPECIFIED, { test: 'this' }))
   }
 
+  // User says = context
+  function contextSetting(agent) {
+    agent.add(`Context set for welcome intent`)
+    agent.setContext({
+      name: 'waiting-context-setting',
+      lifespan: 2
+    })
+  }
+
   let intentMap = new Map()
   intentMap.set('Default Welcome Intent', welcome)
   intentMap.set('multipleResponses', multipleResponses)
@@ -81,6 +90,7 @@ exports = module.exports = functions.https.onRequest((request, response) => {
   intentMap.set('suggestionsResponse', suggestionsResponse)
   intentMap.set('textResponse', textResponse)
   intentMap.set('payloadResponse', payloadResponse)
+  intentMap.set('contextSetting', contextSetting)
 
   agent.handleRequest(intentMap)
 })
