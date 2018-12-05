@@ -13,22 +13,14 @@ const {
 // const settings = { timestampsInSnapshots: true }
 // db.settings(settings)
 
+// Examples taken from https://github.com/dialogflow/dialogflow-fulfillment-nodejs
+
 // Wikipedia link and image URLs
 const wikipediaTemperatureUrl = 'https://en.wikipedia.org/wiki/Temperature'
 const wikipediaTemperatureImageUrl =
   'https://upload.wikimedia.org/wikipedia/commons/2/23/Thermally_Agitated_Molecule.gif'
-const wikipediaCelsiusUrl = 'https://en.wikipedia.org/wiki/Celsius'
-const wikipediaCelsiusImageUrl =
-  'https://upload.wikimedia.org/wikipedia/commons/a/ad/Celsius_original_thermometer.png'
-const wikipediaFahrenheitUrl = 'https://en.wikipedia.org/wiki/Fahrenheit'
-const wikipediaFahrenheitImageUrl =
-  'https://upload.wikimedia.org/wikipedia/commons/b/bd/Fahrenheit_small.jpg'
-const wikipediaKelvinUrl = 'https://en.wikipedia.org/wiki/Kelvin'
 const wikipediaKelvinImageUrl =
   'https://upload.wikimedia.org/wikipedia/commons/a/a0/Lord_Kelvin_photograph.jpg'
-const wikipediaRankineUrl = 'https://en.wikipedia.org/wiki/Rankine_scale'
-const wikipediaRankineImageUrl =
-  'https://upload.wikimedia.org/wikipedia/commons/5/58/Rankine_William_signature.jpg'
 
 exports = module.exports = functions.https.onRequest((request, response) => {
   const agent = new WebhookClient({ request, response })
@@ -64,11 +56,31 @@ exports = module.exports = functions.https.onRequest((request, response) => {
     agent.add(new Image(wikipediaKelvinImageUrl))
   }
 
+  // User says = suggestions or chips
+  function suggestionsResponse(agent) {
+    agent.add(`These are suggestions`)
+    agent.add(new Suggestion(`No`))
+    agent.add(new Suggestion(`Yes`))
+  }
+
+  // User says = text
+  function textResponse(agent) {
+    agent.add(new Text('This is text'))
+  }
+
+  // User says = payload
+  function payloadResponse(agent) {
+    agent.add(new Payload(agent.UNSPECIFIED, { test: 'this' }))
+  }
+
   let intentMap = new Map()
   intentMap.set('Default Welcome Intent', welcome)
   intentMap.set('multipleResponses', multipleResponses)
   intentMap.set('cardResponse', cardResponse)
   intentMap.set('imageResponse', imageResponse)
+  intentMap.set('suggestionsResponse', suggestionsResponse)
+  intentMap.set('textResponse', textResponse)
+  intentMap.set('payloadResponse', payloadResponse)
 
   agent.handleRequest(intentMap)
 })
