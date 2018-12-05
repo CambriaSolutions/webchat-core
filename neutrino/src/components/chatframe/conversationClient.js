@@ -4,12 +4,11 @@ export class Client {
   constructor(options) {
     if (!options || !options.textUrl) {
       throw new Error(
-        'Fulfillment URL is required to generate a conversation client',
+        'Fulfillment URL is required to generate a conversation client'
       )
     }
     this.textUrl = options.textUrl
     this.eventUrl = options.eventUrl
-    this.apiKey = options.apiKey
   }
 
   encodeQueryData(data) {
@@ -26,9 +25,6 @@ export class Client {
     }
     const params = {
       query,
-    }
-    if (this.apiKey) {
-      params['x-api-key'] = this.apiKey
     }
 
     const queryParams = this.encodeQueryData(params)

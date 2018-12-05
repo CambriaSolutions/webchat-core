@@ -6,7 +6,6 @@ const options = {
   eventUrl:
     'https://us-central1-dhcs-demo-chat.cloudfunctions.net/eventRequest',
   textUrl: 'https://us-central1-dhcs-demo-chat.cloudfunctions.net/textRequest',
-  // apiKey: 'XwsfZ0JoM214avhOcgqDZ3S50stTX94l8pnZJNxN',
 }
 
 const root = document.getElementById('cambria-chatframe')
@@ -21,5 +20,5 @@ render(
     fullscreen={false}
     initialActive={false}
   />,
-  root,
+  root
 )

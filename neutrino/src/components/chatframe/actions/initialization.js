@@ -48,7 +48,7 @@ function updateIdleTime() {
     const lastUpdate = parse(
       lastUpdateTime,
       sysTimeFormat,
-      new Date(lastUpdateTime),
+      new Date(lastUpdateTime)
     )
     const diffMinutes = differenceInMinutes(now, lastUpdate)
     const diffSeconds = differenceInSeconds(now, lastUpdate)

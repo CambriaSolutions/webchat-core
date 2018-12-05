@@ -46,12 +46,12 @@ export function saveResponse(data) {
           const dateA = parse(
             a.systemTime,
             sysTimeFormat,
-            new Date(a.systemTime),
+            new Date(a.systemTime)
           )
           const dateB = parse(
             b.systemTime,
             sysTimeFormat,
-            new Date(b.systemTime),
+            new Date(b.systemTime)
           )
           const diff = differenceInMilliseconds(dateA, dateB)
           return diff
@@ -100,7 +100,7 @@ export function getMessageFromDialogflow(response) {
     const webhookPayload = get(
       response,
       'queryResult.webhookPayload.fields',
-      null,
+      null
     )
 
     // If there is a webhookPayload, parse it to avoid nesting and stringified JSON
@@ -121,7 +121,7 @@ export function getMessageFromDialogflow(response) {
       messageId: response.responseId,
       language: response.queryResult.languageCode,
       systemTime,
-      providerResponse: response,
+      // providerResponse: response,
       responses,
     }
 
