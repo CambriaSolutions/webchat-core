@@ -1,6 +1,5 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import find from 'lodash/find'
 import * as actions from '../src/components/chatframe/actions/dialogflow'
 import * as t from '../src/components/chatframe/actions/actionTypes'
 import { Client } from '../src/components/chatframe/conversationClient'

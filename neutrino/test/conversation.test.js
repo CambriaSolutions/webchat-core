@@ -1,20 +1,15 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import * as actions from '../src/components/chatframe/actions/conversation'
+import * as t from '../src/components/chatframe/actions/actionTypes'
 import { Client } from '../src/components/chatframe/conversationClient'
 import fetchMock from 'fetch-mock'
+import find from 'lodash/find'
 import 'isomorphic-fetch'
-import { response } from './textResponse'
-
+import { textPayload } from './dialogflowPayloads'
+import { options } from './options'
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
-
-const options = {
-  eventUrl:
-    'https://us-central1-dhcs-demo-chat.cloudfunctions.net/eventRequest',
-  textUrl: 'https://us-central1-dhcs-demo-chat.cloudfunctions.net/textRequest',
-  clientName: 'dialogflow',
-}
 
 const store = mockStore({
   conversation: {
@@ -41,7 +36,7 @@ function encodeQueryData(data) {
   return ret.join('&')
 }
 
-describe('dialogflow actions', () => {
+describe('conversation actions', () => {
   afterEach(() => {
     store.clearActions()
     fetchMock.restore()
@@ -49,7 +44,7 @@ describe('dialogflow actions', () => {
   it('should set client with correct options', () => {
     store.dispatch(actions.setupClient('dialogflow', options))
     const storedActions = store.getActions()
-    expect(storedActions[0].type).toEqual('SAVE_CLIENT')
+    expect(storedActions[0].type).toEqual(t.SAVE_CLIENT)
   })
 
   it('should set client with correct options', () => {
@@ -62,7 +57,7 @@ describe('dialogflow actions', () => {
     expect(() => {
       store.dispatch(actions.setupClient('dialogflow', {}))
       const storedActions = store.getActions()
-      expect(storedActions[0].type).toEqual('SAVE_CLIENT')
+      expect(storedActions[0].type).toEqual(t.SAVE_CLIENT)
     }).toThrow('Fulfillment URL is required to generate a conversation client')
   })
 
@@ -70,7 +65,7 @@ describe('dialogflow actions', () => {
     expect(() => {
       store.dispatch(actions.setupClient('low', options))
       const storedActions = store.getActions()
-      expect(storedActions[0].type).toEqual('SAVE_CLIENT')
+      expect(storedActions[0].type).toEqual(t.SAVE_CLIENT)
     }).toThrow('low is not a recognized conversation provider.')
   })
 
@@ -83,16 +78,18 @@ describe('dialogflow actions', () => {
     const queryParams = encodeQueryData(params)
     url = url + '?' + queryParams
     fetchMock.getOnce(url, {
-      body: response,
+      body: textPayload,
       headers: { 'content-type': 'application/json' },
     })
 
-    return store.dispatch(actions.createUserResponse(query))
+    store.dispatch(actions.createUserResponse(query))
     const storedActions = store.getActions()
-    expect(storedActions[0].response.text).toEqual(query)
-    expect(storedActions[0].type).toEqual('SAVE_USER_RESPONSE')
-    expect(storedActions[1].type).toEqual('HIDE_BUTTON_BAR')
-    expect(storedActions[2].type).toEqual('INITIATE_LOADING')
+    expect(storedActions).toContainEqual({
+      type: t.SAVE_USER_RESPONSE,
+      response: expect.anything(),
+    })
+    expect(storedActions).toContainEqual({ type: t.HIDE_BUTTON_BAR })
+    expect(storedActions).toContainEqual({ type: t.INITIATE_LOADING })
   })
 
   it('should send message ', () => {
@@ -101,10 +98,13 @@ describe('dialogflow actions', () => {
     store.dispatch(actions.sendMessage(query))
     const storedActions = store.getActions()
 
-    expect(storedActions[0].type).toEqual('HIDE_BUTTON_BAR')
-    expect(storedActions[1].type).toEqual('SAVE_RESPONSE')
-    expect(storedActions[2].type).toEqual('CLEAR_ERROR')
-    expect(storedActions[3].type).toEqual('INITIATE_LOADING')
+    expect(storedActions).toContainEqual({ type: t.HIDE_BUTTON_BAR })
+    expect(storedActions).toContainEqual({
+      type: t.SAVE_RESPONSE,
+      newConversationArray: expect.anything(),
+    })
+    expect(storedActions).toContainEqual({ type: t.CLEAR_ERROR })
+    expect(storedActions).toContainEqual({ type: t.INITIATE_LOADING })
   })
 
   it('should throw an error when provider is not recognized', () => {
@@ -116,9 +116,8 @@ describe('dialogflow actions', () => {
   it('should send quick reply', () => {
     store.dispatch(actions.sendQuickReply('text'))
     const storedActions = store.getActions()
-    expect(storedActions[0].response.text).toEqual('text')
-    expect(storedActions[0].type).toEqual('SAVE_USER_RESPONSE')
-    expect(storedActions[1].type).toEqual('HIDE_BUTTON_BAR')
-    expect(storedActions[2].type).toEqual('INITIATE_LOADING')
+    const responseText = find(storedActions, { type: t.SAVE_USER_RESPONSE })
+      .response.text
+    expect(responseText).toEqual('text')
   })
 })
