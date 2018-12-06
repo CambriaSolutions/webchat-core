@@ -1,27 +1,34 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import * as actions from '../src/components/chatframe/actions/dialogflow'
+import * as t from '../src/components/chatframe/actions/actionTypes'
 import { Client } from '../src/components/chatframe/conversationClient'
-import fetchMock from 'fetch-mock'
 import 'isomorphic-fetch'
-import { cardResponse } from './cardResponse'
-import { response } from './textResponse'
-
+import {
+  textPayload,
+  imagePayload,
+  cardPayload,
+  suggestionPayload,
+  customPayload,
+  multiplePayload,
+} from './dialogflowPayloads'
+import {
+  textResponse,
+  imageResponse,
+  cardResponse,
+  suggestionResponse,
+  customResponse,
+  multipleResponse,
+} from './responses'
+import { options } from './options'
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
-
-const options = {
-  eventUrl:
-    'https://us-central1-dhcs-demo-chat.cloudfunctions.net/eventRequest',
-  textUrl: 'https://us-central1-dhcs-demo-chat.cloudfunctions.net/textRequest',
-  clientName: 'dialogflow',
-}
 
 const store = mockStore({
   conversation: {
     client: new Client(options),
     clientOptions: options,
-    clientName: 'dialogflow',
+    clientName: options.clientName,
     messages: [],
   },
 })
@@ -32,20 +39,18 @@ describe('dialogflow actions', () => {
   })
 
   it('should set up dialog flow with correct options', () => {
-    const expectedAction = [
-      {
-        client: {
-          eventUrl: options.eventUrl,
-          textUrl: options.textUrl,
-        },
-        clientName: options.clientName,
-        type: 'SAVE_CLIENT',
+    const expectedAction = {
+      client: {
+        eventUrl: options.eventUrl,
+        textUrl: options.textUrl,
       },
-    ]
+      clientName: options.clientName,
+      type: t.SAVE_CLIENT,
+    }
 
     store.dispatch(actions.setupDialogflow(options))
     const storedActions = store.getActions()
-    expect(storedActions).toEqual(expectedAction)
+    expect(storedActions).toContainEqual(expectedAction)
   })
 
   it('should not set up dialogflow with incorrect options', () => {
@@ -56,11 +61,10 @@ describe('dialogflow actions', () => {
 
   it('should initiate loading', () => {
     const message = 'Hello'
-    const expectedAction = [{ type: 'INITIATE_LOADING' }]
-
+    const expectedAction = { type: t.INITIATE_LOADING }
     store.dispatch(actions.sendMessageWithDialogflow(message))
     const storedActions = store.getActions()
-    expect(storedActions).toEqual(expectedAction)
+    expect(storedActions).toContainEqual(expectedAction)
   })
 
   it('should throw an error on empty message', () => {
@@ -72,10 +76,10 @@ describe('dialogflow actions', () => {
 
   it('should respond to welcome event with initial loading', () => {
     const event = 'Welcome'
-    const expectedAction = [{ type: 'INITIATE_LOADING' }]
+    const expectedAction = { type: t.INITIATE_LOADING }
     store.dispatch(actions.sendEvent(event))
     const storedActions = store.getActions()
-    expect(storedActions).toEqual(expectedAction)
+    expect(storedActions).toContainEqual(expectedAction)
   })
 
   it('should respond to null event with throwing an error', () => {
@@ -85,92 +89,106 @@ describe('dialogflow actions', () => {
     }).toThrow('Query should not be empty')
   })
 
-  test('should get Message From Dialogflow for correct response', () => {
+  test('should hide the button bar when receiving a response', () => {
     const expectedAction = { type: 'HIDE_BUTTON_BAR' }
-    store.dispatch(actions.getMessageFromDialogflow(response))
+    store.dispatch(actions.getMessageFromDialogflow(textPayload))
     const storedActions = store.getActions()
-    expect(storedActions[0]).toEqual(expectedAction)
+    expect(storedActions).toContainEqual(expectedAction)
   })
 
-  it('should save response', () => {
-    const expectedAction = [
-      { type: 'HIDE_BUTTON_BAR' },
-      { newConversationArray: [response], type: 'SAVE_RESPONSE' },
-    ]
-    store.dispatch(actions.saveResponse(response))
+  it('should correctly process a text payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...textResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(textPayload))
     const storedActions = store.getActions()
-    expect(storedActions).toEqual(expectedAction)
+    expect(storedActions).toContainEqual(expectedAction)
   })
 
-  it('get message from dialogflow for card type', () => {
-    store.dispatch(
-      actions.getMessageFromDialogflow(cardResponse.providerResponse),
-    )
+  it('should correctly process an image payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...imageResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(imagePayload))
     const storedActions = store.getActions()
-    expect(storedActions[1].newConversationArray[0].providerResponse).toEqual(
-      cardResponse.providerResponse,
-    )
+    expect(storedActions).toContainEqual(expectedAction)
   })
 
-  // it('get message from dialog flow for image type', () => {
-  //   store.dispatch(actions.getMessageFromDialogflow(imageResponse))
-  //   const storedActions = store.getActions()
-  //   expect(
-  //     storedActions[1].data.providerResponse.queryResult.fulfillmentMessages,
-  //   ).toEqual([
-  //     {
-  //       image: { messages: [] },
-  //       message: 'image',
-  //       platform: 'PLATFORM_UNSPECIFIED',
-  //     },
-  //   ])
-  // })
+  it('should correctly process a card payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...cardResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(cardPayload))
+    const storedActions = store.getActions()
+    expect(storedActions).toContainEqual(expectedAction)
+  })
 
-  // it('get message from dialog flow for quick replies type', () => {
-  //   store.dispatch(actions.getMessageFromDialogflow(quickRepliesResponse))
-  //   const storedActions = store.getActions()
-  //   expect(
-  //     storedActions[1].data.providerResponse.queryResult.fulfillmentMessages,
-  //   ).toEqual([
-  //     {
-  //       message: 'quickReplies',
-  //       platform: 'PLATFORM_UNSPECIFIED',
-  //       quickReplies: { messages: [] },
-  //     },
-  //   ])
-  // })
+  it('should correctly process a suggestion payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...suggestionResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(suggestionPayload))
+    const storedActions = store.getActions()
+    expect(storedActions).toContainEqual(expectedAction)
+  })
 
-  // it('get message from dialog flow for default type', () => {
-  //   store.dispatch(actions.getMessageFromDialogflow(defaultResponse))
-  //   const storedActions = store.getActions()
-  //   expect(
-  //     storedActions[1].data.providerResponse.queryResult.fulfillmentMessages,
-  //   ).toEqual([
-  //     {
-  //       default: { messages: [] },
-  //       message: 'default',
-  //       platform: 'PLATFORM_UNSPECIFIED',
-  //     },
-  //   ])
-  // })
+  it('should correctly process a custom payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...customResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(customPayload))
+    const storedActions = store.getActions()
+    expect(storedActions).toContainEqual(expectedAction)
+  })
 
-  // it('get message from dialog flow for payload type', () => {
-  //   store.dispatch(actions.getMessageFromDialogflow(payloadResponse))
-  //   const storedActions = store.getActions()
-  //   expect(
-  //     storedActions[1].data.providerResponse.queryResult.fulfillmentMessages,
-  //   ).toEqual([
-  //     {
-  //       message: 4,
-  //       payload: {
-  //         messages: [
-  //           { payload: { test: 'value' }, type: 4 },
-  //           { speech: 'test text', type: 4 },
-  //         ],
-  //       },
-  //       platform: 'PLATFORM_UNSPECIFIED',
-  //       type: 4,
-  //     },
-  //   ])
-  // })
+  it('should correctly process a multi payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...multipleResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(multiplePayload))
+    const storedActions = store.getActions()
+    expect(storedActions).toContainEqual(expectedAction)
+  })
 })

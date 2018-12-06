@@ -46,12 +46,12 @@ export function saveResponse(data) {
           const dateA = parse(
             a.systemTime,
             sysTimeFormat,
-            new Date(a.systemTime),
+            new Date(a.systemTime)
           )
           const dateB = parse(
             b.systemTime,
             sysTimeFormat,
-            new Date(b.systemTime),
+            new Date(b.systemTime)
           )
           const diff = differenceInMilliseconds(dateA, dateB)
           return diff
@@ -74,7 +74,7 @@ export function getMessageFromDialogflow(response) {
           return 'suggestion'
         case 'image':
           return 'image'
-        case 4:
+        case 'payload':
           return 'payload'
         default:
           return 'text'
@@ -83,36 +83,56 @@ export function getMessageFromDialogflow(response) {
     const rawResponses = get(response, 'queryResult.fulfillmentMessages', [])
     const responses = rawResponses.map(msg => {
       const type = mapMessageTypeToDescriptor(msg.message)
-      return {
-        type,
-        suggestions: get(msg, 'quickReplies.quickReplies', []),
-        text: get(msg, 'text.text', null),
-        card: {
-          title: get(msg, 'card.title', ''),
-          subtitle: get(msg, 'card.subtitle', ''),
-          imageUrl: get(msg, 'card.imageUri', ''),
-          buttons: get(msg, 'card.buttons', []),
-        },
-        payload: get(msg, 'payload', {}),
+      const suggestions = get(msg, 'quickReplies.quickReplies', [])
+      const text = get(msg, 'text.text', null)
+      const card = {
+        title: get(msg, 'card.title', ''),
+        subtitle: get(msg, 'card.subtitle', ''),
+        imageUrl: get(msg, 'card.imageUri', ''),
+        buttons: get(msg, 'card.buttons', []),
+      }
+      const image = {
+        imageUri: get(msg, 'image.imageUri', ''),
+        accessibilityText: get(msg, 'image.accessibilityText', ''),
+      }
+
+      const payload = {}
+      if (type === 'payload') {
+        const rawPayload = get(msg, 'payload.fields', {})
+        for (const [field, data] of Object.entries(rawPayload)) {
+          if (data.kind === 'stringValue') {
+            try {
+              // Attempt to parse data.stringValue as JSON in case it is
+              payload[field] = JSON.parse(data.stringValue)
+            } catch (err) {
+              // It's not JSON, just add the string
+              payload[field] = data.stringValue
+            }
+          }
+        }
+        dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
+      }
+
+      switch (type) {
+        case 'text':
+          return { type, text }
+
+        case 'image':
+          return { type, image }
+
+        case 'suggestion':
+          return { type, suggestions }
+
+        case 'card':
+          return { type, card }
+
+        case 'payload':
+          return { type, payload }
+
+        default:
+          return { type, text }
       }
     })
-
-    const webhookPayload = get(
-      response,
-      'queryResult.webhookPayload.fields',
-      null,
-    )
-
-    // If there is a webhookPayload, parse it to avoid nesting and stringified JSON
-    if (webhookPayload) {
-      for (const [field, data] of Object.entries(webhookPayload)) {
-        if (data.kind === 'stringValue') {
-          webhookPayload[field] = JSON.parse(data.stringValue)
-        }
-      }
-
-      dispatch({ type: RECEIVE_WEBHOOK_DATA, webhookPayload })
-    }
 
     const systemTime = format(new Date(), sysTimeFormat)
     const data = {
@@ -121,7 +141,6 @@ export function getMessageFromDialogflow(response) {
       messageId: response.responseId,
       language: response.queryResult.languageCode,
       systemTime,
-      providerResponse: response,
       responses,
     }
 
