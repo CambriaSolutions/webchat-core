@@ -82,7 +82,7 @@ class ChatFrame extends PureComponent {
         <MuiThemeProvider theme={this.theme}>
           <OuterContainer>
             <ChatContainer />
-            <ActivatorButton variant="fab" />
+            <ActivatorButton />
           </OuterContainer>
         </MuiThemeProvider>
       </Provider>
