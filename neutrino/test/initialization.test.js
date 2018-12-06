@@ -3,8 +3,8 @@ import thunk from 'redux-thunk'
 import { Client } from '../src/components/chatframe/conversationClient'
 import * as actions from '../src/components/chatframe/actions/initialization'
 import * as t from '../src/components/chatframe/actions/actionTypes'
-
 import { options } from './options'
+import 'isomorphic-fetch'
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)

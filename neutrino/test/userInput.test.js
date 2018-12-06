@@ -5,6 +5,7 @@ import * as actions from '../src/components/chatframe/actions/userInput'
 import * as t from '../src/components/chatframe/actions/actionTypes'
 import { Client } from '../src/components/chatframe/conversationClient'
 import { options } from './options'
+import 'isomorphic-fetch'
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)

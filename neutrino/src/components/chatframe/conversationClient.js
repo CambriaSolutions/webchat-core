@@ -1,5 +1,3 @@
-import 'isomorphic-fetch'
-
 export class Client {
   constructor(options) {
     if (!options || !options.textUrl) {
