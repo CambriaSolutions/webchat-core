@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "webchat-45a9c"
+    "prod": "webchat-core",
+    "dev": "webchat-45a9c"
   }
 }
