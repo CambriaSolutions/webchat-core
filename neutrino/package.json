@@ -5,7 +5,8 @@
   "scripts": {
     "build": "neutrino build",
     "start": "neutrino start",
-    "test": "neutrino test -u"
+    "test": "neutrino test -u",
+    "test:coverage": "neutrino test -u --coverage"
   },
   "devDependencies": {
     "@neutrinojs/airbnb": "^8.3.0",
