@@ -61,12 +61,12 @@ function conversation(state = initialState, action) {
           const dateA = parse(
             a.systemTime,
             sysTimeFormat,
-            new Date(a.systemTime),
+            new Date(a.systemTime)
           )
           const dateB = parse(
             b.systemTime,
             sysTimeFormat,
-            new Date(b.systemTime),
+            new Date(b.systemTime)
           )
           const diff = differenceInMilliseconds(dateB, dateA)
           return diff
