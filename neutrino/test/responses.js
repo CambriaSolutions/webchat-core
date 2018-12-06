@@ -7,6 +7,24 @@ const textResponse = {
   responses: [{ type: 'text', text: ['Sorry, could you say that again?'] }],
 }
 
+const imageResponse = {
+  entity: 'bot',
+  loading: false,
+  messageId: '654ead00-9820-498d-85e3-3b00d3f5eb76',
+  language: 'en-us',
+  systemTime: '2018-12-05T04:00:04.681',
+  responses: [
+    {
+      type: 'image',
+      image: {
+        imageUri:
+          'https://upload.wikimedia.org/wikipedia/commons/a/a0/Lord_Kelvin_photograph.jpg',
+        accessibilityText: '',
+      },
+    },
+  ],
+}
+
 const cardResponse = {
   entity: 'bot',
   loading: false,
@@ -33,21 +51,33 @@ const cardResponse = {
   ],
 }
 
+const suggestionResponse = {
+  entity: 'bot',
+  loading: false,
+  messageId: '8cd02664-0ba2-4a6f-8f6e-bb5b425fc3f1',
+  language: 'en-us',
+  systemTime: '2018-12-05T04:09:33.539',
+  responses: [
+    { type: 'text', text: ['These are suggestions'] },
+    { type: 'suggestion', suggestions: ['No', 'Yes'] },
+  ],
+}
+
 const customResponse = {
   entity: 'bot',
   loading: false,
-  messageId: '46ab8a36-b8d4-48a5-b63f-bd002507c907',
+  messageId: 'a3f5b030-604b-4ae4-b046-03234b8324b8',
   language: 'en-us',
-  systemTime: '2018-12-05T02:44:41.980',
-  responses: [{ type: 'text', text: [''] }],
+  systemTime: '2018-12-05T04:08:09.572',
+  responses: [{ type: 'payload', payload: { test: 'this' } }],
 }
 
 const multipleResponse = {
   entity: 'bot',
   loading: false,
-  messageId: '39375555-cbef-45ab-9279-93c5209c60f0',
+  messageId: '3699815c-7a3f-4158-b4e8-ea711cde1803',
   language: 'en-us',
-  systemTime: '2018-12-05T02:45:09.363',
+  systemTime: '2018-12-05T04:17:36.464',
   responses: [
     { type: 'text', text: ['These'] },
     { type: 'text', text: ['Are'] },
@@ -56,4 +86,11 @@ const multipleResponse = {
   ],
 }
 
-export { textResponse, cardResponse, multipleResponse, customResponse }
+export {
+  textResponse,
+  imageResponse,
+  cardResponse,
+  suggestionResponse,
+  multipleResponse,
+  customResponse,
+}

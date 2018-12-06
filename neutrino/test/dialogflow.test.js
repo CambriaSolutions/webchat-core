@@ -6,8 +6,22 @@ import * as t from '../src/components/chatframe/actions/actionTypes'
 import { Client } from '../src/components/chatframe/conversationClient'
 import fetchMock from 'fetch-mock'
 import 'isomorphic-fetch'
-import { textPayload } from './dialogflowPayloads'
-import { textResponse, cardResponse } from './responses'
+import {
+  textPayload,
+  imagePayload,
+  cardPayload,
+  suggestionPayload,
+  customPayload,
+  multiplePayload,
+} from './dialogflowPayloads'
+import {
+  textResponse,
+  imageResponse,
+  cardResponse,
+  suggestionResponse,
+  customResponse,
+  multipleResponse,
+} from './responses'
 import { options } from './options'
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
@@ -88,10 +102,30 @@ describe('dialogflow actions', () => {
     const expectedAction = {
       type: t.SAVE_RESPONSE,
       newConversationArray: [
-        { ...textResponse, systemTime: expect.anything() },
+        {
+          ...textResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
       ],
     }
     store.dispatch(actions.getMessageFromDialogflow(textPayload))
+    const storedActions = store.getActions()
+    expect(storedActions).toContainEqual(expectedAction)
+  })
+
+  it('should correctly process an image payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...imageResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(imagePayload))
     const storedActions = store.getActions()
     expect(storedActions).toContainEqual(expectedAction)
   })
@@ -100,7 +134,11 @@ describe('dialogflow actions', () => {
     const expectedAction = {
       type: t.SAVE_RESPONSE,
       newConversationArray: [
-        { ...cardResponse, systemTime: expect.anything() },
+        {
+          ...cardResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
       ],
     }
     store.dispatch(actions.getMessageFromDialogflow(cardPayload))
@@ -108,74 +146,51 @@ describe('dialogflow actions', () => {
     expect(storedActions).toContainEqual(expectedAction)
   })
 
-  // it('get message from dialogflow for card type', () => {
-  //   store.dispatch(actions.saveResponse(cardResponse))
-  //   const storedActions = store.getActions()
-  //   console.log(storedActions)
-  //   expect(storedActions[1].newConversationArray[0].providerResponse).toEqual(
-  //     cardResponse,
-  //   )
-  // })
+  it('should correctly process a suggestion payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...suggestionResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(suggestionPayload))
+    const storedActions = store.getActions()
+    expect(storedActions).toContainEqual(expectedAction)
+  })
 
-  // it('get message from dialog flow for image type', () => {
-  //   store.dispatch(actions.getMessageFromDialogflow(imageResponse))
-  //   const storedActions = store.getActions()
-  //   expect(
-  //     storedActions[1].data.providerResponse.queryResult.fulfillmentMessages,
-  //   ).toEqual([
-  //     {
-  //       image: { messages: [] },
-  //       message: 'image',
-  //       platform: 'PLATFORM_UNSPECIFIED',
-  //     },
-  //   ])
-  // })
+  it('should correctly process a custom payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...customResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(customPayload))
+    const storedActions = store.getActions()
+    expect(storedActions).toContainEqual(expectedAction)
+  })
 
-  // it('get message from dialog flow for quick replies type', () => {
-  //   store.dispatch(actions.getMessageFromDialogflow(quickRepliesResponse))
-  //   const storedActions = store.getActions()
-  //   expect(
-  //     storedActions[1].data.providerResponse.queryResult.fulfillmentMessages,
-  //   ).toEqual([
-  //     {
-  //       message: 'quickReplies',
-  //       platform: 'PLATFORM_UNSPECIFIED',
-  //       quickReplies: { messages: [] },
-  //     },
-  //   ])
-  // })
-
-  // it('get message from dialog flow for default type', () => {
-  //   store.dispatch(actions.getMessageFromDialogflow(defaultResponse))
-  //   const storedActions = store.getActions()
-  //   expect(
-  //     storedActions[1].data.providerResponse.queryResult.fulfillmentMessages,
-  //   ).toEqual([
-  //     {
-  //       default: { messages: [] },
-  //       message: 'default',
-  //       platform: 'PLATFORM_UNSPECIFIED',
-  //     },
-  //   ])
-  // })
-
-  // it('get message from dialog flow for payload type', () => {
-  //   store.dispatch(actions.getMessageFromDialogflow(payloadResponse))
-  //   const storedActions = store.getActions()
-  //   expect(
-  //     storedActions[1].data.providerResponse.queryResult.fulfillmentMessages,
-  //   ).toEqual([
-  //     {
-  //       message: 4,
-  //       payload: {
-  //         messages: [
-  //           { payload: { test: 'value' }, type: 4 },
-  //           { speech: 'test text', type: 4 },
-  //         ],
-  //       },
-  //       platform: 'PLATFORM_UNSPECIFIED',
-  //       type: 4,
-  //     },
-  //   ])
-  // })
+  it('should correctly process a multi payload', () => {
+    const expectedAction = {
+      type: t.SAVE_RESPONSE,
+      newConversationArray: [
+        {
+          ...multipleResponse,
+          systemTime: expect.anything(),
+          messageId: expect.anything(),
+        },
+      ],
+    }
+    store.dispatch(actions.getMessageFromDialogflow(multiplePayload))
+    const storedActions = store.getActions()
+    expect(storedActions).toContainEqual(expectedAction)
+  })
 })

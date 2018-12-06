@@ -74,17 +74,15 @@ export function getMessageFromDialogflow(response) {
           return 'suggestion'
         case 'image':
           return 'image'
+        case 'payload':
+          return 'payload'
         default:
           return 'text'
       }
     }
     const rawResponses = get(response, 'queryResult.fulfillmentMessages', [])
     const responses = rawResponses.map(msg => {
-      let type = mapMessageTypeToDescriptor(msg.message)
-      if (msg.webhookPayload) {
-        type = 'custom'
-      }
-      console.log(type)
+      const type = mapMessageTypeToDescriptor(msg.message)
       const suggestions = get(msg, 'quickReplies.quickReplies', [])
       const text = get(msg, 'text.text', null)
       const card = {
@@ -93,11 +91,34 @@ export function getMessageFromDialogflow(response) {
         imageUrl: get(msg, 'card.imageUri', ''),
         buttons: get(msg, 'card.buttons', []),
       }
-      const payload = get(msg, 'payload', {})
+      const image = {
+        imageUri: get(msg, 'image.imageUri', ''),
+        accessibilityText: get(msg, 'image.accessibilityText', ''),
+      }
+
+      const payload = {}
+      if (type === 'payload') {
+        const rawPayload = get(msg, 'payload.fields', {})
+        for (const [field, data] of Object.entries(rawPayload)) {
+          if (data.kind === 'stringValue') {
+            try {
+              // Attempt to parse data.stringValue as JSON in case it is
+              payload[field] = JSON.parse(data.stringValue)
+            } catch (err) {
+              // It's not JSON, just add the string
+              payload[field] = data.stringValue
+            }
+          }
+        }
+        dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
+      }
 
       switch (type) {
         case 'text':
           return { type, text }
+
+        case 'image':
+          return { type, image }
 
         case 'suggestion':
           return { type, suggestions }
@@ -113,23 +134,6 @@ export function getMessageFromDialogflow(response) {
       }
     })
 
-    const webhookPayload = get(
-      response,
-      'queryResult.webhookPayload.fields',
-      null
-    )
-
-    // If there is a webhookPayload, parse it to avoid nesting and stringified JSON
-    if (webhookPayload) {
-      for (const [field, data] of Object.entries(webhookPayload)) {
-        if (data.kind === 'stringValue') {
-          webhookPayload[field] = JSON.parse(data.stringValue)
-        }
-      }
-
-      dispatch({ type: RECEIVE_WEBHOOK_DATA, webhookPayload })
-    }
-
     const systemTime = format(new Date(), sysTimeFormat)
     const data = {
       entity: 'bot',
@@ -137,11 +141,9 @@ export function getMessageFromDialogflow(response) {
       messageId: response.responseId,
       language: response.queryResult.languageCode,
       systemTime,
-      // providerResponse: response,
       responses,
     }
-    console.log(JSON.stringify(response))
-    console.log(JSON.stringify(data))
+
     dispatch(saveResponse(data))
   }
 }

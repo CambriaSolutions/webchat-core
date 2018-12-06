@@ -168,7 +168,7 @@ const imagePayload = {
 }
 
 const suggestionPayload = {
-  responseId: 'c13962f0-ea00-4392-8cc3-4a7cf9027af5',
+  responseId: '8cd02664-0ba2-4a6f-8f6e-bb5b425fc3f1',
   queryResult: {
     fulfillmentMessages: [
       {
@@ -183,7 +183,7 @@ const suggestionPayload = {
       },
     ],
     outputContexts: [],
-    queryText: 'suggestions',
+    queryText: 'suggestion',
     speechRecognitionConfidence: 0,
     action: '',
     parameters: { fields: {} },
@@ -214,7 +214,7 @@ const suggestionPayload = {
     },
     intentDetectionConfidence: 1,
     diagnosticInfo: {
-      fields: { webhook_latency_ms: { numberValue: 48, kind: 'numberValue' } },
+      fields: { webhook_latency_ms: { numberValue: 47, kind: 'numberValue' } },
     },
     languageCode: 'en-us',
   },
@@ -226,13 +226,15 @@ const suggestionPayload = {
 }
 
 const customPayload = {
-  responseId: '46ab8a36-b8d4-48a5-b63f-bd002507c907',
+  responseId: 'a3f5b030-604b-4ae4-b046-03234b8324b8',
   queryResult: {
     fulfillmentMessages: [
       {
         platform: 'PLATFORM_UNSPECIFIED',
-        text: { text: [''] },
-        message: 'text',
+        payload: {
+          fields: { test: { stringValue: 'this', kind: 'stringValue' } },
+        },
+        message: 'payload',
       },
     ],
     outputContexts: [],
@@ -243,16 +245,7 @@ const customPayload = {
     allRequiredParamsPresent: true,
     fulfillmentText: '',
     webhookSource: '',
-    webhookPayload: {
-      fields: {
-        null: {
-          structValue: {
-            fields: { test: { stringValue: 'this', kind: 'stringValue' } },
-          },
-          kind: 'structValue',
-        },
-      },
-    },
+    webhookPayload: null,
     intent: {
       inputContextNames: [],
       events: [],
@@ -276,7 +269,7 @@ const customPayload = {
     },
     intentDetectionConfidence: 1,
     diagnosticInfo: {
-      fields: { webhook_latency_ms: { numberValue: 54, kind: 'numberValue' } },
+      fields: { webhook_latency_ms: { numberValue: 32, kind: 'numberValue' } },
     },
     languageCode: 'en-us',
   },
