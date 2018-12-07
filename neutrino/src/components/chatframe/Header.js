@@ -4,15 +4,19 @@ import { withTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Fullscreen from '@material-ui/icons/Fullscreen'
 import FullscreenExit from '@material-ui/icons/FullscreenExit'
+import Info from '@material-ui/icons/Info'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import Close from '@material-ui/icons/Close'
 import grey from '@material-ui/core/colors/grey'
 import styled from 'styled-components'
+import Tooltip from '@material-ui/core/Tooltip'
+
 import {
   hideWindow,
   showFullscreen,
   showWindowed,
+  showPrivacyPolicy,
 } from './actions/initialization'
 
 const BotAvatar = styled(Avatar)`
@@ -91,6 +95,7 @@ class Header extends PureComponent {
       showFullscreen,
       fullscreen,
       avatar,
+      showPrivacyPolicy,
     } = this.props
     return (
       <Container theme={theme}>
@@ -99,7 +104,15 @@ class Header extends PureComponent {
         <HeaderText theme={theme} variant="h6">
           {title}
         </HeaderText>
-
+        <Tooltip title="Privacy Policy" placement="bottom">
+          <HeaderButton
+            theme={theme}
+            onClick={showPrivacyPolicy}
+            aria-label="Windowed"
+          >
+            <Info fontSize="small" />
+          </HeaderButton>
+        </Tooltip>
         {fullscreen ? (
           <HeaderButton
             theme={theme}
@@ -133,23 +146,16 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    hideWindow: () => {
-      dispatch(hideWindow())
-    },
-    showFullscreen: () => {
-      dispatch(showFullscreen())
-    },
-    showWindowed: () => {
-      dispatch(showWindowed())
-    },
-  }
+const mapDispatchToProps = {
+  hideWindow,
+  showFullscreen,
+  showWindowed,
+  showPrivacyPolicy,
 }
 
 export default withTheme()(
   connect(
     mapStateToProps,
-    mapDispatchToProps,
-  )(Header),
+    mapDispatchToProps
+  )(Header)
 )

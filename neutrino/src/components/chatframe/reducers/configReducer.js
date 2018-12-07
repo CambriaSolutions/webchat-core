@@ -5,9 +5,16 @@ const initialState = {
   title: 'Chat Window',
   windowVisible: false,
   fullscreen: false,
+  privacyPolicyVisible: false,
 }
 function config(state = initialState, action) {
   switch (action.type) {
+    case t.HIDE_PRIVACY_POLICY:
+      return { ...state, privacyPolicyVisible: false }
+
+    case t.SHOW_PRIVACY_POLICY:
+      return { ...state, privacyPolicyVisible: true }
+
     case t.SET_AVATAR:
       return { ...state, avatar: action.avatar }
 
