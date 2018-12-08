@@ -7,11 +7,7 @@ const {
   Suggestion,
   Payload,
 } = require('dialogflow-fulfillment')
-
-// const admin = require('firebase-admin')
-// const db = admin.firestore()
-// const settings = { timestampsInSnapshots: true }
-// db.settings(settings)
+const logRequest = require('./logRequest.js')
 
 // Examples taken from https://github.com/dialogflow/dialogflow-fulfillment-nodejs
 
@@ -24,17 +20,25 @@ const wikipediaKelvinImageUrl =
 
 exports = module.exports = functions.https.onRequest((request, response) => {
   const agent = new WebhookClient({ request, response })
+  const intent = request.body.queryResult.intent.displayName
+  const userSays = request.body.queryResult.queryText
+  const userRequest = { intent, userSays }
 
   function welcome(agent) {
     agent.add(`Welcome to my agent!`)
   }
 
   // User says = multiple
-  function multipleResponses(agent) {
-    agent.add(`These`)
-    agent.add(`Are`)
-    agent.add(`Multiple`)
-    agent.add(`Responses`)
+  async function multipleResponses(agent) {
+    try {
+      await logRequest(userRequest)
+      agent.add(`These`)
+      agent.add(`Are`)
+      agent.add(`Multiple`)
+      agent.add(`Responses`)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   // User says = card
