@@ -6,6 +6,7 @@ import WebFont from 'webfontloader'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import thunkMiddleware from 'redux-thunk'
 import 'whatwg-fetch'
+import grey from '@material-ui/core/colors/grey'
 import createTheme from './createTheme'
 import ActivatorButton from './ActivatorButton'
 import ChatContainer from './ChatContainer'
@@ -37,6 +38,17 @@ const OuterContainer = styled.div`
   & > * {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+
+    & ::-webkit-scrollbar-thumb {
+      background-color: ${grey[600]};
+      -webkit-border-radius: 8px;
+      border-radius: 8px;
+      border: 2px solid ${grey[100]};
+    }
+    & ::-webkit-scrollbar {
+      background-color: ${grey[100]};
+      width: 8px;
+    }
   }
 `
 
