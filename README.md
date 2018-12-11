@@ -1,5 +1,35 @@
 # webchat-core
 
+### Usage/Props
+
+```
+<ChatWindow
+    primaryColor="#3bafbf"
+    secondaryColor="#000"
+    title="Test Chat"
+    client="Dialogflow"
+    clientOptions={options}
+    fullscreen={false}
+    initialActive={false}
+  />
+```
+
+- `primaryColor` can be any hex or material-ui color (e.g. 'blue', 'red', 'yellow', 'cyan')
+- `secondaryColor` can be any hex or material-ui color (e.g. 'blue', 'red', 'yellow', 'cyan')
+- `title` can be any string
+- `client` can only currently be 'dialogflow'
+- `clientOptions` is an object containing URLs for fulfillment APIs:
+
+```
+{
+eventUrl: 'https://us-central1-webchat-core.cloudfunctions.net/eventRequest',
+textUrl: 'https://us-central1-webchat-core.cloudfunctions.net/textRequest',
+}
+```
+
+- fullscreen is whether or not the window is currently fullscreen
+- initialActive describes whether or not the window is open and active on page load
+
 ### Deployment Process
 
 1. Create an .npmrc file inside of the `chatframe` folder :
