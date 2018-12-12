@@ -1,18 +1,16 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
+import Fab from '@material-ui/core/Fab'
 import Chat from '@material-ui/icons/Chat'
+import Zoom from '@material-ui/core/Zoom'
 
 // Redux
 import { connect } from 'react-redux'
 import { showWindow } from './actions/initialization'
 
-const Btn = styled(Button)`
+const Btn = styled(Fab)`
   && {
     display: ${p => (p.active ? 'block' : 'none')};
-    position: absolute;
-    bottom: 48px;
-    right: 48px;
     pointer-events: auto;
     padding-top: 8px;
   }
@@ -22,14 +20,15 @@ class ActivatorButton extends PureComponent {
   render() {
     const { windowVisible, showWindow } = this.props
     return (
-      <Btn
-        color="primary"
-        variant="fab"
-        onClick={showWindow}
-        active={windowVisible ? 0 : 1}
-      >
-        <Chat />
-      </Btn>
+      <Zoom in={!windowVisible} unmountOnExit>
+        <Btn
+          color="primary"
+          onClick={showWindow}
+          active={windowVisible ? 0 : 1}
+        >
+          <Chat />
+        </Btn>
+      </Zoom>
     )
   }
 }

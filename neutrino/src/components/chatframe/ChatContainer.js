@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Zoom from '@material-ui/core/Zoom'
 import grey from '@material-ui/core/colors/grey'
 import Header from './Header'
+import PrivacyPolicy from './PrivacyPolicy'
 import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
 import ButtonBar from './ButtonBar'
@@ -63,6 +64,10 @@ const OuterFrame = styled.div`
 `
 
 class ChatContainer extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.containerRef = React.createRef()
+  }
   render() {
     const { windowVisible, fullscreen } = this.props
     return (
@@ -72,8 +77,9 @@ class ChatContainer extends PureComponent {
         visible={windowVisible ? 1 : 0}
       >
         <Zoom in={windowVisible}>
-          <OuterFrame>
+          <OuterFrame ref={this.containerRef}>
             <Header />
+            <PrivacyPolicy parentRef={this.containerRef.current} />
             <ChatWindow />
             <ButtonBar />
             <ErrorBar />

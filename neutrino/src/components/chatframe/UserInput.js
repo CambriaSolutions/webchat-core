@@ -23,7 +23,6 @@ const OuterFrame = styled.div`
 
 const TextInput = styled(Input)`
   && {
-    padding: 0 16px;
     /*All properties below are specified to combat WordPress*/
     & > input[type='text'] {
       border: none;
@@ -94,5 +93,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(UserInput)

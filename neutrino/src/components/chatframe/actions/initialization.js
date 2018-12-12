@@ -14,6 +14,8 @@ import {
   FULLSCREEN,
   WINDOWED,
   SET_CONVERSATION_STARTED,
+  SHOW_PRIVACY_POLICY,
+  HIDE_PRIVACY_POLICY,
 } from './actionTypes'
 
 import { sysTimeFormat } from '../config/dateFormats'
@@ -30,6 +32,12 @@ export function showWindow() {
       dispatch({ type: SET_CONVERSATION_STARTED })
     }
   }
+}
+export function showPrivacyPolicy() {
+  return { type: SHOW_PRIVACY_POLICY }
+}
+export function hidePrivacyPolicy() {
+  return { type: HIDE_PRIVACY_POLICY }
 }
 export function hideWindow() {
   return { type: HIDE_WINDOW }

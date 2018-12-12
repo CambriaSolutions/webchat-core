@@ -22,17 +22,6 @@ const ContentWrapper = styled.div`
   margin-bottom: 1px;
   margin-top: 8px;
   width: 100%;
-
-  & ::-webkit-scrollbar-thumb {
-    background-color: ${grey[600]};
-    -webkit-border-radius: 8px;
-    border-radius: 8px;
-    border: 2px solid ${grey[100]};
-  }
-  & ::-webkit-scrollbar {
-    background-color: ${grey[100]};
-    width: 8px;
-  }
 `
 
 function buildUserMessage(message) {

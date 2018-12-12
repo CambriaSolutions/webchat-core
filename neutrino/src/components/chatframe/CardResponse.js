@@ -6,7 +6,6 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import grey from '@material-ui/core/colors/grey'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 
@@ -15,11 +14,11 @@ import { sysTimeFormat } from './config/dateFormats'
 
 const CardContainer = styled(Card)`
   && {
-    border-top-left-radius: 1px;
+    border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    background: ${grey[400]};
+    background: #fff;
     margin: 16px auto;
     white-space: pre-line;
   }
