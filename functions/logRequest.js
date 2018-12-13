@@ -5,34 +5,38 @@ db.settings(settings)
 
 async function logRequest(userRequest) {
   try {
-    console.log('started')
-    db.collection('interactions').add(userRequest)
-    const docRef = admin
-      .firestore()
-      .collection('analytics')
-      .doc('summaryData')
-
-    const doc = db.runTransaction(t => t.get(docRef))
-    let newTotalNumInteractions = 1
+    await db.collection('requests').add(userRequest)
+    const userSays = userRequest.userSays.toLowerCase()
+    const intent = userRequest.intent
+    const docRef = db.collection('analytics').doc('summaryData')
+    const doc = await db.runTransaction(t => t.get(docRef))
+    let newTotalNumRequests = 1
     let newUserSays = {}
-    let newIntentsList = {}
+    let newIntentCollection = {}
 
-    console.log(doc)
-    if (doc.exists && typeof doc.data().totalNumInteractions !== 'undefined') {
-      newTotalNumInteractions = doc.data().totalNumInteractions + 1
+    newUserSays[userSays] = 1
+    newIntentCollection[intent] = 1
+
+    if (doc.exists && typeof doc.data().totalNumRequests !== 'undefined') {
+      newTotalNumRequests = doc.data().totalNumRequests + 1
     }
-    // if (doc.exists && typeof doc.data().userSays !== 'undefined') {
-    //   newUserSays = doc.data().userSays
-    // }
-    // if (doc.exists && typeof doc.data().intents !== 'undefined') {
-    //   newIntentsList = doc.data().userSays
-    // }
+
+    if (doc.exists && typeof doc.data().userSays[userSays] !== 'undefined') {
+      newUserSays[userSays] = doc.data().userSays[userSays] + 1
+    }
+
+    if (
+      doc.exists &&
+      typeof doc.data().intentCollection[intent] !== 'undefined'
+    ) {
+      newIntentCollection[intent] = doc.data().intentCollection[intent] + 1
+    }
 
     await doc.ref.set(
       {
-        totalNumInteractions: newTotalNumInteractions,
-        userSays: userRequest.userSays,
-        intent: userRequest.intent,
+        totalNumRequests: newTotalNumRequests,
+        userSays: newUserSays,
+        intentCollection: newIntentCollection,
       },
       { merge: true }
     )

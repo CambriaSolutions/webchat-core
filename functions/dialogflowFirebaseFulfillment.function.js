@@ -22,78 +22,116 @@ exports = module.exports = functions.https.onRequest((request, response) => {
   const agent = new WebhookClient({ request, response })
   const intent = request.body.queryResult.intent.displayName
   const userSays = request.body.queryResult.queryText
-  const userRequest = { intent, userSays }
+  const userRequest = { intent: intent, userSays: userSays }
 
-  function welcome(agent) {
-    agent.add(`Welcome to my agent!`)
+  logRequest(userRequest)
+
+  async function welcome(agent) {
+    try {
+      await agent.add(`Welcome to my agent!`)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  async function fallbackIntent(agent) {
+    try {
+      await agent.add(`Sorry I didn't get that.`)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   // User says = multiple
   async function multipleResponses(agent) {
     try {
-      await logRequest(userRequest)
-      agent.add(`These`)
-      agent.add(`Are`)
-      agent.add(`Multiple`)
-      agent.add(`Responses`)
+      await agent.add(`These`)
+      await agent.add(`Are`)
+      await agent.add(`Multiple`)
+      await agent.add(`Responses`)
     } catch (err) {
       console.error(err)
     }
   }
 
   // User says = card
-  function cardResponse(agent) {
-    agent.add(
-      new Card({
-        title: 'Vibrating molecules',
-        imageUrl: wikipediaTemperatureImageUrl,
-        text:
-          'Did you know that temperature is really just a measure of how fast molecules are vibrating around?! 😱',
-        buttonText: 'Temperature Wikipedia Page',
-        buttonUrl: wikipediaTemperatureUrl,
-      })
-    )
+  async function cardResponse(agent) {
+    try {
+      await agent.add(
+        new Card({
+          title: 'Vibrating molecules',
+          imageUrl: wikipediaTemperatureImageUrl,
+          text:
+            'Did you know that temperature is really just a measure of how fast molecules are vibrating around?! 😱',
+          buttonText: 'Temperature Wikipedia Page',
+          buttonUrl: wikipediaTemperatureUrl,
+        })
+      )
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   // User says = image
-  function imageResponse(agent) {
-    agent.add(new Image(wikipediaKelvinImageUrl))
+  async function imageResponse(agent) {
+    try {
+      await agent.add(new Image(wikipediaKelvinImageUrl))
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   // User says = suggestions or chips
-  function suggestionsResponse(agent) {
-    agent.add(`These are suggestions`)
-    agent.add(new Suggestion(`No`))
-    agent.add(new Suggestion(`Yes`))
+  async function suggestionsResponse(agent) {
+    try {
+      await agent.add(`These are suggestions`)
+      await agent.add(new Suggestion(`No`))
+      await agent.add(new Suggestion(`Yes`))
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   // User says = text
-  function textResponse(agent) {
-    agent.add(new Text('This is text'))
+  async function textResponse(agent) {
+    try {
+      await agent.add(new Text('This is text'))
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   // User says = payload
-  function payloadResponse(agent) {
-    agent.add(
-      new Payload(
-        agent.UNSPECIFIED,
-        { test: 'this' },
-        { sendAsMessage: true, rawPayload: true }
+  async function payloadResponse(agent) {
+    try {
+      await agent.add(
+        new Payload(
+          agent.UNSPECIFIED,
+          { test: 'this' },
+          { sendAsMessage: true, rawPayload: true }
+        )
       )
-    )
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   // User says = context
-  function contextSetting(agent) {
-    agent.add(`Context set for welcome intent`)
-    agent.setContext({
-      name: 'waiting-context-setting',
-      lifespan: 2,
-    })
+  async function contextSetting(agent) {
+    try {
+      await agent.add(`Context set for welcome intent`)
+      await agent.setContext({
+        name: 'waiting-context-setting',
+        lifespan: 2,
+      })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   let intentMap = new Map()
   intentMap.set('Default Welcome Intent', welcome)
+  intentMap.set('Default Fallback Intent', fallbackIntent)
   intentMap.set('multipleResponses', multipleResponses)
   intentMap.set('cardResponse', cardResponse)
   intentMap.set('imageResponse', imageResponse)
