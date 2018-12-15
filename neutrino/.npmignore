@@ -1,1 +1,5 @@
 src
+coverage
+test
+.neutrinorc.js
+*.log
