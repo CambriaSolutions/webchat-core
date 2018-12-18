@@ -21,9 +21,11 @@ const wikipediaKelvinImageUrl =
 exports = module.exports = functions.https.onRequest((request, response) => {
   const agent = new WebhookClient({ request, response })
   const intent = request.body.queryResult.intent.displayName
+  const language = request.body.queryResult.languageCode
   const userSays = request.body.queryResult.queryText
-  const userRequest = { intent: intent, userSays: userSays }
+  const userRequest = { intent, userSays, language }
 
+  // Run analytics on the incoming request
   logRequest(userRequest)
 
   async function welcome(agent) {
