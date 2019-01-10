@@ -7,6 +7,7 @@ describe('reducer', () => {
       avatar: null,
       title: 'Chat Window',
       windowVisible: false,
+      privacyPolicyVisible: false,
       fullscreen: false,
     }
     expect(reducer(undefined, {})).toEqual(initialState)
