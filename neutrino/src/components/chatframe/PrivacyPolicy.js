@@ -17,7 +17,12 @@ const StyledDialog = styled(Dialog)`
 
 class PrivacyPolicy extends PureComponent {
   render() {
-    const { hidePrivacyPolicy, privacyPolicyVisible, parentRef } = this.props
+    const {
+      hidePrivacyPolicy,
+      privacyPolicyVisible,
+      privacyPolicy,
+      parentRef,
+    } = this.props
     return (
       <StyledDialog
         open={privacyPolicyVisible}
@@ -28,7 +33,7 @@ class PrivacyPolicy extends PureComponent {
       >
         <DialogTitle>Privacy Statement</DialogTitle>
         <DialogContent>
-          <DialogContentText>{this.props.policyText}</DialogContentText>
+          <DialogContentText>{privacyPolicy}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={hidePrivacyPolicy} color="primary">
@@ -43,6 +48,7 @@ class PrivacyPolicy extends PureComponent {
 const mapStateToProps = state => {
   return {
     privacyPolicyVisible: state.config.privacyPolicyVisible,
+    privacyPolicy: state.config.privacyPolicy,
   }
 }
 

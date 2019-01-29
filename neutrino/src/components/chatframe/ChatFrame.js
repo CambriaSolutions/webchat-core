@@ -93,7 +93,7 @@ class ChatFrame extends PureComponent {
       <Provider store={this.store}>
         <MuiThemeProvider theme={this.theme}>
           <OuterContainer>
-            <ChatContainer policyText={this.props.policyText} />
+            <ChatContainer />
             <ActivatorButton />
           </OuterContainer>
         </MuiThemeProvider>

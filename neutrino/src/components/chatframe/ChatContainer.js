@@ -79,10 +79,7 @@ class ChatContainer extends PureComponent {
         <Zoom in={windowVisible}>
           <OuterFrame ref={this.containerRef}>
             <Header />
-            <PrivacyPolicy
-              parentRef={this.containerRef.current}
-              policyText={this.props.policyText}
-            />
+            <PrivacyPolicy parentRef={this.containerRef.current} />
             <ChatWindow />
             <ButtonBar />
             <ErrorBar />
