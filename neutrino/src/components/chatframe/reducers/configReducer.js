@@ -6,7 +6,8 @@ const initialState = {
   windowVisible: false,
   fullscreen: false,
   privacyPolicyVisible: false,
-  privacyPolicy: '',
+  privacyPolicy:
+    'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.',
 }
 function config(state = initialState, action) {
   switch (action.type) {

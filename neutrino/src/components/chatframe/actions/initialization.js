@@ -107,9 +107,12 @@ export function initialize(props) {
     }
     dispatch({ type: SET_TITLE, title })
     dispatch({ type: SET_AVATAR, avatar: userAvatar })
-    dispatch({ type: SET_PRIVACY_POLICY, policyText })
     dispatch(setupClient(client, clientOptions))
     dispatch(startTimer())
+
+    if (policyText && policyText !== '') {
+      dispatch({ type: SET_PRIVACY_POLICY, policyText })
+    }
 
     if (initialActive === true) {
       dispatch({ type: SET_CONVERSATION_STARTED })
