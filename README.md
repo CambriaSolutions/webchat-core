@@ -11,6 +11,7 @@
     clientOptions={options}
     fullscreen={false}
     initialActive={false}
+    policyText={privacyPolicy}
   />
 ```
 
@@ -19,6 +20,7 @@
 - `title` can be any string
 - `client` can only currently be 'dialogflow'
 - `clientOptions` is an object containing URLs for fulfillment APIs:
+- `policyText` can be any string
 
 ```
 {
