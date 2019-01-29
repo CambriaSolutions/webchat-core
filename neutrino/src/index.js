@@ -7,6 +7,9 @@ export const options = {
   textUrl: 'https://us-central1-webchat-core.cloudfunctions.net/textRequest',
 }
 
+export const privacyPolicy =
+  'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.'
+
 const root = document.getElementById('cambria-chatframe')
 
 render(
@@ -18,6 +21,7 @@ render(
     clientOptions={options}
     fullscreen={false}
     initialActive={false}
+    policyText={privacyPolicy}
   />,
   root
 )

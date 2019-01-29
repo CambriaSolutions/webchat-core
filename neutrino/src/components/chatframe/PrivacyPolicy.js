@@ -28,24 +28,7 @@ class PrivacyPolicy extends PureComponent {
       >
         <DialogTitle>Privacy Statement</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Please do not enter any personally identifiable information such as
-            SSN, Date of Birth, Case Number or last name. Please do not enter
-            any personally identifiable information such as SSN, Date of Birth,
-            Case Number or last name. Please do not enter any personally
-            identifiable information such as SSN, Date of Birth, Case Number or
-            last name. Please do not enter any personally identifiable
-            information such as SSN, Date of Birth, Case Number or last name.
-            Please do not enter any personally identifiable information such as
-            SSN, Date of Birth, Case Number or last name. Please do not enter
-            any personally identifiable information such as SSN, Date of Birth,
-            Case Number or last name. Please do not enter any personally
-            identifiable information such as SSN, Date of Birth, Case Number or
-            last name. Please do not enter any personally identifiable
-            information such as SSN, Date of Birth, Case Number or last name.
-            Please do not enter any personally identifiable information such as
-            SSN, Date of Birth, Case Number or last name.
-          </DialogContentText>
+          <DialogContentText>{this.props.policyText}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={hidePrivacyPolicy} color="primary">
@@ -69,5 +52,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(PrivacyPolicy)
