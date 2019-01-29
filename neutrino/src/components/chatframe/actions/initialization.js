@@ -16,6 +16,7 @@ import {
   SET_CONVERSATION_STARTED,
   SHOW_PRIVACY_POLICY,
   HIDE_PRIVACY_POLICY,
+  SET_PRIVACY_POLICY,
 } from './actionTypes'
 
 import { sysTimeFormat } from '../config/dateFormats'
@@ -98,6 +99,7 @@ export function initialize(props) {
       clientOptions,
       initialActive,
       fullscreen,
+      policyText,
     } = props
     let userAvatar = avatar
     if (!userAvatar) {
@@ -107,6 +109,10 @@ export function initialize(props) {
     dispatch({ type: SET_AVATAR, avatar: userAvatar })
     dispatch(setupClient(client, clientOptions))
     dispatch(startTimer())
+
+    if (policyText && policyText !== '') {
+      dispatch({ type: SET_PRIVACY_POLICY, policyText })
+    }
 
     if (initialActive === true) {
       dispatch({ type: SET_CONVERSATION_STARTED })

@@ -17,7 +17,12 @@ const StyledDialog = styled(Dialog)`
 
 class PrivacyPolicy extends PureComponent {
   render() {
-    const { hidePrivacyPolicy, privacyPolicyVisible, parentRef } = this.props
+    const {
+      hidePrivacyPolicy,
+      privacyPolicyVisible,
+      privacyPolicy,
+      parentRef,
+    } = this.props
     return (
       <StyledDialog
         open={privacyPolicyVisible}
@@ -28,24 +33,7 @@ class PrivacyPolicy extends PureComponent {
       >
         <DialogTitle>Privacy Statement</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Please do not enter any personally identifiable information such as
-            SSN, Date of Birth, Case Number or last name. Please do not enter
-            any personally identifiable information such as SSN, Date of Birth,
-            Case Number or last name. Please do not enter any personally
-            identifiable information such as SSN, Date of Birth, Case Number or
-            last name. Please do not enter any personally identifiable
-            information such as SSN, Date of Birth, Case Number or last name.
-            Please do not enter any personally identifiable information such as
-            SSN, Date of Birth, Case Number or last name. Please do not enter
-            any personally identifiable information such as SSN, Date of Birth,
-            Case Number or last name. Please do not enter any personally
-            identifiable information such as SSN, Date of Birth, Case Number or
-            last name. Please do not enter any personally identifiable
-            information such as SSN, Date of Birth, Case Number or last name.
-            Please do not enter any personally identifiable information such as
-            SSN, Date of Birth, Case Number or last name.
-          </DialogContentText>
+          <DialogContentText>{privacyPolicy}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={hidePrivacyPolicy} color="primary">
@@ -60,6 +48,7 @@ class PrivacyPolicy extends PureComponent {
 const mapStateToProps = state => {
   return {
     privacyPolicyVisible: state.config.privacyPolicyVisible,
+    privacyPolicy: state.config.privacyPolicy,
   }
 }
 
@@ -69,5 +58,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(PrivacyPolicy)
