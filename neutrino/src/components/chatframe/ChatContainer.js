@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import Paper from '@material-ui/core/Paper'
 import styled, { css } from 'styled-components'
 import { connect } from 'react-redux'
-import Zoom from '@material-ui/core/Zoom'
 import grey from '@material-ui/core/colors/grey'
 import Header from './Header'
 import PrivacyPolicy from './PrivacyPolicy'
@@ -76,16 +75,14 @@ class ChatContainer extends PureComponent {
         fullscreen={fullscreen ? 1 : 0}
         visible={windowVisible ? 1 : 0}
       >
-        <Zoom in={windowVisible}>
-          <OuterFrame ref={this.containerRef}>
-            <Header />
-            <PrivacyPolicy parentRef={this.containerRef.current} />
-            <ChatWindow />
-            <ButtonBar />
-            <ErrorBar />
-            <UserInput />
-          </OuterFrame>
-        </Zoom>
+        <OuterFrame ref={this.containerRef}>
+          <Header />
+          <PrivacyPolicy parentRef={this.containerRef.current} />
+          <ChatWindow />
+          <ButtonBar />
+          <ErrorBar />
+          <UserInput />
+        </OuterFrame>
       </Container>
     )
   }
