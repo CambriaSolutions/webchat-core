@@ -9,6 +9,8 @@ describe('reducer', () => {
       windowVisible: false,
       privacyPolicyVisible: false,
       fullscreen: false,
+      privacyPolicy:
+        'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.',
     }
     expect(reducer(undefined, {})).toEqual(initialState)
   })
