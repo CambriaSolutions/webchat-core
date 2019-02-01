@@ -1,3 +1,5 @@
+import uuidv4 from 'uuid/v4'
+
 export class Client {
   constructor(options) {
     if (!options || !options.textUrl) {
@@ -7,6 +9,7 @@ export class Client {
     }
     this.textUrl = options.textUrl
     this.eventUrl = options.eventUrl
+    this.uuid = uuidv4()
   }
 
   encodeQueryData(data) {
@@ -23,6 +26,7 @@ export class Client {
     }
     const params = {
       query,
+      uuid: this.uuid,
     }
 
     const queryParams = this.encodeQueryData(params)
@@ -44,6 +48,7 @@ export class Client {
 
     const params = {
       query,
+      uuid: uuidv4,
     }
 
     const queryParams = this.encodeQueryData(params)
