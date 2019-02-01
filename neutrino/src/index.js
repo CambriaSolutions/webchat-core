@@ -3,8 +3,8 @@ import { render } from 'react-dom'
 import ChatWindow from './components/chatframe'
 
 export const options = {
-  eventUrl: 'https://us-central1-webchat-core.cloudfunctions.net/eventRequest',
-  textUrl: 'https://us-central1-webchat-core.cloudfunctions.net/textRequest',
+  eventUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/eventRequest',
+  textUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/textRequest',
 }
 
 export const privacyPolicy =
