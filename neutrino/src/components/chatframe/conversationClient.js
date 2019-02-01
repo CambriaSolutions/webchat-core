@@ -28,6 +28,7 @@ export class Client {
       query,
       uuid: this.uuid,
     }
+    console.log(params)
 
     const queryParams = this.encodeQueryData(params)
     const url = `${this.textUrl}?${queryParams}`
@@ -48,7 +49,7 @@ export class Client {
 
     const params = {
       query,
-      uuid: uuidv4,
+      uuid: this.uuid,
     }
 
     const queryParams = this.encodeQueryData(params)
