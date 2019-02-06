@@ -76,7 +76,7 @@ function conversation(state = initialState, action) {
     case t.RECEIVE_WEBHOOK_DATA:
       return {
         ...state,
-        webhookPayload: action.webhookPayload,
+        webhookPayload: action.payload,
       }
 
     case t.SET_CONVERSATION_STARTED:

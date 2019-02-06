@@ -108,6 +108,8 @@ export function getMessageFromDialogflow(response) {
               // It's not JSON, just add the string
               payload[field] = data.stringValue
             }
+          } else if (data.kind === 'listValue') {
+            payload[field] = data.listValue
           }
         }
         dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
