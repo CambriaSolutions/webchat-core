@@ -30,6 +30,12 @@ export function saveResponse(data) {
   return (dispatch, getState) => {
     const { messages } = getState().conversation
     const hasSuggestion = find(data.responses, ['type', 'suggestion'])
+    const hasMap = find(data.responses, 'payload')
+
+    if (hasMap) {
+      console.log(hasMap.payload)
+    }
+
     if (hasSuggestion) {
       dispatch({ type: SHOW_BUTTON_BAR })
     } else {
@@ -97,10 +103,15 @@ export function getMessageFromDialogflow(response) {
       }
 
       const payload = {}
+      // Dialogflow now structures payloads as either null, numbers, strings, boolean,
+      // structures or list values
+      // https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Struct
+
       if (type === 'payload') {
         const rawPayload = get(msg, 'payload.fields', {})
         for (const [field, data] of Object.entries(rawPayload)) {
           if (data.kind === 'stringValue') {
+            // not sure if this try block is still needed?
             try {
               // Attempt to parse data.stringValue as JSON in case it is
               payload[field] = JSON.parse(data.stringValue)
@@ -109,9 +120,23 @@ export function getMessageFromDialogflow(response) {
               payload[field] = data.stringValue
             }
           } else if (data.kind === 'listValue') {
+            // A "repeated value" like an array
             payload[field] = data.listValue
+          } else if (data.kind === 'structValue') {
+            // A "structured value" like an object
+            payload[field] = data.structValue
+          } else if (data.kind === 'numberValue') {
+            // TODO: handle number values
+            payload[field] = data.numberValue
+          } else if (data.kind === 'boolValue') {
+            // TODO: handle boolean values
+            payload[field] = data.boolValue
+          } else {
+            return payload
           }
         }
+
+        // Not sure where we need to put this? Perhaps inside of the first try block?
         dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
       }
 
