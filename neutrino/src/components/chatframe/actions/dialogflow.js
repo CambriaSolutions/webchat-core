@@ -12,7 +12,6 @@ import {
   RECEIVE_WEBHOOK_DATA,
   SET_CONVERSATION_ENDED,
 } from './actionTypes'
-
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
 
@@ -30,6 +29,7 @@ export function saveResponse(data) {
   return (dispatch, getState) => {
     const { messages } = getState().conversation
     const hasSuggestion = find(data.responses, ['type', 'suggestion'])
+
     if (hasSuggestion) {
       dispatch({ type: SHOW_BUTTON_BAR })
     } else {
@@ -108,8 +108,13 @@ export function getMessageFromDialogflow(response) {
               // It's not JSON, just add the string
               payload[field] = data.stringValue
             }
+          } else if (data.kind && data.kind !== 'stringValue') {
+            throw new Error('Use stringValue to send payloads')
+          } else {
+            return payload
           }
         }
+
         dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
       }
 
