@@ -72,7 +72,7 @@ class MapResponse extends PureComponent {
                 position={{ lat: row.lat, lng: row.long }}
                 icon={{
                   url: redpin,
-                  scaledSize: new google.maps.Size(20, 20),
+                  scaledSize: new this.props.google.maps.Size(20, 20),
                 }}
                 onClick={() => handleMarkerClick(row)}
               />
