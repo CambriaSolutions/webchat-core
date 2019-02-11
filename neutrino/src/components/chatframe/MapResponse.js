@@ -42,13 +42,10 @@ class MapResponse extends PureComponent {
   render() {
     const { data, points } = this.props
 
-    console.log(points)
     const bounds = new this.props.google.maps.LatLngBounds()
-    console.log(`bounds before ${bounds}`)
     for (let i = 0; i < points.length; i++) {
       bounds.extend(points[i])
     }
-    console.log(`bounds after ${bounds}`)
 
     const handleMarkerClick = location => {
       const url =
@@ -56,7 +53,7 @@ class MapResponse extends PureComponent {
         location.placeId
       window.open(url, '_blank')
     }
-    console.log(bounds)
+
     return (
       <CardContainer>
         <CardContent>
