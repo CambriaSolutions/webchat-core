@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
 import redpin from './redpin.svg'
+import Loading from './Loading'
 
 const CardContainer = styled(Card)`
   && {
@@ -24,11 +25,22 @@ const mapContainerSettings = {
   height: 300,
   position: 'relative'
 }
+//set height of loading message to be equal to map height with padding
+//in order for react-virtualized to calculate row height before API call
+const LoadingWrapper = styled.div`
+  height: 432px;
+`
+const LoadingContainer = props => (
+  <LoadingWrapper>
+    <div>
+      <Loading />
+    </div>
+  </LoadingWrapper>
+)
 
 class MapResponse extends PureComponent {
   render() {
-    const { message } = this.props
-
+    const { data, googleMapsKey } = this.props
     const handleMarkerClick = location => {
       const url =
         'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=' +
@@ -49,18 +61,18 @@ class MapResponse extends PureComponent {
             fullscreenControl={false}
             containerStyle={mapContainerSettings}
             initialCenter={{
-              lat: 33.0587839,
-              lng: -89.5913959
+              lat: data[0].lat,
+              lng: data[0].long,
             }}
           >
-            {message.map((row, i) => (
+            {data.map((row, i) => (
               <Marker
                 key={i}
                 name={row.name}
                 position={{ lat: row.lat, lng: row.long }}
                 icon={{
                   url: redpin,
-                  scaledSize: new google.maps.Size(20, 20)
+                  scaledSize: new google.maps.Size(20, 20),
                 }}
                 onClick={() => handleMarkerClick(row)}
               />
@@ -72,6 +84,15 @@ class MapResponse extends PureComponent {
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: process.env.GOOGLE_MAPS_API_KEY
-})(MapResponse)
+const mapStateToProps = state => {
+  return {
+    googleMapsKey: state.config.googleMapsKey,
+  }
+}
+
+export default connect(mapStateToProps)(
+  GoogleApiWrapper(props => ({
+    apiKey: props.googleMapsKey,
+    LoadingContainer: LoadingContainer,
+  }))(MapResponse)
+)
