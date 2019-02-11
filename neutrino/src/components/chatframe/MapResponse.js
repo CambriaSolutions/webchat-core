@@ -42,9 +42,9 @@ class MapResponse extends PureComponent {
   render() {
     const { data } = this.props
     const handleMarkerClick = location => {
-      const url =
-        'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=' +
+      const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
         location.placeId
+      }`
       window.open(url, '_blank')
     }
     return (
