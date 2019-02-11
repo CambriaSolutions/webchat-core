@@ -22,8 +22,8 @@ const CardContainer = styled(Card)`
 
 const mapContainerSettings = {
   width: '100%',
-  height: 300,
-  position: 'relative'
+  height: '300px',
+  position: 'relative',
 }
 //set height of loading message to be equal to map height with padding
 //in order for react-virtualized to calculate row height before API call
