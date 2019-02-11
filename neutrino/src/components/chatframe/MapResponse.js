@@ -93,6 +93,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(
   GoogleApiWrapper(props => ({
     apiKey: props.googleMapsKey,
-    LoadingContainer: LoadingContainer,
+    LoadingContainer,
   }))(MapResponse)
 )
