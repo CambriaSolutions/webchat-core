@@ -25,8 +25,8 @@ const mapContainerSettings = {
   height: '300px',
   position: 'relative',
 }
-//set height of loading message to be equal to map height with padding
-//in order for react-virtualized to calculate row height before API call
+// Set height of loading message to be equal to map height with padding
+// in order for react-virtualized to calculate row height before API call
 const LoadingWrapper = styled.div`
   height: 432px;
 `
@@ -37,7 +37,7 @@ const LoadingContainer = props => (
     </div>
   </LoadingWrapper>
 )
-
+// Maps documentation: https://github.com/fullstackreact/google-maps-react
 class MapResponse extends PureComponent {
   render() {
     const { data } = this.props
