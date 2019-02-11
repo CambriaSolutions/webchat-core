@@ -1,3 +1,6 @@
+require('dotenv').config()
+const { EnvironmentPlugin } = require('webpack')
+
 module.exports = {
   use: [
     [
@@ -47,6 +50,13 @@ module.exports = {
         },
       },
     ],
-    '@neutrinojs/jest',
+    // Required to enable the use of an env file in neutrino
+    neutrino => {
+      neutrino.config.plugin('env').use(EnvironmentPlugin, [
+        {
+          GOOGLE_MAPS_KEY: process.env.GOOGLE_MAPS_KEY,
+        },
+      ])
+    },
   ],
 }

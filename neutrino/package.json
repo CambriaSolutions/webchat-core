@@ -1,6 +1,6 @@
 {
   "name": "@cambriasolutions/chatframe",
-  "version": "1.11.2",
+  "version": "1.11.4",
   "main": "build/chatframe.js",
   "license": "UNLICENSED",
   "scripts": {
@@ -25,6 +25,7 @@
     "@material-ui/core": "^3.6.2",
     "@material-ui/icons": "^3.0.1",
     "date-fns": "^2.0.0-alpha.26",
+    "dotenv": "^6.2.0",
     "global": "^4.3.2",
     "google-maps-react": "^2.0.2",
     "lodash": "^4.17.11",

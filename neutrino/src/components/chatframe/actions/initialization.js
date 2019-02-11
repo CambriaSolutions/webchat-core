@@ -17,6 +17,7 @@ import {
   SHOW_PRIVACY_POLICY,
   HIDE_PRIVACY_POLICY,
   SET_PRIVACY_POLICY,
+  SET_GOOGLE_MAPS_KEY,
 } from './actionTypes'
 
 import { sysTimeFormat } from '../config/dateFormats'
@@ -100,6 +101,7 @@ export function initialize(props) {
       initialActive,
       fullscreen,
       policyText,
+      googleMapsKey,
     } = props
     let userAvatar = avatar
     if (!userAvatar) {
@@ -112,6 +114,10 @@ export function initialize(props) {
 
     if (policyText && policyText !== '') {
       dispatch({ type: SET_PRIVACY_POLICY, policyText })
+    }
+
+    if (googleMapsKey && googleMapsKey !== '') {
+      dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
     }
 
     if (initialActive === true) {
