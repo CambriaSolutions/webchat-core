@@ -53,7 +53,13 @@ class MapResponse extends PureComponent {
         location.placeId
       window.open(url, '_blank')
     }
-
+    const { data } = this.props
+    const handleMarkerClick = location => {
+      const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
+        location.placeId
+      }`
+      window.open(url, '_blank')
+    }
     return (
       <CardContainer>
         <CardContent>
@@ -68,8 +74,8 @@ class MapResponse extends PureComponent {
             fullscreenControl={false}
             containerStyle={mapContainerSettings}
             initialCenter={{
-              lat: 32.777025,
-              lng: -89.543724,
+              lat: data[0].lat,
+              lng: data[0].long,
             }}
             bounds={bounds}
           >
@@ -80,7 +86,7 @@ class MapResponse extends PureComponent {
                 position={{ lat: row.lat, lng: row.long }}
                 icon={{
                   url: redpin,
-                  scaledSize: new google.maps.Size(20, 20),
+                  scaledSize: new this.props.google.maps.Size(20, 20),
                 }}
                 onClick={() => handleMarkerClick(row)}
               />
@@ -101,6 +107,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(
   GoogleApiWrapper(props => ({
     apiKey: props.googleMapsKey,
-    LoadingContainer: LoadingContainer,
+    LoadingContainer,
   }))(MapResponse)
 )
