@@ -14,6 +14,7 @@ import { parse, differenceInMilliseconds } from 'date-fns'
 import { sysTimeFormat } from './config/dateFormats'
 import Message from './Message'
 import CardResponse from './CardResponse'
+import MapResponse from './MapResponse'
 
 const ContentWrapper = styled.div`
   background: ${grey[100]};
@@ -69,6 +70,11 @@ function buildBotCardMessage(message) {
   )
 }
 
+function buildBotMapMessage(message) {
+  return (
+    <MapResponse data={message.payload.mapPayload} key={message.messageId} />
+  )
+}
 class ChatWindow extends PureComponent {
   constructor(props) {
     super(props)
@@ -129,7 +135,11 @@ class ChatWindow extends PureComponent {
         // display all of them here (e.g. suggestions), so we only push
         // the ones we display to the final array
         msg.responses.forEach(res => {
-          if (res.type === 'text' || res.type === 'card') {
+          if (
+            res.type === 'text' ||
+            res.type === 'card' ||
+            res.type === 'payload'
+          ) {
             const botMessage = merge(res, metadata)
             messageData.push(botMessage)
           }
@@ -157,6 +167,12 @@ class ChatWindow extends PureComponent {
         msgElements.push(buildBotTextMessage(msg))
       } else if (msg.entity === 'bot' && msg.type === 'card') {
         msgElements.push(buildBotCardMessage(msg))
+      } else if (
+        msg.entity === 'bot' &&
+        msg.type === 'payload' &&
+        msg.payload.mapPayload
+      ) {
+        msgElements.push(buildBotMapMessage(msg))
       } else {
         msgElements.push(buildBotTextMessage({ text: 'Something went wrong.' }))
       }
