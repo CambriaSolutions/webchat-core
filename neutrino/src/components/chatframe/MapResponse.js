@@ -40,17 +40,27 @@ const LoadingContainer = props => (
 // Maps documentation: https://github.com/fullstackreact/google-maps-react
 class MapResponse extends PureComponent {
   render() {
-    const { data } = this.props
+    const { data, points } = this.props
+
+    console.log(points)
+    const bounds = new this.props.google.maps.LatLngBounds()
+    console.log(`bounds before ${bounds}`)
+    for (let i = 0; i < points.length; i++) {
+      bounds.extend(points[i])
+    }
+    console.log(`bounds after ${bounds}`)
+
     const handleMarkerClick = location => {
       const url =
         'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=' +
         location.placeId
       window.open(url, '_blank')
     }
+    console.log(bounds)
     return (
       <CardContainer>
         <CardContent>
-          <Typography gutterBottom variant='h6'>
+          <Typography gutterBottom variant="h6">
             Office Locations
           </Typography>
           <Map
@@ -61,9 +71,10 @@ class MapResponse extends PureComponent {
             fullscreenControl={false}
             containerStyle={mapContainerSettings}
             initialCenter={{
-              lat: data[0].lat,
-              lng: data[0].long,
+              lat: 32.777025,
+              lng: -89.543724,
             }}
+            bounds={bounds}
           >
             {data.map((row, i) => (
               <Marker
