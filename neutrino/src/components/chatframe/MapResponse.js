@@ -40,7 +40,7 @@ const LoadingContainer = props => (
 
 class MapResponse extends PureComponent {
   render() {
-    const { data, googleMapsKey } = this.props
+    const { data } = this.props
     const handleMarkerClick = location => {
       const url =
         'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=' +
