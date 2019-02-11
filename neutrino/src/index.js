@@ -16,10 +16,10 @@ const root = document.getElementById('cambria-chatframe')
 
 render(
   <ChatWindow
-    primaryColor="#3bafbf"
-    secondaryColor="#000"
-    title="Test Chat"
-    client="Dialogflow"
+    primaryColor='#3bafbf'
+    secondaryColor='#000'
+    title='Test Chat'
+    client='Dialogflow'
     clientOptions={options}
     fullscreen={false}
     initialActive={false}
