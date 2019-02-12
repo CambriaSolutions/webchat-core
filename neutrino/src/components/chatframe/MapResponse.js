@@ -25,35 +25,30 @@ const mapContainerSettings = {
   height: '300px',
   position: 'relative',
 }
+
 // Set height of loading message to be equal to map height with padding
 // in order for react-virtualized to calculate row height before API call
 const LoadingWrapper = styled.div`
   height: 432px;
 `
-const LoadingContainer = props => (
+const LoadingContainer = () => (
   <LoadingWrapper>
     <div>
       <Loading />
     </div>
   </LoadingWrapper>
 )
+
 // Maps documentation: https://github.com/fullstackreact/google-maps-react
 class MapResponse extends PureComponent {
   render() {
     const { data, points } = this.props
 
     const bounds = new this.props.google.maps.LatLngBounds()
-    for (let i = 0; i < points.length; i++) {
+    for (let i = 0; i < points.length; i += 1) {
       bounds.extend(points[i])
     }
 
-    const handleMarkerClick = location => {
-      const url =
-        'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=' +
-        location.placeId
-      window.open(url, '_blank')
-    }
-    const { data } = this.props
     const handleMarkerClick = location => {
       const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
         location.placeId

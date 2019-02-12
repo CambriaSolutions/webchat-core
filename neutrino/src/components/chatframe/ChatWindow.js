@@ -73,7 +73,7 @@ function buildBotCardMessage(message) {
 function buildBotMapMessage(message) {
   const geoPayload = message.payload.mapPayload
 
-  let points = geoPayload.map(location => {
+  const points = geoPayload.map(location => {
     const data = {
       lat: location.lat,
       lng: location.long,
