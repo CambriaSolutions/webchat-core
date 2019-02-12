@@ -71,7 +71,13 @@ function buildBotCardMessage(message) {
 }
 
 function buildBotMapMessage(message) {
-  return <MapResponse data={message.payload.mapPayload} key={message.key} />
+  return (
+    <MapResponse
+      data={message.payload.mapPayload}
+      timestamp={message.systemTime}
+      key={message.key}
+    />
+  )
 }
 class ChatWindow extends PureComponent {
   constructor(props) {
