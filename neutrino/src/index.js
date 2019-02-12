@@ -12,6 +12,11 @@ export const privacyPolicy =
 
 export const googleMapsKey = process.env.GOOGLE_MAPS_KEY
 
+export const centerCoordinates = {
+  lat: 32.777025,
+  lng: -89.543724,
+}
+
 const root = document.getElementById('cambria-chatframe')
 
 render(
@@ -25,6 +30,7 @@ render(
     initialActive={false}
     policyText={privacyPolicy}
     googleMapsKey={googleMapsKey}
+    centerCoordinates={centerCoordinates}
   />,
   root
 )

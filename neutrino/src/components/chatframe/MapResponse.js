@@ -30,7 +30,7 @@ const MapWrapper = styled.div`
 // Maps documentation: https://tomchentw.github.io/react-google-maps
 class MapResponse extends PureComponent {
   render() {
-    const { data, points } = this.props
+    const { data, points, centerCoordinates } = this.props
     const cardHeight = '300px'
     const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${
       this.props.googleMapsKey
@@ -51,7 +51,7 @@ class MapResponse extends PureComponent {
       withGoogleMap(props => (
         <GoogleMap
           defaultZoom={6}
-          defaultCenter={{ lat: 31.57951359999999, lng: -90.4433644 }}
+          defaultCenter={centerCoordinates}
           defaultOptions={{
             mapTypeControl: false,
             streetViewControl: false,
@@ -96,6 +96,7 @@ class MapResponse extends PureComponent {
 const mapStateToProps = state => {
   return {
     googleMapsKey: state.config.googleMapsKey,
+    centerCoordinates: state.config.centerCoordinates,
   }
 }
 
