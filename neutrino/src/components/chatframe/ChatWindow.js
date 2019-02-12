@@ -71,10 +71,8 @@ function buildBotCardMessage(message) {
 }
 
 function buildBotMapMessage(message) {
-
-  return (
   const geoPayload = message.payload.mapPayload
-    
+
   const points = geoPayload.map(location => {
     const data = {
       lat: location.lat,
@@ -91,7 +89,6 @@ function buildBotMapMessage(message) {
       points={points}
     />
   )
-
 }
 class ChatWindow extends PureComponent {
   constructor(props) {
