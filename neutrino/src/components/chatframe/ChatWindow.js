@@ -40,8 +40,8 @@ function buildUserMessage(message) {
 function buildLoadingMessage(message) {
   return (
     <Message
-      key="loading"
-      entity="bot"
+      key='loading'
+      entity='bot'
       timestamp={message.systemTime}
       isLoading={message.loading}
     />
@@ -71,17 +71,27 @@ function buildBotCardMessage(message) {
 }
 
 function buildBotMapMessage(message) {
-<<<<<<< HEAD
+
+  return (
+  const geoPayload = message.payload.mapPayload
+    
+  const points = geoPayload.map(location => {
+    const data = {
+      lat: location.lat,
+      lng: location.long,
+    }
+    return data
+  })
+
   return (
     <MapResponse
       data={message.payload.mapPayload}
       timestamp={message.systemTime}
       key={message.key}
+      points={points}
     />
   )
-=======
-  return <MapResponse data={message.payload.mapPayload} key={message.key} />
->>>>>>> master
+
 }
 class ChatWindow extends PureComponent {
   constructor(props) {
@@ -190,12 +200,12 @@ class ChatWindow extends PureComponent {
       const dateA = parse(
         a.props.timestamp,
         sysTimeFormat,
-        new Date(a.props.timestamp),
+        new Date(a.props.timestamp)
       )
       const dateB = parse(
         b.props.timestamp,
         sysTimeFormat,
-        new Date(b.props.timestamp),
+        new Date(b.props.timestamp)
       )
       const diff = differenceInMilliseconds(dateA, dateB)
       return diff
@@ -242,7 +252,7 @@ class ChatWindow extends PureComponent {
               rowRenderer={this.rowRenderer}
               onScroll={this.onScroll}
               scrollToIndex={numMessages}
-              scrollToAlignment="end"
+              scrollToAlignment='end'
             />
           )}
         </AutoSizer>
