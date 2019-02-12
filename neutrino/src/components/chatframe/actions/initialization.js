@@ -18,6 +18,7 @@ import {
   HIDE_PRIVACY_POLICY,
   SET_PRIVACY_POLICY,
   SET_GOOGLE_MAPS_KEY,
+  SET_CENTER_COORDINATES,
 } from './actionTypes'
 
 import { sysTimeFormat } from '../config/dateFormats'
@@ -102,6 +103,7 @@ export function initialize(props) {
       fullscreen,
       policyText,
       googleMapsKey,
+      centerCoordinates,
     } = props
     let userAvatar = avatar
     if (!userAvatar) {
@@ -118,6 +120,10 @@ export function initialize(props) {
 
     if (googleMapsKey && googleMapsKey !== '') {
       dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
+    }
+
+    if (centerCoordinates && centerCoordinates !== '') {
+      dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
     }
 
     if (initialActive === true) {
