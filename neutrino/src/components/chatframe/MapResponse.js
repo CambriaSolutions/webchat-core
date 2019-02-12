@@ -45,7 +45,7 @@ class MapResponse extends PureComponent {
     }
 
     const Map = withScriptjs(
-      withGoogleMap(props => (
+      withGoogleMap(() => (
         <GoogleMap
           defaultZoom={6}
           defaultCenter={centerCoordinates}
