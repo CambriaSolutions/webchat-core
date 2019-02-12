@@ -32,11 +32,7 @@ class MapResponse extends PureComponent {
     const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${
       this.props.googleMapsKey
     }&v=3`
-    // commenting out this block to look into the new library's bounds function
-    // const bounds = new this.props.google.maps.LatLngBounds()
-    // for (let i = 0; i < points.length; i += 1) {
-    //   bounds.extend(points[i])
-    // }
+
     const handleMarkerClick = location => {
       const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
         location.placeId
