@@ -54,7 +54,7 @@ class MapResponse extends PureComponent {
           {data.map((row, i) => (
             <Marker
               key={i}
-              position={{ lat: row.lat, lng: row.long }}
+              position={{ lat: row.lat, lng: row.lng }}
               icon={{
                 url: redpin,
                 scaledSize: { width: 20, height: 20 },

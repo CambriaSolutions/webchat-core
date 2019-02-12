@@ -76,7 +76,7 @@ function buildBotMapMessage(message) {
   const points = geoPayload.map(location => {
     const data = {
       lat: location.lat,
-      lng: location.long,
+      lng: location.lng,
     }
     return data
   })
