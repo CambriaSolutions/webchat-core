@@ -40,7 +40,7 @@ const LoadingContainer = () => (
 // Maps documentation: https://github.com/fullstackreact/google-maps-react
 class MapResponse extends PureComponent {
   render() {
-    const { data, points } = this.props
+    const { data, points, centerCoordinates } = this.props
 
     const bounds = new this.props.google.maps.LatLngBounds()
     for (let i = 0; i < points.length; i += 1) {
@@ -66,11 +66,8 @@ class MapResponse extends PureComponent {
             mapTypeControl={false}
             fullscreenControl={false}
             containerStyle={mapContainerSettings}
-            initialCenter={{
-              lat: data[0].lat,
-              lng: data[0].long,
-            }}
             bounds={bounds}
+            initialCenter={centerCoordinates}
           >
             {data.map((row, i) => (
               <Marker
@@ -94,6 +91,7 @@ class MapResponse extends PureComponent {
 const mapStateToProps = state => {
   return {
     googleMapsKey: state.config.googleMapsKey,
+    centerCoordinates: state.config.centerCoordinates,
   }
 }
 
