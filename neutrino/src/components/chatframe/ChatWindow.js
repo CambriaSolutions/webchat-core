@@ -40,8 +40,8 @@ function buildUserMessage(message) {
 function buildLoadingMessage(message) {
   return (
     <Message
-      key="loading"
-      entity="bot"
+      key='loading'
+      entity='bot'
       timestamp={message.systemTime}
       isLoading={message.loading}
     />
@@ -248,7 +248,7 @@ class ChatWindow extends PureComponent {
               rowRenderer={this.rowRenderer}
               onScroll={this.onScroll}
               scrollToIndex={numMessages}
-              scrollToAlignment="end"
+              scrollToAlignment='end'
             />
           )}
         </AutoSizer>

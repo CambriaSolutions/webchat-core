@@ -33,9 +33,7 @@ const LoadingWrapper = styled.div`
 `
 const LoadingContainer = () => (
   <LoadingWrapper>
-    <div>
-      <Loading />
-    </div>
+    <Loading />
   </LoadingWrapper>
 )
 
@@ -58,7 +56,7 @@ class MapResponse extends PureComponent {
     return (
       <CardContainer>
         <CardContent>
-          <Typography gutterBottom variant="h6">
+          <Typography gutterBottom variant='h6'>
             Office Locations
           </Typography>
           <Map
