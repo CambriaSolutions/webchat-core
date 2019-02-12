@@ -4,9 +4,13 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker,
+} from 'react-google-maps'
 import redpin from './redpin.svg'
-import Loading from './Loading'
 
 const CardContainer = styled(Card)`
   && {
@@ -19,72 +23,70 @@ const CardContainer = styled(Card)`
     white-space: pre-line;
   }
 `
-
-const mapContainerSettings = {
-  width: '100%',
-  height: '300px',
-  position: 'relative',
-}
-
-// Set height of loading message to be equal to map height with padding
-// in order for react-virtualized to calculate row height before API call
-const LoadingWrapper = styled.div`
-  height: 432px;
+const MapWrapper = styled.div`
+  height: ${p => p.cardHeight};
 `
-const LoadingContainer = () => (
-  <LoadingWrapper>
-    <Loading />
-  </LoadingWrapper>
-)
 
-// Maps documentation: https://github.com/fullstackreact/google-maps-react
+// Maps documentation: https://tomchentw.github.io/react-google-maps
 class MapResponse extends PureComponent {
   render() {
     const { data, points } = this.props
-
-    const bounds = new this.props.google.maps.LatLngBounds()
-    for (let i = 0; i < points.length; i += 1) {
-      bounds.extend(points[i])
-    }
-
+    const cardHeight = '300px'
+    const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${
+      this.props.googleMapsKey
+    }&v=3`
+    // commenting out this block to look into the new library's bounds function
+    // const bounds = new this.props.google.maps.LatLngBounds()
+    // for (let i = 0; i < points.length; i += 1) {
+    //   bounds.extend(points[i])
+    // }
     const handleMarkerClick = location => {
       const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
         location.placeId
       }`
       window.open(url, '_blank')
     }
+
+    const Map = withScriptjs(
+      withGoogleMap(props => (
+        <GoogleMap
+          defaultZoom={6}
+          defaultCenter={{ lat: 31.57951359999999, lng: -90.4433644 }}
+          defaultOptions={{
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
+          }}
+        >
+          {data.map((row, i) => (
+            <Marker
+              key={i}
+              position={{ lat: row.lat, lng: row.long }}
+              icon={{
+                url: redpin,
+                scaledSize: { width: 20, height: 20 },
+              }}
+              onClick={() => handleMarkerClick(row)}
+            />
+          ))}
+        </GoogleMap>
+      ))
+    )
+
     return (
       <CardContainer>
         <CardContent>
           <Typography gutterBottom variant='h6'>
             Office Locations
           </Typography>
-          <Map
-            google={this.props.google}
-            zoom={6}
-            streetViewControl={false}
-            mapTypeControl={false}
-            fullscreenControl={false}
-            containerStyle={mapContainerSettings}
-            initialCenter={{
-              lat: data[0].lat,
-              lng: data[0].long,
-            }}
-            bounds={bounds}
-          >
-            {data.map((row, i) => (
-              <Marker
-                key={i}
-                name={row.name}
-                position={{ lat: row.lat, lng: row.long }}
-                icon={{
-                  url: redpin,
-                  scaledSize: new this.props.google.maps.Size(20, 20),
-                }}
-                onClick={() => handleMarkerClick(row)}
-              />
-            ))}
-          </Map>
+          <MapWrapper cardHeight={cardHeight}>
+            <Map
+              googleMapURL={googleMapsUrl}
+              loadingElement={<div style={{ height: `100%` }} />}
+              containerElement={<div style={{ height: `${cardHeight}` }} />}
+              mapElement={<div style={{ height: `100%` }} />}
+            />
+          </MapWrapper>
         </CardContent>
       </CardContainer>
     )
@@ -97,9 +99,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(
-  GoogleApiWrapper(props => ({
-    apiKey: props.googleMapsKey,
-    LoadingContainer,
-  }))(MapResponse)
-)
+export default connect(mapStateToProps)(MapResponse)
