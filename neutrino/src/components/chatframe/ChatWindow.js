@@ -84,6 +84,7 @@ function buildBotMapMessage(message) {
   return (
     <MapResponse
       data={message.payload.mapPayload}
+      timestamp={message.systemTime}
       key={message.key}
       points={points}
     />
