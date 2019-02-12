@@ -20,6 +20,7 @@ module.exports = {
                 functions: 'ignore',
               },
             ],
+            'jsx-quotes': 'off',
             'linebreak-style': 0,
             'import/prefer-default-export': 'off',
             'react/jsx-filename-extension': 'off',
