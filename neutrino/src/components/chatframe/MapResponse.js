@@ -23,9 +23,6 @@ const CardContainer = styled(Card)`
     white-space: pre-line;
   }
 `
-const MapWrapper = styled.div`
-  height: ${p => p.cardHeight};
-`
 
 // Maps documentation: https://tomchentw.github.io/react-google-maps
 class MapResponse extends PureComponent {
@@ -79,14 +76,12 @@ class MapResponse extends PureComponent {
           <Typography gutterBottom variant='h6'>
             Office Locations
           </Typography>
-          <MapWrapper cardHeight={cardHeight}>
-            <Map
-              googleMapURL={googleMapsUrl}
-              loadingElement={<div style={{ height: `100%` }} />}
-              containerElement={<div style={{ height: `${cardHeight}` }} />}
-              mapElement={<div style={{ height: `100%` }} />}
-            />
-          </MapWrapper>
+          <Map
+            googleMapURL={googleMapsUrl}
+            loadingElement={<div style={{ height: `${cardHeight}` }} />}
+            containerElement={<div style={{ height: `${cardHeight}` }} />}
+            mapElement={<div style={{ height: `100%` }} />}
+          />
         </CardContent>
       </CardContainer>
     )
