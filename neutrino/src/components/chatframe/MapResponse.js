@@ -74,7 +74,7 @@ function MapResponse(props) {
           googleMapURL={googleMapsUrl}
           loadingElement={<div style={{ height: `${cardHeight}` }} />}
           containerElement={<div style={{ height: `${cardHeight}` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
+          mapElement={<div style={{ height: '100%' }} />}
         />
       </CardContent>
     </CardContainer>
