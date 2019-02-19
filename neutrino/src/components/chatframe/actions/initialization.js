@@ -102,8 +102,7 @@ export function initialize(props) {
       initialActive,
       fullscreen,
       policyText,
-      googleMapsKey,
-      centerCoordinates,
+      mapConfig,
     } = props
     let userAvatar = avatar
     if (!userAvatar) {
@@ -118,12 +117,14 @@ export function initialize(props) {
       dispatch({ type: SET_PRIVACY_POLICY, policyText })
     }
 
-    if (googleMapsKey && googleMapsKey !== '') {
-      dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
-    }
-
-    if (centerCoordinates && centerCoordinates !== '') {
-      dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+    if (mapConfig) {
+      const { googleMapsKey, centerCoordinates } = mapConfig
+      if (googleMapsKey && googleMapsKey !== '') {
+        dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
+      }
+      if (centerCoordinates && centerCoordinates !== '') {
+        dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+      }
     }
 
     if (initialActive === true) {

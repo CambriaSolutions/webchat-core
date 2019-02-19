@@ -26,11 +26,9 @@ const CardContainer = styled(Card)`
 
 // Maps documentation: https://tomchentw.github.io/react-google-maps
 function MapResponse(props) {
-  const { data, centerCoordinates } = props
+  const { data, centerCoordinates, googleMapsKey } = props
   const cardHeight = '300px'
-  const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${
-    props.googleMapsKey
-  }&v=3`
+  const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${googleMapsKey}&v=3`
   const handleMarkerClick = location => {
     const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
       location.placeId
