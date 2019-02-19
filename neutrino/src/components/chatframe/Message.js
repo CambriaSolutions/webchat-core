@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { parse, differenceInMinutes, differenceInSeconds } from 'date-fns'
+import { parse, format } from 'date-fns'
 import grey from '@material-ui/core/colors/grey'
 import Typography from '@material-ui/core/Typography'
 import { withTheme } from '@material-ui/core/styles'
@@ -11,7 +10,7 @@ import Loading from './Loading'
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  margin: 16px 0;
+  margin: 10px 0;
   height: min-content;
   align-items: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
 `
@@ -51,8 +50,8 @@ const UserMessage = styled.div`
 const Timestamp = styled(Typography)`
   && {
     color: ${grey[500]};
-    margin-top: 8px;
-    padding-left: 12px;
+    margin-top: 6px;
+    padding-left: 5px;
     padding-right: 2px;
   }
 `
@@ -64,23 +63,11 @@ class Message extends PureComponent {
       entity,
       isLoading,
       timestamp,
-      currentTime,
       theme,
+      showTimestamp
     } = this.props
-
-    const now = parse(currentTime, sysTimeFormat, new Date(currentTime))
-    const then = parse(timestamp, sysTimeFormat, new Date(currentTime))
-    const diffMinutes = differenceInMinutes(now, then)
-    const diffSeconds = differenceInSeconds(now, then)
-    let formattedTimestamp = null
-    if (diffMinutes >= 1) {
-      formattedTimestamp = `${diffMinutes} min`
-    } else if (diffSeconds >= 10) {
-      formattedTimestamp = `${diffSeconds} sec`
-    } else {
-      formattedTimestamp = 'Now'
-    }
-
+    const parsedTimestamp = parse(timestamp, sysTimeFormat, new Date(timestamp))
+    const formattedTime = format(parsedTimestamp, 'MMMM dd, yyyy h:mm aa')
     const chatMessage =
       entity === 'user' ? (
         <UserMessage elevation={1} theme={theme}>
@@ -98,20 +85,12 @@ class Message extends PureComponent {
     return (
       <Container entity={entity}>
         <ChatBubble entity={entity}>{chatMessage}</ChatBubble>
-        <Timestamp variant="caption">{formattedTimestamp}</Timestamp>
+        {showTimestamp ? (
+          <Timestamp variant='caption'>{formattedTime}</Timestamp>
+        ) : null}
       </Container>
     )
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    currentTime: state.conversation.currentTime,
-  }
-}
-
-// const mapDispatchToProps = dispatch => {
-//   return {}
-// }
-
-export default withTheme()(connect(mapStateToProps)(Message))
+export default withTheme()(Message)
