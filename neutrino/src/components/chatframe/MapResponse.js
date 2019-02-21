@@ -8,7 +8,7 @@ import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker,
+  Marker
 } from 'react-google-maps'
 import redpin from './redpin.svg'
 
@@ -46,7 +46,7 @@ function MapResponse(props) {
         defaultOptions={{
           mapTypeControl: false,
           streetViewControl: false,
-          fullscreenControl: false,
+          fullscreenControl: false
         }}
       >
         {data.map((row, i) => (
@@ -55,7 +55,7 @@ function MapResponse(props) {
             position={{ lat: row.lat, lng: row.lng }}
             icon={{
               url: redpin,
-              scaledSize: { width: 20, height: 20 },
+              scaledSize: { width: 20, height: 20 }
             }}
             onClick={() => handleMarkerClick(row)}
           />
@@ -74,7 +74,7 @@ function MapResponse(props) {
           googleMapURL={googleMapsUrl}
           loadingElement={<div style={{ height: `${cardHeight}` }} />}
           containerElement={<div style={{ height: `${cardHeight}` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
+          mapElement={<div style={{ height: '100%' }} />}
         />
       </CardContent>
     </CardContainer>
@@ -84,7 +84,7 @@ function MapResponse(props) {
 const mapStateToProps = state => {
   return {
     googleMapsKey: state.config.googleMapsKey,
-    centerCoordinates: state.config.centerCoordinates,
+    centerCoordinates: state.config.centerCoordinates
   }
 }
 

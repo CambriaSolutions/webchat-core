@@ -12,6 +12,7 @@
     fullscreen={false}
     initialActive={false}
     policyText={privacyPolicy}
+    googleMapsKey={googleMapsKey}
   />
 ```
 
@@ -20,7 +21,6 @@
 - `title` can be any string
 - `client` can only currently be 'dialogflow'
 - `clientOptions` is an object containing URLs for fulfillment APIs:
-- `policyText` can be any string
 
 ```
 {
@@ -29,8 +29,10 @@ textUrl: 'https://us-central1-webchat-core.cloudfunctions.net/textRequest',
 }
 ```
 
-- fullscreen is whether or not the window is currently fullscreen
-- initialActive describes whether or not the window is open and active on page load
+- `fullscreen` is whether or not the window is currently fullscreen
+- `initialActive` describes whether or not the window is open and active on page load
+- `policyText` can be any string
+- `googleMapsKey` a valid [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial) key, should be stored in a .env file
 
 ### Deployment Process
 
