@@ -39,21 +39,23 @@ class FeedbackResponse extends PureComponent {
 
   handleSubmit = () => {
     // Send to webhook
-    alert(JSON.stringify(this.state))
+    const { numStars } = this.props
+    const { feedback } = this.state
+    const payload = { rating: numStars, feedback }
+    console.log(payload)
   }
 
   handleChange = question => event => {
     const currentComplaint = event.target.value
     const feedback = this.state.feedback
-    let newFeedBack = []
     if (!feedback.includes(currentComplaint)) {
-      newFeedBack = [...feedback, currentComplaint]
+      feedback.push(currentComplaint)
     } else {
-      newFeedback.pop(currentComplaint)
+      feedback.pop(currentComplaint)
     }
+    console.log(feedback)
     this.setState({ [question]: event.target.checked })
-    this.setState({ feedback: newFeedback })
-    console.log(newFeedback)
+    this.setState({ feedback: feedback })
   }
 
   render() {
