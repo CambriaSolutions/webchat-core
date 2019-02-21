@@ -57,15 +57,15 @@ class UserInput extends PureComponent {
         <TextInput
           fullWidth
           disableUnderline
-          placeholder="Send a message"
+          placeholder='Send a message'
           onChange={saveUserInput}
           value={inputValue}
           onKeyPress={this.handleKeyPress}
         />
         <IconButton
           onClick={this.props.submitUserInput}
-          aria-label="Send"
-          color="primary"
+          aria-label='Send'
+          color='primary'
         >
           <Send />
         </IconButton>

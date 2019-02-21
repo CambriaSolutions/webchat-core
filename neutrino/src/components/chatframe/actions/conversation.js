@@ -3,6 +3,7 @@ import {
   SAVE_USER_RESPONSE,
   DISPLAY_ERROR,
   HIDE_BUTTON_BAR,
+  SET_COUNT_STARS,
 } from './actionTypes'
 import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
 // Date Format
@@ -36,7 +37,7 @@ export function sendMessage(message) {
         error: `Unable to connect to ${clientName}`,
       })
       throw new Error(
-        `${clientName} is not a recognized conversation provider.`,
+        `${clientName} is not a recognized conversation provider.`
       )
     }
   }
@@ -61,5 +62,11 @@ export function createUserResponse(text) {
 export function sendQuickReply(text) {
   return dispatch => {
     dispatch(createUserResponse(text))
+  }
+}
+
+export function setCountStars(numStars) {
+  return dispatch => {
+    dispatch({ type: SET_COUNT_STARS, numStars })
   }
 }

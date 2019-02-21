@@ -15,6 +15,7 @@ import { sysTimeFormat } from './config/dateFormats'
 import Message from './Message'
 import CardResponse from './CardResponse'
 import MapResponse from './MapResponse'
+import FeedbackResponse from './FeedbackResponse'
 
 const ContentWrapper = styled.div`
   background: ${grey[100]};
@@ -232,7 +233,7 @@ class ChatWindow extends PureComponent {
     const { numMessages } = this.state
     return (
       <ContentWrapper elevation={1} square>
-        <AutoSizer onResize={this.onResize}>
+        {/* <AutoSizer onResize={this.onResize}>
           {({ height, width }) => (
             <List
               messages={messages}
@@ -252,7 +253,8 @@ class ChatWindow extends PureComponent {
               scrollToAlignment='end'
             />
           )}
-        </AutoSizer>
+        </AutoSizer> */}
+        <FeedbackResponse />
       </ContentWrapper>
     )
   }

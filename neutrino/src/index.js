@@ -27,7 +27,7 @@ render(
     client='Dialogflow'
     clientOptions={options}
     fullscreen={false}
-    initialActive={false}
+    initialActive={true}
     policyText={privacyPolicy}
     googleMapsKey={googleMapsKey}
     centerCoordinates={centerCoordinates}
