@@ -123,7 +123,16 @@ export function initialize(props) {
         dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
       }
       if (centerCoordinates && centerCoordinates !== '') {
-        dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+        if (centerCoordinates.lat && centerCoordinates.lat !== '') {
+          dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+        } else {
+          console.error('Please provide valid latitude coordinates')
+        }
+        if (centerCoordinates.lng && centerCoordinates.lng !== '') {
+          dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+        } else {
+          console.error('Please provide valid longitude coordinates')
+        }
       }
     }
 
