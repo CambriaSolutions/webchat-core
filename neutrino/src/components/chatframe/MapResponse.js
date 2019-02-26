@@ -14,6 +14,7 @@ import {
   Marker
 } from 'react-google-maps'
 import redpin from './redpin.svg'
+import blackpin from './blackpin.svg'
 
 const CardContainer = styled(Card)`
   && {
@@ -70,6 +71,17 @@ function MapResponse(props) {
             onClick={() => handleMarkerClick(row)}
           />
         ))}
+        <Marker
+          position={{
+            lat: data.currentGeocode.lat,
+            lng: data.currentGeocode.lng,
+          }}
+          icon={{
+            url: blackpin,
+            scaledSize: { width: 20, height: 20 },
+          }}
+          onClick={() => handleMarkerClick(row)}
+        />
       </GoogleMap>
     ))
   )
