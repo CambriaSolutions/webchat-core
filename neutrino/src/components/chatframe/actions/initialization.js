@@ -1,3 +1,4 @@
+import get from 'lodash/get'
 import {
   parse,
   format,
@@ -119,19 +120,24 @@ export function initialize(props) {
 
     if (mapConfig) {
       const { googleMapsKey, centerCoordinates } = mapConfig
+      const latitude = get(centerCoordinates, 'centerCoordinates.lat', '')
+      const longitude = get(centerCoordinates, 'centerCoordinates.lng', '')
+
       if (googleMapsKey && googleMapsKey !== '') {
         dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
       }
-      if (centerCoordinates && centerCoordinates !== '') {
-        if (centerCoordinates.lat && centerCoordinates.lat !== '') {
-          dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+
+      if (centerCoordinates) {
+        if (
+          typeof centerCoordinates !== 'object' ||
+          latitude === undefined ||
+          longitude === undefined
+        ) {
+          console.error(
+            'Please provide valid latitude and longitude coordinates, see README'
+          )
         } else {
-          console.error('Please provide valid latitude coordinates')
-        }
-        if (centerCoordinates.lng && centerCoordinates.lng !== '') {
           dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
-        } else {
-          console.error('Please provide valid longitude coordinates')
         }
       }
     }
