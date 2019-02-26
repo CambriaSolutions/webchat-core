@@ -11,10 +11,10 @@ import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
 } from 'react-google-maps'
 import redpin from './redpin.svg'
-import blackpin from './blackpin.svg'
+import blackpin from './personMarker.png'
 
 const CardContainer = styled(Card)`
   && {
@@ -57,7 +57,7 @@ function MapResponse(props) {
           zoomControl: true,
           mapTypeControl: false,
           streetViewControl: false,
-          fullscreenControl: false
+          fullscreenControl: false,
         }}
       >
         {data.locations.map((row, i) => (
@@ -66,7 +66,7 @@ function MapResponse(props) {
             position={{ lat: row.lat, lng: row.lng }}
             icon={{
               url: redpin,
-              scaledSize: { width: 20, height: 20 }
+              scaledSize: { width: 20, height: 20 },
             }}
             onClick={() => handleMarkerClick(row)}
           />
@@ -115,7 +115,7 @@ function MapResponse(props) {
 const mapStateToProps = state => {
   return {
     googleMapsKey: state.config.googleMapsKey,
-    centerCoordinates: state.config.centerCoordinates
+    centerCoordinates: state.config.centerCoordinates,
   }
 }
 
