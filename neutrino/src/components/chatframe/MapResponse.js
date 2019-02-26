@@ -80,7 +80,6 @@ function MapResponse(props) {
             url: blackpin,
             scaledSize: { width: 20, height: 20 },
           }}
-          onClick={() => handleMarkerClick(row)}
         />
       </GoogleMap>
     ))
