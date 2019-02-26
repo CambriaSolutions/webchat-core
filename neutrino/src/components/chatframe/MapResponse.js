@@ -2,7 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableRow from '@material-ui/core/TableRow'
 import styled from 'styled-components'
 import {
   withScriptjs,
@@ -24,13 +27,19 @@ const CardContainer = styled(Card)`
   }
 `
 
+const TableContainer = styled('div')`
+  && {
+    height: 150px;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+`
+
 // Maps documentation: https://tomchentw.github.io/react-google-maps
 function MapResponse(props) {
-  const { data, centerCoordinates } = props
-  const cardHeight = '300px'
-  const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${
-    props.googleMapsKey
-  }&v=3`
+  const { data, googleMapsKey } = props
+  const cardHeight = '160px'
+  const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${googleMapsKey}&v=3`
   const handleMarkerClick = location => {
     const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
       location.placeId
@@ -41,15 +50,16 @@ function MapResponse(props) {
   const Map = withScriptjs(
     withGoogleMap(() => (
       <GoogleMap
-        defaultZoom={6}
-        defaultCenter={centerCoordinates}
+        defaultZoom={13}
+        defaultCenter={data.nearestLocations[0]}
         defaultOptions={{
+          zoomControl: true,
           mapTypeControl: false,
           streetViewControl: false,
           fullscreenControl: false
         }}
       >
-        {data.map((row, i) => (
+        {data.locations.map((row, i) => (
           <Marker
             key={i}
             position={{ lat: row.lat, lng: row.lng }}
@@ -67,15 +77,24 @@ function MapResponse(props) {
   return (
     <CardContainer>
       <CardContent>
-        <Typography gutterBottom variant='h6'>
-          Office Locations
-        </Typography>
         <Map
           googleMapURL={googleMapsUrl}
           loadingElement={<div style={{ height: `${cardHeight}` }} />}
           containerElement={<div style={{ height: `${cardHeight}` }} />}
           mapElement={<div style={{ height: '100%' }} />}
         />
+        <TableContainer>
+          <Table>
+            <TableBody>
+              {data.nearestLocations.map((row, i) => (
+                <TableRow key={i}>
+                  <TableCell>{row.address}</TableCell>
+                  <TableCell>{row.distance} mi</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </CardContent>
     </CardContainer>
   )
