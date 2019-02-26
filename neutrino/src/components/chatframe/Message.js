@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { parse, format } from 'date-fns'
+import { parse, format, isSameDay, subDays } from 'date-fns'
 import grey from '@material-ui/core/colors/grey'
 import Typography from '@material-ui/core/Typography'
 import { withTheme } from '@material-ui/core/styles'
@@ -63,11 +64,29 @@ class Message extends PureComponent {
       entity,
       isLoading,
       timestamp,
+      currentTime,
       theme,
       showTimestamp
     } = this.props
-    const parsedTimestamp = parse(timestamp, sysTimeFormat, new Date(timestamp))
-    const formattedTime = format(parsedTimestamp, 'MMMM dd, yyyy h:mm aa')
+
+    const parsedTimestamp = parse(
+      timestamp,
+      sysTimeFormat,
+      new Date(currentTime)
+    )
+    const isToday = isSameDay(new Date(), timestamp)
+    const isYesterday = isSameDay(timestamp, subDays(new Date(), 1))
+
+    let formattedTimestamp = null
+
+    if (isToday) {
+      formattedTimestamp = `Today ${format(parsedTimestamp, 'h:mm aa')}`
+    } else if (isYesterday) {
+      formattedTimestamp = `Yesterday ${format(parsedTimestamp, 'h:mm aa')}`
+    } else {
+      formattedTimestamp = format(parsedTimestamp, 'MMMM dd, yyyy h:mm aa')
+    }
+
     const chatMessage =
       entity === 'user' ? (
         <UserMessage elevation={1} theme={theme}>
@@ -86,11 +105,16 @@ class Message extends PureComponent {
       <Container entity={entity}>
         <ChatBubble entity={entity}>{chatMessage}</ChatBubble>
         {showTimestamp ? (
-          <Timestamp variant='caption'>{formattedTime}</Timestamp>
+          <Timestamp variant='caption'>{formattedTimestamp}</Timestamp>
         ) : null}
       </Container>
     )
   }
 }
 
-export default withTheme()(Message)
+const mapStateToProps = state => {
+  return {
+    currentTime: state.conversation.currentTime,
+  }
+}
+export default withTheme()(connect(mapStateToProps)(Message))
