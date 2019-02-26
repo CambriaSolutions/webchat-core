@@ -120,24 +120,23 @@ export function initialize(props) {
 
     if (mapConfig) {
       const { googleMapsKey, centerCoordinates } = mapConfig
-      const latitude = get(centerCoordinates, 'centerCoordinates.lat', '')
-      const longitude = get(centerCoordinates, 'centerCoordinates.lng', '')
+      const latitude = get(centerCoordinates, 'centerCoordinates.lat', null)
+      const longitude = get(centerCoordinates, 'centerCoordinates.lng', null)
 
       if (googleMapsKey && googleMapsKey !== '') {
         dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
       }
-
       if (centerCoordinates) {
         if (
-          typeof centerCoordinates !== 'object' ||
-          latitude === undefined ||
-          longitude === undefined
+          typeof centerCoordinates === 'object' &&
+          latitude !== null &&
+          longitude !== null
         ) {
-          console.error(
+          dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+        } else {
+          throw new Error(
             'Please provide valid latitude and longitude coordinates, see README'
           )
-        } else {
-          dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
         }
       }
     }

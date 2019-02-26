@@ -12,10 +12,10 @@ export const privacyPolicy =
 
 export const mapConfig = {
   googleMapsKey: process.env.GOOGLE_MAPS_KEY,
-  centerCoordinates: {
-    lat: 32.777025,
-    lng: -89.543724,
-  },
+  // centerCoordinates: {
+  //   lat: 32.777025,
+  //   lng: -89.543724,
+  // },
 }
 const root = document.getElementById('cambria-chatframe')
 
