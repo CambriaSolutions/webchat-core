@@ -133,7 +133,14 @@ function MapResponse(props) {
               {data.nearestLocations.map((row, i) => (
                 <TableRow key={i}>
                   <StyledAddressTableCell padding='dense'>
-                    {row.street}, {row.city}
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
+                        row.placeId
+                      }`}
+                      target={'blank'}
+                    >
+                      {row.street}, {row.city}
+                    </a>
                   </StyledAddressTableCell>
                   <StyledDistanceTableCell padding='dense'>
                     {row.distance} mi
