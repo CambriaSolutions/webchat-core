@@ -3,15 +3,9 @@ import { render } from 'react-dom'
 import ChatWindow from './components/chatframe'
 
 export const options = {
-  eventUrl:
-    'https://us-central1-mdhs-csa-stage.cloudfunctions.net/eventRequest',
-  textUrl: 'https://us-central1-mdhs-csa-stage.cloudfunctions.net/textRequest',
+  eventUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/eventRequest',
+  textUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/textRequest',
 }
-
-// export const options = {
-//   eventUrl: 'https://us-central1-webchat-core.cloudfunctions.net/eventRequest',
-//   textUrl: 'https://us-central1-webchat-core.cloudfunctions.net/textRequest'
-// }
 
 export const privacyPolicy =
   'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.'
@@ -27,10 +21,10 @@ const root = document.getElementById('cambria-chatframe')
 
 render(
   <ChatWindow
-    primaryColor="#3bafbf"
-    secondaryColor="#000"
-    title="Test Chat"
-    client="Dialogflow"
+    primaryColor='#3bafbf'
+    secondaryColor='#000'
+    title='Test Chat'
+    client='Dialogflow'
     clientOptions={options}
     fullscreen={false}
     initialActive={false}
