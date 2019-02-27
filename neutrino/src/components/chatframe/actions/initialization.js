@@ -120,8 +120,8 @@ export function initialize(props) {
 
     if (mapConfig) {
       const { googleMapsKey, centerCoordinates } = mapConfig
-      const latitude = get(centerCoordinates, 'centerCoordinates.lat', null)
-      const longitude = get(centerCoordinates, 'centerCoordinates.lng', null)
+      const latitude = get(centerCoordinates, 'lat', null)
+      const longitude = get(centerCoordinates, 'lng', null)
 
       if (googleMapsKey && googleMapsKey !== '') {
         dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
