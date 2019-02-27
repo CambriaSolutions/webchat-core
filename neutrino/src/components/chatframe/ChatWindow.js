@@ -48,7 +48,7 @@ function buildLoadingMessage(message) {
   )
 }
 
-function buildBotTextMessage(message) {
+function buildBotTextMessage(message, showTimestamp) {
   return (
     <Message
       message={message.text}
@@ -56,6 +56,7 @@ function buildBotTextMessage(message) {
       key={message.messageId}
       isLoading={false}
       timestamp={message.systemTime}
+      showTimestamp={showTimestamp}
     />
   )
 }
@@ -162,13 +163,18 @@ class ChatWindow extends PureComponent {
   createMessageElements = () => {
     const newMessages = this.parseMessages()
     const msgElements = []
-    newMessages.forEach(msg => {
+    newMessages.forEach((msg, i) => {
+      let showTimestamp = false
+      // set timestamp display flag to true if it's the last message
+      if (i === newMessages.length - 1) {
+        showTimestamp = true
+      }
       if (msg.loading) {
         msgElements.push(buildLoadingMessage(msg))
       } else if (msg.entity === 'user') {
         msgElements.push(buildUserMessage(msg))
       } else if (msg.entity === 'bot' && msg.type === 'text') {
-        msgElements.push(buildBotTextMessage(msg))
+        msgElements.push(buildBotTextMessage(msg, showTimestamp))
       } else if (msg.entity === 'bot' && msg.type === 'card') {
         msgElements.push(buildBotCardMessage(msg))
       } else if (
