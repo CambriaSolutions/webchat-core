@@ -74,8 +74,8 @@ class Message extends PureComponent {
       sysTimeFormat,
       new Date(currentTime)
     )
-    const isToday = isSameDay(new Date(), timestamp)
-    const isYesterday = isSameDay(timestamp, subDays(new Date(), 1))
+    const isToday = isSameDay(new Date(), parsedTimestamp)
+    const isYesterday = isSameDay(parsedTimestamp, subDays(new Date(), 1))
 
     let formattedTimestamp = null
 
