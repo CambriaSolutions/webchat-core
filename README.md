@@ -12,7 +12,7 @@
     fullscreen={false}
     initialActive={false}
     policyText={privacyPolicy}
-    googleMapsKey={googleMapsKey}
+    mapConfig={mapConfig}
   />
 ```
 
@@ -32,7 +32,17 @@ textUrl: 'https://us-central1-webchat-core.cloudfunctions.net/textRequest',
 - `fullscreen` is whether or not the window is currently fullscreen
 - `initialActive` describes whether or not the window is open and active on page load
 - `policyText` can be any string
-- `googleMapsKey` a valid [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial) key, should be stored in a .env file
+- `mapConfig` an object containing a google maps key and center coordinates
+
+```
+{
+googleMapsKey: process.env.GOOGLE_MAPS_KEY
+centerCoordinates: {
+  lat: latitude,
+  lng: longitude,
+}
+}
+```
 
 ### Deployment Process
 

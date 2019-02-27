@@ -72,22 +72,11 @@ function buildBotCardMessage(message) {
 }
 
 function buildBotMapMessage(message) {
-  const geoPayload = message.payload.mapPayload
-
-  const points = geoPayload.map(location => {
-    const data = {
-      lat: location.lat,
-      lng: location.lng,
-    }
-    return data
-  })
-
   return (
     <MapResponse
       data={message.payload.mapPayload}
       timestamp={message.systemTime}
       key={message.key}
-      points={points}
     />
   )
 }

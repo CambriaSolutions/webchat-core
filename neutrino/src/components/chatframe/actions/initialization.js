@@ -1,3 +1,4 @@
+import get from 'lodash/get'
 import {
   parse,
   format,
@@ -102,8 +103,7 @@ export function initialize(props) {
       initialActive,
       fullscreen,
       policyText,
-      googleMapsKey,
-      centerCoordinates,
+      mapConfig,
     } = props
     let userAvatar = avatar
     if (!userAvatar) {
@@ -118,12 +118,27 @@ export function initialize(props) {
       dispatch({ type: SET_PRIVACY_POLICY, policyText })
     }
 
-    if (googleMapsKey && googleMapsKey !== '') {
-      dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
-    }
+    if (mapConfig) {
+      const { googleMapsKey, centerCoordinates } = mapConfig
+      const latitude = get(centerCoordinates, 'lat', null)
+      const longitude = get(centerCoordinates, 'lng', null)
 
-    if (centerCoordinates && centerCoordinates !== '') {
-      dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+      if (googleMapsKey && googleMapsKey !== '') {
+        dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
+      }
+      if (centerCoordinates) {
+        if (
+          typeof centerCoordinates === 'object' &&
+          latitude !== null &&
+          longitude !== null
+        ) {
+          dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+        } else {
+          throw new Error(
+            'Please provide valid latitude and longitude coordinates, see README'
+          )
+        }
+      }
     }
 
     if (initialActive === true) {
