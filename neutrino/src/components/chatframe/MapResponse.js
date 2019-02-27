@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -28,18 +29,49 @@ const CardContainer = styled(Card)`
   }
 `
 
-const TableContainer = styled('div')`
+const TableContainer = styled.div`
+  height: 150px;
+  font-size: 12px;
+  margin-top: 10px;
+`
+
+const StyledCardContent = styled(CardContent)`
+  &&& {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`
+
+const StyledTableBody = styled(TableBody)`
+  td {
+    padding: 4px 0px 4px 0px;
+  }
+  tr:last-of-type {
+    td {
+      border-bottom: none;
+    }
+  }
+`
+
+const StyledAddressTableCell = styled(TableCell)`
   && {
-    height: 150px;
-    font-size: 12px;
-    margin-top: 10px;
+    width: 70%;
+    padding: 4px 0px 4px 0px;
+  }
+`
+
+const StyledDistanceTableCell = styled(TableCell)`
+  &&& {
+    width: 20%;
+    padding-right: 0;
+    text-align: right;
   }
 `
 
 // Maps documentation: https://tomchentw.github.io/react-google-maps
 function MapResponse(props) {
   const { data, googleMapsKey } = props
-  const cardHeight = '160px'
+  const cardHeight = '230px'
   const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${googleMapsKey}&v=3`
   const handleMarkerClick = location => {
     const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
@@ -87,7 +119,8 @@ function MapResponse(props) {
 
   return (
     <CardContainer>
-      <CardContent>
+      <CardHeader title='Office Locations' />
+      <StyledCardContent>
         <Map
           googleMapURL={googleMapsUrl}
           loadingElement={<div style={{ height: `${cardHeight}` }} />}
@@ -95,18 +128,22 @@ function MapResponse(props) {
           mapElement={<div style={{ height: '100%' }} />}
         />
         <TableContainer>
-          <Table>
-            <TableBody>
+          <Table padding='dense'>
+            <StyledTableBody>
               {data.nearestLocations.map((row, i) => (
                 <TableRow key={i}>
-                  <TableCell>{row.address}</TableCell>
-                  <TableCell>{row.distance} mi</TableCell>
+                  <StyledAddressTableCell padding='dense'>
+                    {row.street}, {row.city}
+                  </StyledAddressTableCell>
+                  <StyledDistanceTableCell padding='dense'>
+                    {row.distance} mi
+                  </StyledDistanceTableCell>
                 </TableRow>
               ))}
-            </TableBody>
+            </StyledTableBody>
           </Table>
         </TableContainer>
-      </CardContent>
+      </StyledCardContent>
     </CardContainer>
   )
 }
