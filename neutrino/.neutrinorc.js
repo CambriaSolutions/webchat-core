@@ -10,16 +10,7 @@ module.exports = {
           rules: {
             semi: 'off',
             indent: 'off',
-            'comma-dangle': [
-              'warn',
-              {
-                arrays: 'always-multiline',
-                objects: 'always-multiline',
-                imports: 'always-multiline',
-                exports: 'always-multiline',
-                functions: 'ignore',
-              },
-            ],
+            'comma-dangle': 'off',
             'jsx-quotes': 'off',
             'linebreak-style': 0,
             'import/prefer-default-export': 'off',

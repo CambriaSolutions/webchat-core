@@ -1,8 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableRow from '@material-ui/core/TableRow'
 import styled from 'styled-components'
 import {
   withScriptjs,
@@ -11,6 +15,7 @@ import {
   Marker,
 } from 'react-google-maps'
 import redpin from './redpin.svg'
+import blackpin from './personMarker.png'
 
 const CardContainer = styled(Card)`
   && {
@@ -24,10 +29,49 @@ const CardContainer = styled(Card)`
   }
 `
 
+const TableContainer = styled.div`
+  height: 150px;
+  font-size: 12px;
+  margin-top: 10px;
+`
+
+const StyledCardContent = styled(CardContent)`
+  &&& {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`
+
+const StyledTableBody = styled(TableBody)`
+  td {
+    padding: 4px 0px 4px 0px;
+  }
+  tr:last-of-type {
+    td {
+      border-bottom: none;
+    }
+  }
+`
+
+const StyledAddressTableCell = styled(TableCell)`
+  && {
+    width: 70%;
+    padding: 4px 0px 4px 0px;
+  }
+`
+
+const StyledDistanceTableCell = styled(TableCell)`
+  &&& {
+    width: 20%;
+    padding-right: 0;
+    text-align: right;
+  }
+`
+
 // Maps documentation: https://tomchentw.github.io/react-google-maps
 function MapResponse(props) {
-  const { data, centerCoordinates, googleMapsKey } = props
-  const cardHeight = '300px'
+  const { data, googleMapsKey } = props
+  const cardHeight = '230px'
   const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${googleMapsKey}&v=3`
   const handleMarkerClick = location => {
     const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
@@ -39,15 +83,16 @@ function MapResponse(props) {
   const Map = withScriptjs(
     withGoogleMap(() => (
       <GoogleMap
-        defaultZoom={6}
-        defaultCenter={centerCoordinates}
+        defaultZoom={13}
+        defaultCenter={data.nearestLocations[0]}
         defaultOptions={{
+          zoomControl: true,
           mapTypeControl: false,
           streetViewControl: false,
           fullscreenControl: false,
         }}
       >
-        {data.map((row, i) => (
+        {data.locations.map((row, i) => (
           <Marker
             key={i}
             position={{ lat: row.lat, lng: row.lng }}
@@ -58,23 +103,54 @@ function MapResponse(props) {
             onClick={() => handleMarkerClick(row)}
           />
         ))}
+        <Marker
+          position={{
+            lat: data.currentGeocode.lat,
+            lng: data.currentGeocode.lng,
+          }}
+          icon={{
+            url: blackpin,
+            scaledSize: { width: 20, height: 20 },
+          }}
+        />
       </GoogleMap>
     ))
   )
 
   return (
     <CardContainer>
-      <CardContent>
-        <Typography gutterBottom variant='h6'>
-          Office Locations
-        </Typography>
+      <CardHeader title='Office Locations' />
+      <StyledCardContent>
         <Map
           googleMapURL={googleMapsUrl}
           loadingElement={<div style={{ height: `${cardHeight}` }} />}
           containerElement={<div style={{ height: `${cardHeight}` }} />}
           mapElement={<div style={{ height: '100%' }} />}
         />
-      </CardContent>
+        <TableContainer>
+          <Table padding='dense'>
+            <StyledTableBody>
+              {data.nearestLocations.map((row, i) => (
+                <TableRow key={i}>
+                  <StyledAddressTableCell padding='dense'>
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
+                        row.placeId
+                      }`}
+                      target='blank'
+                    >
+                      {row.street}, {row.city}
+                    </a>
+                  </StyledAddressTableCell>
+                  <StyledDistanceTableCell padding='dense'>
+                    {row.distance} mi
+                  </StyledDistanceTableCell>
+                </TableRow>
+              ))}
+            </StyledTableBody>
+          </Table>
+        </TableContainer>
+      </StyledCardContent>
     </CardContainer>
   )
 }
@@ -82,7 +158,6 @@ function MapResponse(props) {
 const mapStateToProps = state => {
   return {
     googleMapsKey: state.config.googleMapsKey,
-    centerCoordinates: state.config.centerCoordinates,
   }
 }
 
