@@ -137,7 +137,7 @@ function MapResponse(props) {
                       href={`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
                         row.placeId
                       }`}
-                      target={'blank'}
+                      target='blank'
                     >
                       {row.street}, {row.city}
                     </a>
@@ -158,7 +158,6 @@ function MapResponse(props) {
 const mapStateToProps = state => {
   return {
     googleMapsKey: state.config.googleMapsKey,
-    centerCoordinates: state.config.centerCoordinates,
   }
 }
 
