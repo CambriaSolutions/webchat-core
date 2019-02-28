@@ -66,7 +66,7 @@ class Message extends PureComponent {
       timestamp,
       currentTime,
       theme,
-      showTimestamp,
+      showTimestamp
     } = this.props
 
     const parsedTimestamp = parse(
@@ -90,14 +90,14 @@ class Message extends PureComponent {
     const chatMessage =
       entity === 'user' ? (
         <UserMessage elevation={1} theme={theme}>
-          <Typography variant='body1'>{message}</Typography>
+          <Typography variant="body1">{message}</Typography>
         </UserMessage>
       ) : (
         <ExternalMessage elevation={1}>
           {isLoading ? (
             <Loading />
           ) : (
-            <Typography variant='body1'>{message}</Typography>
+            <Typography variant="body1">{message}</Typography>
           )}
         </ExternalMessage>
       )

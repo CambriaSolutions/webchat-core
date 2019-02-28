@@ -14,8 +14,8 @@ import {
   GoogleMap,
   Marker,
 } from 'react-google-maps'
-import redpin from './redpin.svg'
-import blackpin from './personMarker.png'
+import pin from './pin.svg'
+import personPin from './person-pin.svg'
 
 const CardContainer = styled(Card)`
   && {
@@ -97,8 +97,8 @@ function MapResponse(props) {
             key={i}
             position={{ lat: row.lat, lng: row.lng }}
             icon={{
-              url: redpin,
-              scaledSize: { width: 20, height: 20 },
+              url: pin,
+              scaledSize: { width: 35, height: 35 },
             }}
             onClick={() => handleMarkerClick(row)}
           />
@@ -109,8 +109,8 @@ function MapResponse(props) {
             lng: data.currentGeocode.lng,
           }}
           icon={{
-            url: blackpin,
-            scaledSize: { width: 20, height: 20 },
+            url: personPin,
+            scaledSize: { width: 35, height: 35 },
           }}
         />
       </GoogleMap>
