@@ -7,6 +7,9 @@ import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
+import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link'
+
 import styled from 'styled-components'
 import {
   withScriptjs,
@@ -133,14 +136,16 @@ function MapResponse(props) {
               {data.nearestLocations.map((row, i) => (
                 <TableRow key={i}>
                   <StyledAddressTableCell padding='dense'>
-                    <a
-                      href={`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
-                        row.placeId
-                      }`}
-                      target='blank'
-                    >
-                      {row.street}, {row.city}
-                    </a>
+                    <Typography>
+                      <Link
+                        href={`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
+                          row.placeId
+                        }`}
+                        target='blank'
+                      >
+                        {row.street}, {row.city}
+                      </Link>
+                    </Typography>
                   </StyledAddressTableCell>
                   <StyledDistanceTableCell padding='dense'>
                     {row.distance} mi
