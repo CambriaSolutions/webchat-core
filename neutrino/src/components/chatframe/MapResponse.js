@@ -86,7 +86,7 @@ function MapResponse(props) {
   const Map = withScriptjs(
     withGoogleMap(() => (
       <GoogleMap
-        defaultZoom={13}
+        defaultZoom={8}
         defaultCenter={data.nearestLocations[0]}
         defaultOptions={{
           zoomControl: true,
