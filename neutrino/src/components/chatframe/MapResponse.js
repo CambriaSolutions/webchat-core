@@ -75,6 +75,7 @@ const StyledDistanceTableCell = styled(TableCell)`
 function MapResponse(props) {
   const { data, googleMapsKey } = props
   const cardHeight = '230px'
+  const iconSize = { width: 30, height: 30 }
   const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${googleMapsKey}&v=3`
   const handleMarkerClick = location => {
     const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
@@ -101,7 +102,7 @@ function MapResponse(props) {
             position={{ lat: row.lat, lng: row.lng }}
             icon={{
               url: pin,
-              scaledSize: { width: 35, height: 35 },
+              scaledSize: iconSize,
             }}
             onClick={() => handleMarkerClick(row)}
           />
@@ -113,7 +114,7 @@ function MapResponse(props) {
           }}
           icon={{
             url: personPin,
-            scaledSize: { width: 35, height: 35 },
+            scaledSize: iconSize,
           }}
         />
       </GoogleMap>
