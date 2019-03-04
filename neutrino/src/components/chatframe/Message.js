@@ -91,7 +91,8 @@ class Message extends PureComponent {
     if (message && message[0] !== '') {
       filteredMessage = message
     } else {
-      filteredMessage = 'Sorry, could you say that again?'
+      filteredMessage =
+        'Oops! Something happened with the connection. Please try again.'
     }
 
     const chatMessage =
