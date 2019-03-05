@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { parse, format, isSameDay, subDays } from 'date-fns'
 import grey from '@material-ui/core/colors/grey'
 import Typography from '@material-ui/core/Typography'
+import Markdown from 'markdown-to-jsx'
+import Link from '@material-ui/core/Link'
 import { withTheme } from '@material-ui/core/styles'
 import { sysTimeFormat } from './config/dateFormats'
 import Loading from './Loading'
@@ -97,7 +99,23 @@ class Message extends PureComponent {
           {isLoading ? (
             <Loading />
           ) : (
-            <Typography variant='body1'>{message}</Typography>
+            <Markdown
+              options={{
+                overrides: {
+                  p: {
+                    component: Typography,
+                    props: {
+                      variant: 'body1',
+                    },
+                  },
+                  a: {
+                    component: props => <Link {...props} />,
+                  },
+                },
+              }}
+            >
+              {message[0]}
+            </Markdown>
           )}
         </ExternalMessage>
       )
