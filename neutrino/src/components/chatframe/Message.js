@@ -101,6 +101,7 @@ class Message extends PureComponent {
           ) : (
             <Markdown
               options={{
+                forceBlock: true,
                 overrides: {
                   p: {
                     component: Typography,
