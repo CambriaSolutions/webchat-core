@@ -110,6 +110,12 @@ class Message extends PureComponent {
               options={{
                 forceBlock: true,
                 overrides: {
+                  h6: {
+                    component: Typography,
+                    props: {
+                      variant: 'h6',
+                    },
+                  },
                   p: {
                     component: Typography,
                     props: {
@@ -117,7 +123,7 @@ class Message extends PureComponent {
                     },
                   },
                   a: {
-                    component: props => <Link {...props} />,
+                    component: Link,
                   },
                 },
               }}
