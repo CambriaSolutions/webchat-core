@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { parse, format, isSameDay, subDays } from 'date-fns'
 import grey from '@material-ui/core/colors/grey'
 import Typography from '@material-ui/core/Typography'
+import Markdown from 'markdown-to-jsx'
+import Link from '@material-ui/core/Link'
 import { withTheme } from '@material-ui/core/styles'
 import { sysTimeFormat } from './config/dateFormats'
 import Loading from './Loading'
@@ -86,6 +88,13 @@ class Message extends PureComponent {
     } else {
       formattedTimestamp = format(parsedTimestamp, 'MMMM dd, yyyy h:mm aa')
     }
+    let filteredMessage
+    if (message && message[0] !== '') {
+      filteredMessage = message
+    } else {
+      filteredMessage =
+        'Oops! Something happened with the connection. Please try again.'
+    }
 
     let filteredMessage
     if (message && message[0] !== '') {
@@ -105,7 +114,30 @@ class Message extends PureComponent {
           {isLoading ? (
             <Loading />
           ) : (
-            <Typography variant='body1'>{filteredMessage}</Typography>
+            <Markdown
+              options={{
+                forceBlock: true,
+                overrides: {
+                  h6: {
+                    component: Typography,
+                    props: {
+                      variant: 'h6',
+                    },
+                  },
+                  p: {
+                    component: Typography,
+                    props: {
+                      variant: 'body1',
+                    },
+                  },
+                  a: {
+                    component: Link,
+                  },
+                },
+              }}
+            >
+              {filteredMessage[0]}
+            </Markdown>
           )}
         </ExternalMessage>
       )
