@@ -88,18 +88,20 @@ class Message extends PureComponent {
     } else {
       formattedTimestamp = format(parsedTimestamp, 'MMMM dd, yyyy h:mm aa')
     }
-    let filteredMessage
+
+    let filteredBotMessage
     if (message && message[0] !== '') {
-      filteredMessage = message
+      filteredBotMessage = message
     } else {
-      filteredMessage =
-        'Oops! Something happened with the connection. Please try again.'
+      filteredBotMessage = [
+        'Oops! Something happened with the connection. Please try again.',
+      ]
     }
 
     const chatMessage =
       entity === 'user' ? (
         <UserMessage elevation={1} theme={theme}>
-          <Typography variant='body1'>{filteredMessage}</Typography>
+          <Typography variant='body1'>{message}</Typography>
         </UserMessage>
       ) : (
         <ExternalMessage elevation={1}>
@@ -128,7 +130,7 @@ class Message extends PureComponent {
                 },
               }}
             >
-              {filteredMessage[0]}
+              {filteredBotMessage[0]}
             </Markdown>
           )}
         </ExternalMessage>
