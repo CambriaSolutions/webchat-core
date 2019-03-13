@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import isEqual from 'lodash/isEqual'
 import merge from 'lodash/merge'
+import uuidv4 from 'uuid/v4'
 import grey from '@material-ui/core/colors/grey'
 import { parse, differenceInMilliseconds } from 'date-fns'
 import { sysTimeFormat } from './config/dateFormats'
@@ -26,7 +27,7 @@ function buildUserMessage(message) {
     <Message
       message={message.text}
       entity={message.entity}
-      key={message.messageId}
+      key={message.key}
       timestamp={message.systemTime}
       isLoading={false}
     />
@@ -49,7 +50,7 @@ function buildBotTextMessage(message, showTimestamp) {
     <Message
       message={message.text}
       entity={message.entity}
-      key={message.messageId}
+      key={message.key}
       isLoading={false}
       timestamp={message.systemTime}
       showTimestamp={showTimestamp}
@@ -62,7 +63,7 @@ function buildBotCardMessage(message) {
     <CardResponse
       data={message.card}
       timestamp={message.systemTime}
-      key={message.messageId}
+      key={message.key}
     />
   )
 }
@@ -96,14 +97,14 @@ class ChatWindow extends PureComponent {
   parseMessages = () => {
     const { messages } = this.props
     const messageData = []
-    messages.forEach((msg, index) => {
+    messages.forEach(msg => {
       // We want to make sure that each message has all of the metadata
       // The structure of the response is not consistent, so we are building
       // a consistent object describing each message.
-      const metadata = {
+      let metadata = {
         systemTime: msg.systemTime,
         entity: msg.entity,
-        key: `msg-${index}-${msg.systemTime}`,
+        key: uuidv4(),
       }
       if (msg.loading) {
         const loadingMessage = merge(msg, metadata)
@@ -118,6 +119,10 @@ class ChatWindow extends PureComponent {
             res.type === 'card' ||
             res.type === 'payload'
           ) {
+            metadata = {
+              ...metadata,
+              key: uuidv4(),
+            }
             const botMessage = merge(res, metadata)
             messageData.push(botMessage)
           }
@@ -174,7 +179,6 @@ class ChatWindow extends PureComponent {
       const diff = differenceInMilliseconds(dateA, dateB)
       return diff
     })
-
     this.setState({ messageElements: msgElements })
   }
 
@@ -182,11 +186,7 @@ class ChatWindow extends PureComponent {
     const { messageElements } = this.state
     return (
       <ContentWrapper elevation={1} square>
-        <div>
-          {messageElements.map((row, i) => (
-            <div key={i}>{row}</div>
-          ))}
-        </div>
+        <div>{messageElements}</div>
       </ContentWrapper>
     )
   }
