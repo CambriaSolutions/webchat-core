@@ -101,12 +101,13 @@ class ChatWindow extends PureComponent {
       // We want to make sure that each message has all of the metadata
       // The structure of the response is not consistent, so we are building
       // a consistent object describing each message.
-      let metadata = {
+      const metadata = {
         systemTime: msg.systemTime,
         entity: msg.entity,
-        key: uuidv4(),
       }
       if (msg.loading) {
+        const key = uuidv4()
+        metadata.key = key
         const loadingMessage = merge(msg, metadata)
         messageData.push(loadingMessage)
       } else if (msg.entity === 'bot') {
@@ -119,15 +120,15 @@ class ChatWindow extends PureComponent {
             res.type === 'card' ||
             res.type === 'payload'
           ) {
-            metadata = {
-              ...metadata,
-              key: uuidv4(),
-            }
+            const key = uuidv4()
+            metadata.key = key
             const botMessage = merge(res, metadata)
             messageData.push(botMessage)
           }
         })
       } else if (msg.entity === 'user') {
+        const key = uuidv4()
+        metadata.key = key
         const userMessage = merge(msg, metadata)
         messageData.push(userMessage)
       }
