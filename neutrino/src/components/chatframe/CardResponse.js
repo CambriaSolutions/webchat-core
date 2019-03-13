@@ -19,7 +19,7 @@ const CardContainer = styled(Card)`
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     background: #fff;
-    margin: 16px auto;
+    margin: 15px 16px 15px 16px;
     white-space: pre-line;
   }
 `
