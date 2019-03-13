@@ -13,7 +13,7 @@ import Loading from './Loading'
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  margin: 10px 0;
+  margin: 15px 16px 15px 16px;
   height: min-content;
   align-items: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
 `
