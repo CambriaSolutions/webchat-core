@@ -8,7 +8,6 @@ import PrivacyPolicy from './PrivacyPolicy'
 import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
 import ButtonBar from './ButtonBar'
-import ErrorBar from './ErrorBar'
 import { media } from './styles/media'
 
 const Container = styled(Paper)`
@@ -52,12 +51,11 @@ const OuterFrame = styled.div`
     background: ${grey[100]};
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 64px 1fr auto 0px 48px;
+    grid-template-rows: 64px 1fr auto 48px;
     grid-template-areas:
       'header'
       'chatwindow'
       'buttonbar'
-      'errorbar'
       'userinput';
   }
 `
@@ -80,7 +78,6 @@ class ChatContainer extends PureComponent {
           <PrivacyPolicy parentRef={this.containerRef.current} />
           <ChatWindow />
           <ButtonBar />
-          <ErrorBar />
           <UserInput />
         </OuterFrame>
       </Container>
