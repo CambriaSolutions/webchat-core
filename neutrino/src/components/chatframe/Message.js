@@ -69,6 +69,7 @@ class Message extends PureComponent {
       currentTime,
       theme,
       showTimestamp,
+      error,
     } = this.props
 
     const parsedTimestamp = parse(
@@ -98,6 +99,14 @@ class Message extends PureComponent {
       ]
     }
 
+    let loadingOrErrorMsg = <Loading />
+    if (isLoading) {
+      // display error message from state if it exists
+      if (error) {
+        loadingOrErrorMsg = error
+      }
+    }
+
     const chatMessage =
       entity === 'user' ? (
         <UserMessage elevation={1} theme={theme}>
@@ -106,7 +115,7 @@ class Message extends PureComponent {
       ) : (
         <ExternalMessage elevation={1}>
           {isLoading ? (
-            <Loading />
+            loadingOrErrorMsg
           ) : (
             <Markdown
               options={{
@@ -149,6 +158,7 @@ class Message extends PureComponent {
 const mapStateToProps = state => {
   return {
     currentTime: state.conversation.currentTime,
+    error: state.error,
   }
 }
 export default withTheme()(connect(mapStateToProps)(Message))
