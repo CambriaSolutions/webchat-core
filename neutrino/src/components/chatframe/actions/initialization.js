@@ -16,6 +16,7 @@ import {
   WINDOWED,
   SET_CONVERSATION_STARTED,
   SHOW_PRIVACY_POLICY,
+  SHOW_FEEDBACK_SURVEY,
   HIDE_PRIVACY_POLICY,
   SET_PRIVACY_POLICY,
   SET_GOOGLE_MAPS_KEY,
@@ -43,6 +44,12 @@ export function showPrivacyPolicy() {
 export function hidePrivacyPolicy() {
   return { type: HIDE_PRIVACY_POLICY }
 }
+export function showFeedbackSurvey() {
+  return { type: SHOW_FEEDBACK_SURVEY }
+}
+// export function hideFeedbackSurvey() {
+//   return { type: HIDE_FEEDBACK_SURVEY }
+// }
 export function hideWindow() {
   return { type: HIDE_WINDOW }
 }

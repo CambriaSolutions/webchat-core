@@ -10,6 +10,9 @@ export const options = {
 export const privacyPolicy =
   'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.'
 
+export const feedbackSurvey =
+  'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.'
+
 export const mapConfig = {
   googleMapsKey: process.env.GOOGLE_MAPS_KEY,
   centerCoordinates: {
@@ -29,6 +32,7 @@ render(
     fullscreen={false}
     initialActive={false}
     policyText={privacyPolicy}
+    feedbackText={feedbackSurvey}
     mapConfig={mapConfig}
   />,
   root
