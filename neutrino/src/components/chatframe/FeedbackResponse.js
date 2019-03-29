@@ -27,7 +27,7 @@ const CardContainer = styled(Card)`
 class FeedbackResponse extends PureComponent {
   render() {
     const buttons = [
-      { postback: 'https://en.wikipedia.org/wiki/Temperature', text: 'test' }
+      { postback: 'https://en.wikipedia.org/wiki/Temperature', text: 'test' },
     ]
 
     return (

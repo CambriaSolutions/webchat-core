@@ -5,11 +5,13 @@ const initialState = {
   title: 'Chat Window',
   windowVisible: false,
   fullscreen: false,
+  feedbackSurveyVisible: false,
   privacyPolicyVisible: false,
   googleMapsKey: '',
   centerCoordinates: '',
   privacyPolicy:
     'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.',
+  feedbackSurvey: 'Test Test Test',
 }
 
 function config(state = initialState, action) {
@@ -22,6 +24,15 @@ function config(state = initialState, action) {
 
     case t.SET_PRIVACY_POLICY:
       return { ...state, privacyPolicy: action.policyText }
+
+    case t.HIDE_FEEDBACK_SURVEY:
+      return { ...state, feedbackSurveyVisible: false }
+
+    case t.SHOW_FEEDBACK_SURVEY:
+      return { ...state, feedbackSurveyVisible: true }
+
+    case t.SET_FEEDBACK_SURVEY:
+      return { ...state, feedbackSurvey: action.feedbackSurveyText }
 
     case t.SET_GOOGLE_MAPS_KEY:
       return { ...state, googleMapsKey: action.googleMapsKey }

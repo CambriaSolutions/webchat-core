@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import grey from '@material-ui/core/colors/grey'
 import Header from './Header'
 import PrivacyPolicy from './PrivacyPolicy'
+import FeedbackSurvey from './FeedbackSurvey'
 import ChatWindow from './ChatWindow'
 import UserInput from './UserInput'
 import ButtonBar from './ButtonBar'
@@ -76,6 +77,7 @@ class ChatContainer extends PureComponent {
         <OuterFrame ref={this.containerRef}>
           <Header />
           <PrivacyPolicy parentRef={this.containerRef.current} />
+          <FeedbackSurvey parentRef={this.containerRef.current} />
           <ChatWindow />
           <ButtonBar />
           <UserInput />

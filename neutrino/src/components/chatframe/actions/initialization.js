@@ -16,9 +16,11 @@ import {
   WINDOWED,
   SET_CONVERSATION_STARTED,
   SHOW_PRIVACY_POLICY,
-  SHOW_FEEDBACK_SURVEY,
   HIDE_PRIVACY_POLICY,
   SET_PRIVACY_POLICY,
+  SHOW_FEEDBACK_SURVEY,
+  HIDE_FEEDBACK_SURVEY,
+  SET_FEEDBACK_SURVEY,
   SET_GOOGLE_MAPS_KEY,
   SET_CENTER_COORDINATES,
 } from './actionTypes'
@@ -47,9 +49,9 @@ export function hidePrivacyPolicy() {
 export function showFeedbackSurvey() {
   return { type: SHOW_FEEDBACK_SURVEY }
 }
-// export function hideFeedbackSurvey() {
-//   return { type: HIDE_FEEDBACK_SURVEY }
-// }
+export function hideFeedbackSurvey() {
+  return { type: HIDE_FEEDBACK_SURVEY }
+}
 export function hideWindow() {
   return { type: HIDE_WINDOW }
 }
@@ -110,6 +112,7 @@ export function initialize(props) {
       initialActive,
       fullscreen,
       policyText,
+      feedbackSurveyText,
       mapConfig,
     } = props
     let userAvatar = avatar
@@ -123,6 +126,10 @@ export function initialize(props) {
 
     if (policyText && policyText !== '') {
       dispatch({ type: SET_PRIVACY_POLICY, policyText })
+    }
+
+    if (feedbackSurveyText && feedbackSurveyText !== '') {
+      dispatch({ type: SET_FEEDBACK_SURVEY, feedbackSurveyText })
     }
 
     if (mapConfig) {

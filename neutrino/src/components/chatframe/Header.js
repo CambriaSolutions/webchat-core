@@ -18,6 +18,7 @@ import {
   showFullscreen,
   showWindowed,
   showPrivacyPolicy,
+  showFeedbackSurvey,
 } from './actions/initialization'
 
 const BotAvatar = styled(Avatar)`
@@ -96,9 +97,9 @@ class Header extends PureComponent {
       showFullscreen,
       fullscreen,
       avatar,
+      showFeedbackSurvey,
       showPrivacyPolicy,
     } = this.props
-    console.log(showPrivacyPolicy)
 
     return (
       <Container theme={theme}>
@@ -118,7 +119,7 @@ class Header extends PureComponent {
         </Tooltip>
         <HeaderButton
           theme={theme}
-          onClick={showPrivacyPolicy}
+          onClick={showFeedbackSurvey}
           aria-label='Feedback Survey'
         >
           <TagFaces fontSize='small' />
@@ -161,6 +162,7 @@ const mapDispatchToProps = {
   showFullscreen,
   showWindowed,
   showPrivacyPolicy,
+  showFeedbackSurvey,
 }
 
 export default withTheme()(
