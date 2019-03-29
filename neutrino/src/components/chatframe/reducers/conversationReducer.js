@@ -12,7 +12,9 @@ const initialState = {
   headerTime: 'Now',
   timer: null,
   conversationStarted: false,
+  numStars: 0,
 }
+
 function conversation(state = initialState, action) {
   switch (action.type) {
     case t.SAVE_CLIENT:
@@ -89,6 +91,12 @@ function conversation(state = initialState, action) {
       return {
         ...state,
         conversationStarted: false,
+      }
+
+    case t.SET_COUNT_STARS:
+      return {
+        ...state,
+        numStars: action.numStars,
       }
 
     default:

@@ -29,7 +29,7 @@ render(
     client='Dialogflow'
     clientOptions={options}
     fullscreen={false}
-    initialActive={false}
+    initialActive={true}
     policyText={privacyPolicy}
     feedbackText={feedbackSurvey}
     mapConfig={mapConfig}

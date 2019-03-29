@@ -10,6 +10,7 @@ import { sysTimeFormat } from './config/dateFormats'
 import Message from './Message'
 import CardResponse from './CardResponse'
 import MapResponse from './MapResponse'
+import FeedbackResponse from './FeedbackResponse'
 
 const ContentWrapper = styled.div`
   background: ${grey[100]};

@@ -111,7 +111,7 @@ class FeedbackSurvey extends PureComponent {
                 )
               })}
             </CardActions>
-          </CardContainer>
+          </CardContainer>{' '}
         </DialogContent>
         <DialogActions>
           <Button onClick={hideFeedbackSurvey} color='primary'>
