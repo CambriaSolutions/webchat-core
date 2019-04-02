@@ -81,63 +81,69 @@ export function getMessageFromDialogflow(response) {
       }
     }
     const rawResponses = get(response, 'queryResult.fulfillmentMessages', [])
-    const responses = rawResponses.map(msg => {
-      const type = mapMessageTypeToDescriptor(msg.message)
-      const suggestions = get(msg, 'quickReplies.quickReplies', [])
-      const text = get(msg, 'text.text', null)
-      const card = {
-        title: get(msg, 'card.title', ''),
-        subtitle: get(msg, 'card.subtitle', ''),
-        imageUrl: get(msg, 'card.imageUri', ''),
-        buttons: get(msg, 'card.buttons', []),
-      }
-      const image = {
-        imageUri: get(msg, 'image.imageUri', ''),
-        accessibilityText: get(msg, 'image.accessibilityText', ''),
-      }
-
-      const payload = {}
-      if (type === 'payload') {
-        const rawPayload = get(msg, 'payload.fields', {})
-        for (const [field, data] of Object.entries(rawPayload)) {
-          if (data.kind === 'stringValue') {
-            try {
-              // Attempt to parse data.stringValue as JSON in case it is
-              payload[field] = JSON.parse(data.stringValue)
-            } catch (err) {
-              // It's not JSON, just add the string
-              payload[field] = data.stringValue
-            }
-          } else if (data.kind && data.kind !== 'stringValue') {
-            throw new Error('Use stringValue to send payloads')
-          } else {
-            return payload
-          }
+    let responses = null
+    try {
+      responses = rawResponses.map(msg => {
+        const type = mapMessageTypeToDescriptor(msg.message)
+        const suggestions = get(msg, 'quickReplies.quickReplies', [])
+        const text = get(msg, 'text.text', null)
+        const card = {
+          title: get(msg, 'card.title', ''),
+          subtitle: get(msg, 'card.subtitle', ''),
+          imageUrl: get(msg, 'card.imageUri', ''),
+          buttons: get(msg, 'card.buttons', []),
+        }
+        const image = {
+          imageUri: get(msg, 'image.imageUri', ''),
+          accessibilityText: get(msg, 'image.accessibilityText', ''),
         }
 
-        dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
-      }
+        const payload = {}
+        if (type === 'payload') {
+          const rawPayload = get(msg, 'payload.fields', {})
+          for (const [field, data] of Object.entries(rawPayload)) {
+            if (data.kind === 'stringValue') {
+              try {
+                // Attempt to parse data.stringValue as JSON in case it is
+                payload[field] = JSON.parse(data.stringValue)
+              } catch (err) {
+                // It's not JSON, just add the string
+                payload[field] = data.stringValue
+              }
+            } else if (data.kind && data.kind !== 'stringValue') {
+              throw new Error('Use stringValue to send payloads')
+            } else {
+              return payload
+            }
+          }
 
-      switch (type) {
-        case 'text':
-          return { type, text }
+          dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
+        }
 
-        case 'image':
-          return { type, image }
+        switch (type) {
+          case 'text':
+            return { type, text }
 
-        case 'suggestion':
-          return { type, suggestions }
+          case 'image':
+            return { type, image }
 
-        case 'card':
-          return { type, card }
+          case 'suggestion':
+            return { type, suggestions }
 
-        case 'payload':
-          return { type, payload }
+          case 'card':
+            return { type, card }
 
-        default:
-          return { type, text }
-      }
-    })
+          case 'payload':
+            return { type, payload }
+
+          default:
+            return { type, text }
+        }
+      })
+    } catch (error) {
+      // TODO: log error to analytics
+      console.log(error)
+    }
 
     const systemTime = format(new Date(), sysTimeFormat)
     const data = {
@@ -171,11 +177,15 @@ export function sendMessageWithDialogflow(message) {
         }
       })
       .catch(error => {
+        throw new Error(error)
+      })
+      .catch(error => {
+        // TODO: log error to analytics
+        console.log(error)
         dispatch({
           type: DISPLAY_ERROR,
           error: 'Unable to connect to the chat provider. Please try again.',
         })
-        throw new Error(error)
       })
   }
 }
@@ -199,11 +209,15 @@ export function sendEvent(event) {
         }
       })
       .catch(error => {
+        throw new Error(error)
+      })
+      .catch(error => {
+        // TODO: log error to analytics
+        console.log(error)
         dispatch({
           type: DISPLAY_ERROR,
           error: 'Unable to connect to the chat provider. Please try again.',
         })
-        throw new Error(error)
       })
   }
 }
