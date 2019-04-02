@@ -127,16 +127,21 @@ export function initialize(props) {
         dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
       }
       if (centerCoordinates) {
-        if (
-          typeof centerCoordinates === 'object' &&
-          latitude !== null &&
-          longitude !== null
-        ) {
-          dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
-        } else {
-          throw new Error(
-            'Please provide valid latitude and longitude coordinates, see README'
-          )
+        try {
+          if (
+            typeof centerCoordinates === 'object' &&
+            latitude !== null &&
+            longitude !== null
+          ) {
+            dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+          } else {
+            throw new Error(
+              'Please provide valid latitude and longitude coordinates, see README'
+            )
+          }
+        } catch (error) {
+          // TODO: log error to analytics
+          console.log(error)
         }
       }
     }
