@@ -35,10 +35,9 @@ const CardImage = styled(CardMedia)`
 class CardResponse extends PureComponent {
   render() {
     const { title, subtitle, imageUrl, buttons } = this.props.data
-
     return (
       <CardContainer>
-        <CardImage image={encodeURI(imageUrl)} title="" />
+        {imageUrl ? <CardImage image={encodeURI(imageUrl)} title='' /> : null}
         <CardContent>
           <Typography gutterBottom variant="h6">
             {title}
@@ -71,12 +70,5 @@ const mapStateToProps = state => {
     inputValue: state.userInput,
   }
 }
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     saveUserInput: e => {},
-//     submitUserInput: () => {},
-//   }
-// }
 
 export default connect(mapStateToProps)(CardResponse)
