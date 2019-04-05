@@ -42,7 +42,7 @@ const Carat = styled.div`
 const Container = styled.div`
   && {
     position: relative;
-    background: ${p => p.theme.palette.primary.dark};
+    background: ${p => p.theme.palette.header.main};
     padding: 16px;
     height: 32px;
     display: flex;
@@ -97,41 +97,42 @@ class Header extends PureComponent {
       avatar,
       showPrivacyPolicy,
     } = this.props
+    console.log(theme)
     return (
       <Container theme={theme}>
         <Carat />
         <BotAvatar alt={title} src={avatar} />
-        <HeaderText theme={theme} variant="h6">
+        <HeaderText theme={theme} variant='h6'>
           {title}
         </HeaderText>
-        <Tooltip title="Privacy Policy" placement="bottom">
+        <Tooltip title='Privacy Policy' placement='bottom'>
           <HeaderButton
             theme={theme}
             onClick={showPrivacyPolicy}
-            aria-label="Windowed"
+            aria-label='Windowed'
           >
-            <Info fontSize="small" />
+            <Info fontSize='small' />
           </HeaderButton>
         </Tooltip>
         {fullscreen ? (
           <HeaderButton
             theme={theme}
             onClick={showWindowed}
-            aria-label="Windowed"
+            aria-label='Windowed'
           >
-            <FullscreenExit fontSize="small" />
+            <FullscreenExit fontSize='small' />
           </HeaderButton>
         ) : (
           <HeaderButton
             theme={theme}
             onClick={showFullscreen}
-            aria-label="Fullscreen"
+            aria-label='Fullscreen'
           >
-            <Fullscreen fontSize="small" />
+            <Fullscreen fontSize='small' />
           </HeaderButton>
         )}
-        <HeaderButton theme={theme} onClick={hideWindow} aria-label="Close">
-          <Close fontSize="small" />
+        <HeaderButton theme={theme} onClick={hideWindow} aria-label='Close'>
+          <Close fontSize='small' />
         </HeaderButton>
       </Container>
     )
