@@ -6,6 +6,7 @@
 <ChatWindow
     primaryColor="#3bafbf"
     secondaryColor="#000"
+    headerColor="#3bafbf"
     title="Test Chat"
     client="Dialogflow"
     clientOptions={options}
@@ -18,6 +19,7 @@
 
 - `primaryColor` can be any hex or material-ui color (e.g. 'blue', 'red', 'yellow', 'cyan')
 - `secondaryColor` can be any hex or material-ui color (e.g. 'blue', 'red', 'yellow', 'cyan')
+- `headerColor` can be any hex or material-ui color (e.g. 'blue', 'red', 'yellow', 'cyan')
 - `title` can be any string
 - `client` can only currently be 'dialogflow'
 - `clientOptions` is an object containing URLs for fulfillment APIs:
