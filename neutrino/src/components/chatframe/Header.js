@@ -97,7 +97,6 @@ class Header extends PureComponent {
       avatar,
       showPrivacyPolicy,
     } = this.props
-    console.log(theme)
     return (
       <Container theme={theme}>
         <Carat />
