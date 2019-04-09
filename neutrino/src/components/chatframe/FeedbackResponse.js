@@ -5,14 +5,12 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormHelperText from '@material-ui/core/FormHelperText'
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import { submitFeedbackInput } from './actions/userInput'
+import { saveFeedbackInput, submitFeedbackInput } from './actions/feedbackInput'
 
 const CardContainer = styled(Card)`
   && {
@@ -28,11 +26,38 @@ const CardContainer = styled(Card)`
 
 class FeedbackResponse extends PureComponent {
   render() {
-    const { data, submitFeedback } = this.props
-    const error = [gilad, jason, antoine].filter(v => v).length !== 2
+    const {
+      data,
+      feedbackInputs,
+      saveFeedbackInput,
+      submitFeedback,
+    } = this.props
 
+    const handleChange = name => event => {
+      const inputItem = {
+        wasHelpful: data.feedback.helpful,
+        value: name,
+        checked: event.target.checked,
+      }
+      saveFeedbackInput(inputItem)
+    }
+
+    const processList = list => {
+      return list
+        .filter(item => {
+          return item.checked ? item.value : null
+        })
+        .map(item => {
+          return item.value
+        })
+    }
     const handleSubmit = () => {
-      console.log(123)
+      const payload = { wasHelpful: feedbackInputs.wasHelpful }
+      if (feedbackInputs.wasHelpful) {
+        payload.feedbackList = processList(feedbackInputs.helpfulList)
+      } else {
+        payload.feedbackList = processList(feedbackInputs.notHelpfulList)
+      }
       submitFeedback()
     }
     return (
@@ -41,41 +66,40 @@ class FeedbackResponse extends PureComponent {
           <Typography gutterBottom variant='h6'>
             Feedback
           </Typography>
-          <FormControl component='fieldset' className={classes.formControl}>
-            <FormLabel component='legend'>Assign responsibility</FormLabel>
+          <FormControl component='fieldset'>
             <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={gilad}
-                    onChange={this.handleChange('gilad')}
-                    value='gilad'
-                  />
-                }
-                label='Gilad Gray'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={jason}
-                    onChange={this.handleChange('jason')}
-                    value='jason'
-                  />
-                }
-                label='Jason Killian'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={antoine}
-                    onChange={this.handleChange('antoine')}
-                    value='antoine'
-                  />
-                }
-                label='Antoine Llorca'
-              />
+              {data.feedback.helpful
+                ? feedbackInputs.helpfulList.map(choice => {
+                    return (
+                      <FormControlLabel
+                        key={choice.value}
+                        control={
+                          <Checkbox
+                            checked={choice.checked}
+                            onChange={handleChange(choice.value)}
+                            value={choice.value}
+                          />
+                        }
+                        label={choice.value}
+                      />
+                    )
+                  })
+                : feedbackInputs.notHelpfulList.map(choice => {
+                    return (
+                      <FormControlLabel
+                        key={choice.value}
+                        control={
+                          <Checkbox
+                            checked={choice.checked}
+                            onChange={handleChange(choice.value)}
+                            value={choice.value}
+                          />
+                        }
+                        label={choice.value}
+                      />
+                    )
+                  })}
             </FormGroup>
-            <FormHelperText>Be careful</FormHelperText>
           </FormControl>
         </CardContent>
         <CardActions>
@@ -88,8 +112,17 @@ class FeedbackResponse extends PureComponent {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    feedbackInputs: state.feedbackInput,
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
+    saveFeedbackInput: value => {
+      dispatch(saveFeedbackInput(value))
+    },
     submitFeedback: () => {
       dispatch(submitFeedbackInput('Feedback complete'))
     },
@@ -97,6 +130,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(FeedbackResponse)
