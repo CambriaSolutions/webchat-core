@@ -51,6 +51,19 @@ class FeedbackResponse extends PureComponent {
           return item.value
         })
     }
+
+    const sendAnalytics = data => {
+      fetch(process.env.REACT_APP_ANALYTICS_URI, {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(response => {
+        console.log(response)
+      })
+    }
+
     const handleSubmit = () => {
       const payload = { wasHelpful: feedbackInputs.wasHelpful }
       if (feedbackInputs.wasHelpful) {
@@ -58,6 +71,8 @@ class FeedbackResponse extends PureComponent {
       } else {
         payload.feedbackList = processList(feedbackInputs.notHelpfulList)
       }
+      //TODO
+      //sendAnalytics(payload)
       submitFeedback()
     }
     return (
