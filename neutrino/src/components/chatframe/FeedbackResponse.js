@@ -35,7 +35,7 @@ class FeedbackResponse extends PureComponent {
 
     const handleChange = name => event => {
       const inputItem = {
-        wasHelpful: data.feedback.helpful,
+        wasHelpful: data.payload.feedback.helpful,
         value: name,
         checked: event.target.checked,
       }
@@ -66,6 +66,7 @@ class FeedbackResponse extends PureComponent {
 
     const handleSubmit = () => {
       const payload = { wasHelpful: feedbackInputs.wasHelpful }
+      payload.session = data.key
       if (feedbackInputs.wasHelpful) {
         payload.feedbackList = processList(feedbackInputs.helpfulList)
       } else {
@@ -83,7 +84,7 @@ class FeedbackResponse extends PureComponent {
           </Typography>
           <FormControl component='fieldset'>
             <FormGroup>
-              {data.feedback.helpful
+              {data.payload.feedback.helpful
                 ? feedbackInputs.helpfulList.map(choice => {
                     return (
                       <FormControlLabel

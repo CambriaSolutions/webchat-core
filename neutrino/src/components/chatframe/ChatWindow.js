@@ -49,7 +49,7 @@ function buildLoadingMessage(message) {
 function buildFeedbackResponse(message) {
   return (
     <FeedbackResponse
-      data={message.payload}
+      data={message}
       entity={message.entity}
       key={message.key}
       isLoading={false}
