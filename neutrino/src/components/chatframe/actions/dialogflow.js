@@ -164,6 +164,7 @@ export function sendMessageWithDialogflow(message) {
           dispatch(getMessageFromDialogflow(response))
           dispatch({ type: CLEAR_ERROR })
         } else {
+          console.log(`response ${response}`)
           dispatch({
             type: DISPLAY_ERROR,
             error: 'No response received from chat provider. Please try again.',
@@ -171,6 +172,7 @@ export function sendMessageWithDialogflow(message) {
         }
       })
       .catch(error => {
+        console.log(error)
         dispatch({
           type: DISPLAY_ERROR,
           error: 'Unable to connect to the chat provider. Please try again.',

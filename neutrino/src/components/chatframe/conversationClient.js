@@ -1,14 +1,20 @@
 import uuidv4 from 'uuid/v4'
 
-const fetchRetry = (url, n) =>
-  fetch(url)
+const fetchRetry = (url, n) => {
+  console.log(n)
+  return fetch(url)
     .then(response => {
       return response.json()
     })
     .catch(error => {
+      //
+      console.log(error)
       if (n === 1) throw error
-      return fetchRetry(url, n - 1)
+      setTimeout(() => {
+        fetchRetry(url, n - 1)
+      }, 500)
     })
+}
 
 export class Client {
   constructor(options) {
