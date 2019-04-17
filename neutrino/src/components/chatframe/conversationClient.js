@@ -1,5 +1,15 @@
 import uuidv4 from 'uuid/v4'
 
+const fetchRetry = (url, n) =>
+  fetch(url)
+    .then(response => {
+      return response.json()
+    })
+    .catch(error => {
+      if (n === 1) throw error
+      return fetchRetry(url, n - 1)
+    })
+
 export class Client {
   constructor(options) {
     if (!options || !options.textUrl) {
@@ -32,13 +42,7 @@ export class Client {
     const queryParams = this.encodeQueryData(params)
     const url = `${this.textUrl}?${queryParams}`
 
-    return fetch(url)
-      .then(response => {
-        return response.json()
-      })
-      .catch(err => {
-        throw new Error(err)
-      })
+    return fetchRetry(url, 2)
   }
 
   eventRequest(query) {
