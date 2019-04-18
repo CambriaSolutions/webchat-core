@@ -7,6 +7,9 @@ export const options = {
   textUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/textRequest',
 }
 
+export const feedbackUrl =
+  'https://us-central1-webchat-analytics.cloudfunctions.net/storeFeedback'
+
 export const privacyPolicy =
   'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.'
 
@@ -30,6 +33,7 @@ render(
     initialActive={false}
     policyText={privacyPolicy}
     mapConfig={mapConfig}
+    feedbackUrl={feedbackUrl}
   />,
   root
 )

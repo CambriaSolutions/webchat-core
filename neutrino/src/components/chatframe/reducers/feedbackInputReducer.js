@@ -1,6 +1,7 @@
 import * as t from '../actions/actionTypes'
 
 const initialState = {
+  submitted: false,
   wasHelpful: null,
   helpfulList: [
     { value: 'Had the information I needed', checked: false },
@@ -64,6 +65,8 @@ function feedbackInput(state = initialState, action) {
           return item
         }),
       }
+    case t.SET_FEEDBACK_SUBMITTED:
+      return { ...state, submitted: true }
     default:
       return state
   }
