@@ -35,7 +35,7 @@ export class Client {
     return params.join('&')
   }
 
-  textRequest = query => {
+  textRequest(query) {
     if (!query) {
       throw new Error('Query should not be empty')
     }

@@ -171,7 +171,6 @@ export function sendMessageWithDialogflow(message) {
         }
       })
       .catch(error => {
-        console.log(error)
         dispatch({
           type: DISPLAY_ERROR,
           error: 'Unable to connect to the chat provider. Please try again.',

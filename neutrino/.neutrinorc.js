@@ -26,7 +26,7 @@ module.exports = {
             'guard-for-in': 'off',
             'class-methods-use-this': 'off',
             'function-paren-newline': 'off',
-            'no-console': 'off',
+            'no-console': 'warn',
             'no-unused-vars': 'warn',
             'consistent-return': 'warn',
             'max-len': 'warn',
