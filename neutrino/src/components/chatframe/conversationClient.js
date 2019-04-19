@@ -1,32 +1,19 @@
 import uuidv4 from 'uuid/v4'
 
+// If the fetch request fails, try again after 500 ms
 const fetchRetry = async (url, n) => {
-  console.log(n)
   const message = await fetch(url)
     .then(response => {
-      console.log('inside response')
       return response.json()
     })
     .catch(error => {
-      //
-      console.log(error)
       if (n === 1) throw error
       setTimeout(() => {
         fetchRetry(url, n - 1)
-      }, 1000)
+      }, 500)
     })
-  console.log('retry ran')
   return message
 }
-
-// const fetchRetry = async (url, n) => {
-//   try {
-//     return await fetch(url)
-//   } catch (err) {
-//     if (n === 1) throw err
-//     return await fetchRetry(url, n - 1)
-//   }
-// }
 
 export class Client {
   constructor(options) {
@@ -48,7 +35,7 @@ export class Client {
     return params.join('&')
   }
 
-  textRequest = async query => {
+  textRequest = query => {
     if (!query) {
       throw new Error('Query should not be empty')
     }
@@ -60,9 +47,7 @@ export class Client {
     const queryParams = this.encodeQueryData(params)
     const url = `${this.textUrl}?${queryParams}`
 
-    const response = await fetchRetry(url, 2)
-    console.log('this thing ran')
-    return response
+    return fetchRetry(url, 2)
   }
 
   eventRequest(query) {

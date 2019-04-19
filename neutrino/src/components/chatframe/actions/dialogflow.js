@@ -161,11 +161,9 @@ export function sendMessageWithDialogflow(message) {
       .textRequest(message)
       .then(response => {
         if (response) {
-          console.log(response)
           dispatch(getMessageFromDialogflow(response))
           dispatch({ type: CLEAR_ERROR })
         } else {
-          console.log(`response ${response}`)
           dispatch({
             type: DISPLAY_ERROR,
             error: 'No response received from chat provider. Please try again.',
