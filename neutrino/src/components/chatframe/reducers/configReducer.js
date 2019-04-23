@@ -10,7 +10,7 @@ const initialState = {
   centerCoordinates: '',
   privacyPolicy:
     'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.',
-  feedbackUrl: 'test',
+  feedbackUrl: '',
 }
 
 function config(state = initialState, action) {

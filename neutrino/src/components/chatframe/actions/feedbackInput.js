@@ -1,4 +1,9 @@
-import { SAVE_FEEDBACK_INPUT, SET_FEEDBACK_SUBMITTED } from './actionTypes'
+import {
+  SAVE_FEEDBACK_INPUT,
+  SET_FEEDBACK_SUBMITTED,
+  SET_FEEDBACK_OPTIONS,
+} from './actionTypes'
+
 import { sendMessage } from './conversation'
 
 export function saveFeedbackInput(value) {
@@ -9,6 +14,10 @@ export function sendFeedback(value) {
   return dispatch => {
     dispatch(sendMessage(value))
   }
+}
+
+export function setFeedbackOptions(value) {
+  return { type: SET_FEEDBACK_OPTIONS, value }
 }
 
 export function setFeedbackSubmitted(value) {
