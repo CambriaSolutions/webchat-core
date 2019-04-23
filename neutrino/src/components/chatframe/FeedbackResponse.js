@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import FeedbackInput from './FeedbackInput'
+import { setFeedbackOptions } from './actions/feedbackInput'
 
 const CardContainer = styled(Card)`
   && {
@@ -19,24 +19,33 @@ const CardContainer = styled(Card)`
 `
 
 class FeedbackResponse extends PureComponent {
-  render() {
-    const { data, feedbackInputs } = this.props
+  componentDidMount() {
+    const { setFeedbackOptions, feedbackData } = this.props
+    setFeedbackOptions(feedbackData)
+  }
 
+  render() {
+    const { session, feedbackInputs } = this.props
     return (
       <CardContainer>
         {feedbackInputs.submitted ? (
           <CardContent>
-            <Typography gutterBottom variant='h6'>
-              Feedback
-            </Typography>
             Thank you. Your feedback is important to us and will help improve
             Gen.
           </CardContent>
         ) : (
-          <FeedbackInput data={data} />
+          <FeedbackInput session={session} />
         )}
       </CardContainer>
     )
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setFeedbackOptions: value => {
+      dispatch(setFeedbackOptions(value))
+    },
   }
 }
 
@@ -46,4 +55,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(FeedbackResponse)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FeedbackResponse)

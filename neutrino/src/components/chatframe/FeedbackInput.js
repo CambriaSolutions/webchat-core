@@ -17,17 +17,16 @@ import {
 class FeedbackInput extends PureComponent {
   render() {
     const {
-      data,
       feedbackInputs,
       feedbackUrl,
       saveFeedbackInput,
       setFeedbackSubmitted,
       sendFeedback,
+      session,
     } = this.props
 
     const handleInputChange = name => event => {
       const inputItem = {
-        wasHelpful: data.payload.feedback.helpful,
         value: name,
         checked: event.target.checked,
       }
@@ -60,12 +59,10 @@ class FeedbackInput extends PureComponent {
     // send the payload to analyics, send message to diaglogflow,
     // and set submitted flag to true in redux state.
     const handleSubmit = () => {
-      const payload = { wasHelpful: feedbackInputs.wasHelpful }
-      payload.session = data.key
-      if (feedbackInputs.wasHelpful) {
-        payload.feedbackList = processList(feedbackInputs.helpfulList)
-      } else {
-        payload.feedbackList = processList(feedbackInputs.notHelpfulList)
+      const payload = {
+        wasHelpful: feedbackInputs.wasHelpful,
+        session,
+        feedbackList: processList(feedbackInputs.feedbackList),
       }
       sendAnalytics(payload)
       sendFeedback('Feedback complete')
@@ -79,8 +76,8 @@ class FeedbackInput extends PureComponent {
           </Typography>
           <FormControl component='fieldset'>
             <FormGroup>
-              {data.payload.feedback.helpful
-                ? feedbackInputs.helpfulList.map(choice => {
+              {feedbackInputs.feedbackList
+                ? feedbackInputs.feedbackList.map(choice => {
                     return (
                       <FormControlLabel
                         key={choice.value}
@@ -95,21 +92,7 @@ class FeedbackInput extends PureComponent {
                       />
                     )
                   })
-                : feedbackInputs.notHelpfulList.map(choice => {
-                    return (
-                      <FormControlLabel
-                        key={choice.value}
-                        control={
-                          <Checkbox
-                            checked={choice.checked}
-                            onChange={handleInputChange(choice.value)}
-                            value={choice.value}
-                          />
-                        }
-                        label={choice.value}
-                      />
-                    )
-                  })}
+                : null}
             </FormGroup>
           </FormControl>
         </CardContent>
