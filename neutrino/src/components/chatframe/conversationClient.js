@@ -1,13 +1,13 @@
 import uuidv4 from 'uuid/v4'
 
 // If the fetch request fails, try again after 500 ms
-function fetchRetry(url, n) {
+function fetchRetry(url, n = 1) {
   const message = fetch(url)
     .then(response => {
       return response.json()
     })
     .catch(error => {
-      if (n <= 1) throw error
+      if (n === 1) throw error
       setTimeout(() => {
         fetchRetry(url, n - 1)
       }, 500)
