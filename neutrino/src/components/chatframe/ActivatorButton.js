@@ -33,8 +33,18 @@ const ChatIcon = styled(Chat)`
 `
 class ActivatorButton extends PureComponent {
   render() {
-    const { windowVisible, showWindow, theme } = this.props
-    console.log(theme)
+    const { windowVisible, showWindow, activationText, theme } = this.props
+    console.log(activationText)
+
+    const contentToDisplay = activationText ? (
+      <React.Fragment>
+        <ChatIcon theme={theme} />
+        <TextContainer theme={theme}>{activationText}</TextContainer>
+      </React.Fragment>
+    ) : (
+      <Chat />
+    )
+
     return (
       <Zoom in={!windowVisible} unmountOnExit>
         <Btn
@@ -42,9 +52,9 @@ class ActivatorButton extends PureComponent {
           color="primary"
           onClick={showWindow}
           active={windowVisible ? 0 : 1}
+          activationText={activationText ? 1 : 0}
         >
-          <ChatIcon theme={theme} />
-          <TextContainer theme={theme}>Talk to Gen</TextContainer>
+          {contentToDisplay}
         </Btn>
       </Zoom>
     )
@@ -54,6 +64,7 @@ class ActivatorButton extends PureComponent {
 const mapStateToProps = state => {
   return {
     windowVisible: state.config.windowVisible,
+    activationText: state.config.activationText,
   }
 }
 
