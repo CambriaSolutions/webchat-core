@@ -4,6 +4,7 @@ import Fab from '@material-ui/core/Fab'
 import Chat from '@material-ui/icons/Chat'
 import Zoom from '@material-ui/core/Zoom'
 import { withTheme } from '@material-ui/core/styles'
+import Avatar from '@material-ui/core/Avatar'
 
 // Redux
 import { connect } from 'react-redux'
@@ -13,11 +14,10 @@ const Btn = styled(Fab)`
   && {
     display: ${p => (p.active ? 'flex' : 'none')};
     pointer-events: auto;
-    width: auto;
-    height: auto;
-    padding: 8px 15px auto;
-    border-radius: 20px;
-    flex-direction: row;
+    width: ${p => (p.activationtext ? 'auto' : '56px')};
+    height: ${p => (p.activationtext ? 'auto' : '56px')};
+    padding: ${p => (p.activationtext ? '4px 6px' : 'auto')};
+    border-radius: ${p => (p.activationtext ? '20px' : '50%')};
   }
 `
 
@@ -26,19 +26,35 @@ const TextContainer = styled.div`
   padding-right: 10px;
   color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
 `
-const ChatIcon = styled(Chat)`
-  padding-left: 10px;
-  padding-right: 5px;
-  color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+
+// const ChatIcon = styled(Chat)`
+//   padding-left: 10px;
+//   padding-right: 5px;
+//   color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+// `
+
+const BotAvatar = styled(Avatar)`
+  && {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+  }
 `
+
 class ActivatorButton extends PureComponent {
   render() {
-    const { windowVisible, showWindow, activationText, theme } = this.props
-    console.log(activationText)
+    const {
+      title,
+      windowVisible,
+      showWindow,
+      activationText,
+      theme,
+      avatar,
+    } = this.props
 
     const contentToDisplay = activationText ? (
       <React.Fragment>
-        <ChatIcon theme={theme} />
+        <BotAvatar alt={title} src={avatar} />
         <TextContainer theme={theme}>{activationText}</TextContainer>
       </React.Fragment>
     ) : (
@@ -48,11 +64,10 @@ class ActivatorButton extends PureComponent {
     return (
       <Zoom in={!windowVisible} unmountOnExit>
         <Btn
-          id="this"
-          color="primary"
+          color='primary'
           onClick={showWindow}
           active={windowVisible ? 0 : 1}
-          activationText={activationText ? 1 : 0}
+          activationtext={activationText ? 1 : 0}
         >
           {contentToDisplay}
         </Btn>
@@ -63,8 +78,10 @@ class ActivatorButton extends PureComponent {
 
 const mapStateToProps = state => {
   return {
+    title: state.config.title,
     windowVisible: state.config.windowVisible,
     activationText: state.config.activationText,
+    avatar: state.config.avatar,
   }
 }
 

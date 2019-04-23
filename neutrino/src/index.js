@@ -10,7 +10,7 @@ export const options = {
 export const privacyPolicy =
   'Please do not enter any personally identifiable information such as SSN or Date of Birth'
 
-// export const activationText = 'Talk to Gen'
+export const activationText = 'Talk to Gen'
 
 export const mapConfig = {
   googleMapsKey: process.env.GOOGLE_MAPS_KEY,
@@ -23,15 +23,16 @@ const root = document.getElementById('cambria-chatframe')
 
 render(
   <ChatWindow
-    primaryColor="#3bafbf"
-    secondaryColor="#000"
-    title="Test Chat"
-    client="Dialogflow"
+    primaryColor='#3bafbf'
+    secondaryColor='#000'
+    title='Test Chat'
+    client='Dialogflow'
     clientOptions={options}
     fullscreen={false}
     initialActive={false}
     policyText={privacyPolicy}
     mapConfig={mapConfig}
+    activationText={activationText}
   />,
   root
 )
