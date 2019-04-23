@@ -11,7 +11,7 @@ export const feedbackUrl =
   'https://us-central1-webchat-analytics.cloudfunctions.net/storeFeedback'
 
 export const privacyPolicy =
-  'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.'
+  'Please do not enter any personally identifiable information such as Social Security Number or Date of Birth'
 
 export const mapConfig = {
   googleMapsKey: process.env.GOOGLE_MAPS_KEY,
@@ -26,6 +26,7 @@ render(
   <ChatWindow
     primaryColor='#3bafbf'
     secondaryColor='#000'
+    headerColor='#3bafbf'
     title='Test Chat'
     client='Dialogflow'
     clientOptions={options}
