@@ -20,6 +20,7 @@ import {
   SET_PRIVACY_POLICY,
   SET_GOOGLE_MAPS_KEY,
   SET_CENTER_COORDINATES,
+  SET_FEEDBACK_URL,
 } from './actionTypes'
 
 import { sysTimeFormat } from '../config/dateFormats'
@@ -104,6 +105,7 @@ export function initialize(props) {
       fullscreen,
       policyText,
       mapConfig,
+      feedbackUrl,
     } = props
     let userAvatar = avatar
     if (!userAvatar) {
@@ -116,6 +118,10 @@ export function initialize(props) {
 
     if (policyText && policyText !== '') {
       dispatch({ type: SET_PRIVACY_POLICY, policyText })
+    }
+
+    if (feedbackUrl) {
+      dispatch({ type: SET_FEEDBACK_URL, feedbackUrl })
     }
 
     if (mapConfig) {
