@@ -13,6 +13,7 @@
     initialActive={false}
     policyText={privacyPolicy}
     mapConfig={mapConfig}
+    feedbackUrl={feedbackUrl}
   />
 ```
 
@@ -42,6 +43,12 @@ centerCoordinates: {
   lng: longitude,
 }
 }
+```
+
+- `feedbackUrl` a URL string of the endpoint to send feedback data to analytics
+
+```feedbackUrl =
+  'https://us-central1-webchat-analytics.cloudfunctions.net/storeFeedback'
 ```
 
 ### Deployment Process

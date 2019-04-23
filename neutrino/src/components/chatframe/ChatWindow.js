@@ -10,6 +10,7 @@ import { sysTimeFormat } from './config/dateFormats'
 import Message from './Message'
 import CardResponse from './CardResponse'
 import MapResponse from './MapResponse'
+import FeedbackResponse from './FeedbackResponse'
 
 const ContentWrapper = styled.div`
   background: ${grey[100]};
@@ -41,6 +42,19 @@ function buildLoadingMessage(message) {
       entity='bot'
       timestamp={message.systemTime}
       isLoading={message.loading}
+    />
+  )
+}
+
+function buildFeedbackResponse(message) {
+  return (
+    <FeedbackResponse
+      feedbackData={message.payload.feedback}
+      session={message.key}
+      entity={message.entity}
+      key={message.key}
+      isLoading={false}
+      timestamp={message.systemTime}
     />
   )
 }
@@ -161,6 +175,12 @@ class ChatWindow extends PureComponent {
         msg.payload.mapPayload
       ) {
         msgElements.push(buildBotMapMessage(msg))
+      } else if (
+        msg.entity === 'bot' &&
+        msg.type === 'payload' &&
+        msg.payload.feedback
+      ) {
+        msgElements.push(buildFeedbackResponse(msg))
       } else {
         msgElements.push(buildBotTextMessage({ text: 'Something went wrong.' }))
       }
