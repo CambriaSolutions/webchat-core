@@ -57,7 +57,11 @@ class ChatFrame extends PureComponent {
     super(props)
     this.store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
     this.currentValue = null
-    this.theme = createTheme(this.props.primaryColor, this.props.secondaryColor)
+    this.theme = createTheme(
+      this.props.primaryColor,
+      this.props.secondaryColor,
+      this.props.headerColor
+    )
   }
   componentDidMount() {
     // We load the initial options into the Redux store inside of the

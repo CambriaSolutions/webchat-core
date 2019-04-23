@@ -7,7 +7,8 @@ import isHexColor from 'validator/lib/isHexColor'
 // warn user
 export default function createTheme(
   primaryColor = 'lightBlue',
-  secondaryColor = 'pink'
+  secondaryColor = 'pink',
+  headerColor = 'lightBlue'
 ) {
   const newTheme = {
     palette: {
@@ -57,5 +58,18 @@ export default function createTheme(
       Use a color name from https://material.io/guidelines/style/color.html#color-color-palette`
     )
   }
+
+  if (isHexColor(headerColor)) {
+    newTheme.palette.header = {
+      main: headerColor,
+    }
+  } else if (colors[headerColor]) {
+    newTheme.palette.header = colors[headerColor]
+  } else {
+    throw new Error(
+      `${headerColor} is not a valid color. Use a color name from https://material.io/guidelines/style/color.html#color-color-palette`
+    )
+  }
+
   return createMuiTheme(newTheme)
 }
