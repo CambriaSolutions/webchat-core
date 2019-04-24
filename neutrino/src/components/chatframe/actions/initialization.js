@@ -125,7 +125,7 @@ export function initialize(props) {
     if (activationText && activationText !== '') {
       dispatch({ type: SET_ACTIVATION_TEXT, activationText })
     }
-    
+
     if (feedbackUrl) {
       dispatch({ type: SET_FEEDBACK_URL, feedbackUrl })
     }
