@@ -72,7 +72,9 @@ class FeedbackInput extends PureComponent {
       <React.Fragment>
         <CardContent>
           <Typography gutterBottom variant='h6'>
-            Feedback
+            {feedbackInputs.wasHelpful
+              ? 'Why was Gen helpful?'
+              : 'Why was Gen not helpful?'}
           </Typography>
           <FormControl component='fieldset'>
             <FormGroup>
