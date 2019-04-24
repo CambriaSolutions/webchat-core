@@ -27,12 +27,6 @@ const TextContainer = styled.div`
   color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
 `
 
-// const ChatIcon = styled(Chat)`
-//   padding-left: 10px;
-//   padding-right: 5px;
-//   color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
-// `
-
 const BotAvatar = styled(Avatar)`
   && {
     width: 32px;
