@@ -6,6 +6,7 @@
 <ChatWindow
     primaryColor="#3bafbf"
     secondaryColor="#000"
+    headerColor="#3bafbf"
     title="Test Chat"
     client="Dialogflow"
     clientOptions={options}
@@ -13,11 +14,13 @@
     initialActive={false}
     policyText={privacyPolicy}
     mapConfig={mapConfig}
+    feedbackUrl={feedbackUrl}
   />
 ```
 
 - `primaryColor` can be any hex or material-ui color (e.g. 'blue', 'red', 'yellow', 'cyan')
 - `secondaryColor` can be any hex or material-ui color (e.g. 'blue', 'red', 'yellow', 'cyan')
+- `headerColor` can be any hex or material-ui color (e.g. 'blue', 'red', 'yellow', 'cyan')
 - `title` can be any string
 - `client` can only currently be 'dialogflow'
 - `clientOptions` is an object containing URLs for fulfillment APIs:
@@ -42,6 +45,12 @@ centerCoordinates: {
   lng: longitude,
 }
 }
+```
+
+- `feedbackUrl` a URL string of the endpoint to send feedback data to analytics
+
+```feedbackUrl =
+  'https://us-central1-webchat-analytics.cloudfunctions.net/storeFeedback'
 ```
 
 ### Deployment Process

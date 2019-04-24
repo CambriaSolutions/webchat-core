@@ -3,6 +3,7 @@ import config from './configReducer'
 import conversation from './conversationReducer'
 import buttonBar from './buttonBarReducer'
 import userInput from './userInputReducer'
+import feedbackInput from './feedbackInputReducer'
 import error from './errorReducer'
 
 const rootReducer = combineReducers({
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   conversation,
   buttonBar,
   userInput,
+  feedbackInput,
   error,
 })
 export default rootReducer

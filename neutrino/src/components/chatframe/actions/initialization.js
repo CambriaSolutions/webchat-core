@@ -21,6 +21,7 @@ import {
   SET_GOOGLE_MAPS_KEY,
   SET_CENTER_COORDINATES,
   SET_ACTIVATION_TEXT,
+  SET_FEEDBACK_URL,
 } from './actionTypes'
 
 import { sysTimeFormat } from '../config/dateFormats'
@@ -106,6 +107,7 @@ export function initialize(props) {
       policyText,
       mapConfig,
       activationText,
+      feedbackUrl,
     } = props
     let userAvatar = avatar
     if (!userAvatar) {
@@ -123,6 +125,11 @@ export function initialize(props) {
     if (activationText && activationText !== '') {
       dispatch({ type: SET_ACTIVATION_TEXT, activationText })
     }
+    
+    if (feedbackUrl) {
+      dispatch({ type: SET_FEEDBACK_URL, feedbackUrl })
+    }
+
     if (mapConfig) {
       const { googleMapsKey, centerCoordinates } = mapConfig
       const latitude = get(centerCoordinates, 'lat', null)
@@ -132,16 +139,21 @@ export function initialize(props) {
         dispatch({ type: SET_GOOGLE_MAPS_KEY, googleMapsKey })
       }
       if (centerCoordinates) {
-        if (
-          typeof centerCoordinates === 'object' &&
-          latitude !== null &&
-          longitude !== null
-        ) {
-          dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
-        } else {
-          throw new Error(
-            'Please provide valid latitude and longitude coordinates, see README'
-          )
+        try {
+          if (
+            typeof centerCoordinates === 'object' &&
+            latitude !== null &&
+            longitude !== null
+          ) {
+            dispatch({ type: SET_CENTER_COORDINATES, centerCoordinates })
+          } else {
+            throw new Error(
+              'Please provide valid latitude and longitude coordinates, see README'
+            )
+          }
+        } catch (error) {
+          // TODO: log error to analytics
+          console.log(error)
         }
       }
     }

@@ -11,6 +11,7 @@ const initialState = {
   activationText: '',
   privacyPolicy:
     'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.',
+  feedbackUrl: '',
 }
 
 function config(state = initialState, action) {
@@ -50,6 +51,9 @@ function config(state = initialState, action) {
 
     case t.WINDOWED:
       return { ...state, fullscreen: false }
+
+    case t.SET_FEEDBACK_URL:
+      return { ...state, feedbackUrl: action.feedbackUrl }
 
     default:
       return state

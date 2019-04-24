@@ -10,34 +10,46 @@ import { sysTimeFormat } from '../config/dateFormats'
 
 export function setupClient(client, clientOptions) {
   return dispatch => {
-    if (!client) {
-      throw new Error('No conversation provider selected.')
-    }
-
-    // Setup Dialogflow
-    if (client.toLowerCase() === 'dialogflow') {
-      dispatch(setupDialogflow(clientOptions))
-    } else {
-      // Unrecognized client
-      dispatch({ type: DISPLAY_ERROR, error: `Unable to connect to ${client}` })
-      throw new Error(`${client} is not a recognized conversation provider.`)
+    try {
+      if (!client) {
+        throw new Error('No conversation provider selected.')
+      }
+      // Setup Dialogflow
+      if (client.toLowerCase() === 'dialogflow') {
+        dispatch(setupDialogflow(clientOptions))
+      } else {
+        // Unrecognized client
+        dispatch({
+          type: DISPLAY_ERROR,
+          error: `Unable to connect to ${client}`,
+        })
+        throw new Error(`${client} is not a recognized conversation provider.`)
+      }
+    } catch (error) {
+      // TODO: log error to analytics
+      console.log(error)
     }
   }
 }
 export function sendMessage(message) {
   return (dispatch, getState) => {
     const { clientName } = getState().conversation
-    if (clientName.toLowerCase() === 'dialogflow') {
-      dispatch(sendMessageWithDialogflow(message))
-    } else {
+    try {
+      if (clientName.toLowerCase() === 'dialogflow') {
+        dispatch(sendMessageWithDialogflow(message))
+      } else {
+        throw new Error(
+          `${clientName} is not a recognized conversation provider.`
+        )
+      }
+    } catch (error) {
+      // TODO: log error to analytics
+      console.log(error)
       // Unrecognized client
       dispatch({
         type: DISPLAY_ERROR,
         error: `Unable to connect to ${clientName}`,
       })
-      throw new Error(
-        `${clientName} is not a recognized conversation provider.`,
-      )
     }
   }
 }
