@@ -8,6 +8,7 @@ const initialState = {
   privacyPolicyVisible: false,
   googleMapsKey: '',
   centerCoordinates: '',
+  activationText: '',
   privacyPolicy:
     'Please do not enter any personally identifiable information such as SSN, Date of Birth, Case Number or last name.',
   feedbackUrl: '',
@@ -29,6 +30,9 @@ function config(state = initialState, action) {
 
     case t.SET_CENTER_COORDINATES:
       return { ...state, centerCoordinates: action.centerCoordinates }
+
+    case t.SET_ACTIVATION_TEXT:
+      return { ...state, activationText: action.activationText }
 
     case t.SET_AVATAR:
       return { ...state, avatar: action.avatar }
