@@ -20,6 +20,7 @@ import {
   SET_PRIVACY_POLICY,
   SET_GOOGLE_MAPS_KEY,
   SET_CENTER_COORDINATES,
+  SET_ACTIVATION_TEXT,
   SET_FEEDBACK_URL,
 } from './actionTypes'
 
@@ -105,6 +106,7 @@ export function initialize(props) {
       fullscreen,
       policyText,
       mapConfig,
+      activationText,
       feedbackUrl,
     } = props
     let userAvatar = avatar
@@ -118,6 +120,10 @@ export function initialize(props) {
 
     if (policyText && policyText !== '') {
       dispatch({ type: SET_PRIVACY_POLICY, policyText })
+    }
+
+    if (activationText && activationText !== '') {
+      dispatch({ type: SET_ACTIVATION_TEXT, activationText })
     }
 
     if (feedbackUrl) {

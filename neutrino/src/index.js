@@ -11,7 +11,10 @@ export const feedbackUrl =
   'https://us-central1-webchat-analytics.cloudfunctions.net/storeFeedback'
 
 export const privacyPolicy =
-  'Please do not enter any personally identifiable information such as Social Security Number or Date of Birth'
+  'Please do not enter any personally identifiable information such as SSN or Date of Birth'
+
+export const activationText = 'Talk to Gen'
+
 
 export const mapConfig = {
   googleMapsKey: process.env.GOOGLE_MAPS_KEY,
@@ -34,6 +37,7 @@ render(
     initialActive={false}
     policyText={privacyPolicy}
     mapConfig={mapConfig}
+    activationText={activationText}
     feedbackUrl={feedbackUrl}
   />,
   root
