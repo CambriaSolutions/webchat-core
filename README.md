@@ -14,6 +14,7 @@
     initialActive={false}
     policyText={privacyPolicy}
     mapConfig={mapConfig}
+    activationText={activationText}
     feedbackUrl={feedbackUrl}
   />
 ```
@@ -51,6 +52,12 @@ centerCoordinates: {
 
 ```feedbackUrl =
   'https://us-central1-webchat-analytics.cloudfunctions.net/storeFeedback'
+```
+
+- `activationText` a string message to call out action
+
+```activationText = 'Talk to Gen'
+
 ```
 
 ### Deployment Process
