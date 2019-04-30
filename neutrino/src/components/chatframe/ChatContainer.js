@@ -57,6 +57,7 @@ const OuterFrame = styled.div`
       'chatwindow'
       'buttonbar'
       'userinput';
+    box-sizing: content-box;
   }
 `
 
@@ -73,7 +74,7 @@ class ChatContainer extends PureComponent {
         fullscreen={fullscreen ? 1 : 0}
         visible={windowVisible ? 1 : 0}
       >
-        <OuterFrame ref={this.containerRef}>
+        <OuterFrame ref={this.containerRef} className='mui-fixed'>
           <Header />
           <PrivacyPolicy parentRef={this.containerRef.current} />
           <ChatWindow />
