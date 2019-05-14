@@ -1,8 +1,20 @@
 import { SAVE_USER_INPUT } from './actionTypes'
 import { createUserResponse } from './conversation'
 
+function validateCharacterLimit(userInput) {
+  if (userInput.length > 256) {
+    return false
+  }
+  return true
+}
+
 export function saveUserInput(value) {
-  return { type: SAVE_USER_INPUT, value }
+  const userInput = {
+    value,
+    charLength: value.length || 0,
+    maxExceeded: value.length > 256 ? true : false,
+  }
+  return { type: SAVE_USER_INPUT, userInput }
 }
 
 export function submitUserInput() {
@@ -11,7 +23,12 @@ export function submitUserInput() {
     if (!userInput || userInput === '') {
       return
     }
-    dispatch(createUserResponse(userInput))
-    dispatch(saveUserInput(''))
+    const validUserInput = validateCharacterLimit(userInput.value)
+    if (validUserInput) {
+      dispatch(createUserResponse(userInput.value))
+      dispatch(saveUserInput(''))
+    } else {
+      return
+    }
   }
 }

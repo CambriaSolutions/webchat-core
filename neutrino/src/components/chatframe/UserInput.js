@@ -4,9 +4,11 @@ import Send from '@material-ui/icons/Send'
 import styled from 'styled-components'
 import Input from '@material-ui/core/Input'
 import IconButton from '@material-ui/core/IconButton'
+import InputAdornment from '@material-ui/core/InputAdornment'
 
 // Redux
 import { saveUserInput, submitUserInput } from './actions/userInput'
+import { Typography } from '@material-ui/core'
 
 const OuterFrame = styled.div`
   grid-area: userinput;
@@ -31,7 +33,7 @@ const TextInput = styled(Input)`
       outline: none;
       color: #000;
       height: 100%;
-      padding: 0px 16px 0px 16px;
+      padding: 0px 0px 0px 16px;
       font-size: 16px;
     }
   }
@@ -52,6 +54,10 @@ class UserInput extends PureComponent {
 
   render() {
     const { saveUserInput, inputValue } = this.props
+    const inputValues = inputValue.value
+    const charLimit = `(${inputValue.charLength}/256)`
+    const maxExceeded = inputValue.maxExceeded
+
     return (
       <OuterFrame>
         <TextInput
@@ -59,9 +65,19 @@ class UserInput extends PureComponent {
           disableUnderline
           placeholder='Send a message'
           onChange={saveUserInput}
-          value={inputValue}
+          value={inputValues}
           onKeyPress={this.handleKeyPress}
+          endAdornment={
+            maxExceeded ? (
+              <InputAdornment position='end' style={{ color: 'red' }}>
+                {charLimit}
+              </InputAdornment>
+            ) : (
+              <InputAdornment position='end'>{charLimit}</InputAdornment>
+            )
+          }
         />
+
         <IconButton
           onClick={this.props.submitUserInput}
           aria-label='Send'
