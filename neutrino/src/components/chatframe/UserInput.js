@@ -10,12 +10,12 @@ import { saveUserInput, submitUserInput } from './actions/userInput'
 
 const OuterFrame = styled.div`
   grid-area: userinput;
-  padding: 5px 0 5px 0;
   background: #fefefe;
   z-index: 1;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
+  align-items: center;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   z-index: 4;
   border-bottom-left-radius: 4px;
@@ -24,16 +24,12 @@ const OuterFrame = styled.div`
 
 const TextInput = styled(TextField)`
   && {
-    margin: 0;
-    padding-left: 16px;
-    padding-right: 12px;
-
-    padding-top: 10px;
+    padding: 8px 4px 8px 16px;
+    padding-bottom: ${p => p.helperText !== null && '16px'};
     /*All properties below are specified to combat WordPress*/
-    & > input[type='text'] {
+    & > textarea {
       border: none;
       width: 100%;
-      line-height: 16px;
       outline: none;
       color: #000;
       height: 100%;
@@ -44,7 +40,10 @@ const TextInput = styled(TextField)`
 `
 const Icon = styled(IconButton)`
   && {
-    padding: 15px;
+    padding: 16px 12px 16px 4px;
+    &:hover {
+      background: transparent;
+    }
   }
 `
 class UserInput extends PureComponent {
@@ -57,38 +56,35 @@ class UserInput extends PureComponent {
     // Enter was pressed
     if (e.charCode === 13) {
       this.props.submitUserInput()
+      e.preventDefault()
     }
   }
 
   render() {
     const { saveUserInput, inputValue } = this.props
     const inputValues = inputValue.value
-    let charLimit = `${inputValue.charLength}/256`
+    const charLimit = `${inputValue.charLength}/256`
     const { maxExceeded } = inputValue
-    let test = null
     let helperTextValue = null
 
     if (maxExceeded) {
-      test = '#cd5c5c'
       helperTextValue = `Exceeded character limit: ${charLimit}`
-    } else if (inputValues.length === 0) {
-      test = '#cd5c5c'
-      helperTextValue = null
     } else {
-      test = '#9e9e9e'
-      helperTextValue = charLimit
+      helperTextValue = null
     }
 
     return (
       <OuterFrame>
         <TextInput
+          multiline
+          rowsMax='4'
           fullWidth
           marginNormal
           InputProps={{ disableUnderline: true }}
-          placeholder='Send a message (maximum 256 characters)'
+          placeholder='Send a message'
           helperText={helperTextValue}
           FormHelperTextProps={{
-            style: { color: test, margin: 0 },
+            style: { color: '#cd5c5c', margin: 0 },
           }}
           onChange={saveUserInput}
           value={inputValues}
@@ -99,6 +95,8 @@ class UserInput extends PureComponent {
           onClick={this.props.submitUserInput}
           aria-label='Send'
           color='primary'
+          disabled={maxExceeded}
+          disableRipple
         >
           <Send />
         </Icon>

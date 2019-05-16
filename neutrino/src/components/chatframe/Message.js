@@ -39,6 +39,8 @@ const ExternalMessage = styled.div`
 
 const UserMessage = styled.div`
   && {
+    max-width: 360px;
+    overflow: hidden;
     background-color: ${p => p.theme.palette.primary.main};
     color: ${p =>
       p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
