@@ -51,7 +51,7 @@ const OuterFrame = styled.div`
     background: ${grey[100]};
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 64px 1fr auto 48px;
+    grid-template-rows: 64px 1fr auto 65px;
     grid-template-areas:
       'header'
       'chatwindow'

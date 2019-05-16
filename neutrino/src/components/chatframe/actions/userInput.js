@@ -20,7 +20,8 @@ export function saveUserInput(value) {
 export function submitUserInput() {
   return (dispatch, getState) => {
     const { userInput } = getState()
-    if (!userInput || userInput === '') {
+    console.log(userInput)
+    if (!userInput.value || userInput.value === '') {
       return
     }
     const validUserInput = validateCharacterLimit(userInput.value)
