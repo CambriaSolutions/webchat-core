@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import isEqual from 'lodash/isEqual'
+import difference from 'lodash/difference'
 import merge from 'lodash/merge'
 import uuidv4 from 'uuid/v4'
 import grey from '@material-ui/core/colors/grey'
-import { parse, differenceInMilliseconds } from 'date-fns'
-import { sysTimeFormat } from './config/dateFormats'
 import Message from './Message'
 import CardResponse from './CardResponse'
 import MapResponse from './MapResponse'
@@ -35,15 +34,8 @@ function buildUserMessage(message) {
   )
 }
 
-function buildLoadingMessage(message) {
-  return (
-    <Message
-      key='loading'
-      entity='bot'
-      timestamp={message.systemTime}
-      isLoading={message.loading}
-    />
-  )
+function buildLoadingMessage() {
+  return <Message key='loading' entity='bot' timestamp={Date.now()} isLoading />
 }
 
 function buildFeedbackResponse(message) {
@@ -94,22 +86,67 @@ function buildBotMapMessage(message) {
 class ChatWindow extends PureComponent {
   constructor(props) {
     super(props)
-    this.messages = []
     this.state = { messageElements: [] }
   }
 
-  componentDidUpdate() {
-    const newMessages = this.parseMessages()
-    if (!isEqual(this.messages, newMessages)) {
-      this.messages = newMessages
-      this.createMessageElements()
+  componentDidUpdate(prevProps) {
+    const diff = difference(this.props.messages, prevProps.messages)
+    if (diff.length > 0 && !isEqual(prevProps.messages, this.props.messages)) {
+      this.parseNewMessages(diff)
     }
+    // const newMessages = this.parseMessages()
+    // if () {
+    //   this.messages = newMessages
+    //   this.createMessageElements()
+    // }
+  }
+
+  parseNewMessages = diff => {
+    const messages = this.parseMessages(diff).filter(m => !m.loading)
+
+    messages.forEach((msg, index) => {
+      setTimeout(() => {
+        const isLast = index === messages.length - 1
+        const el = this.createMessageElement(msg)
+        const oldMessages = this.state.messageElements.filter(
+          el => el.key !== 'loading'
+        )
+        const newMessages = [...oldMessages, el]
+        if (!isLast) {
+          newMessages.push(buildLoadingMessage())
+        }
+        this.setState({ messageElements: newMessages })
+      }, index * 2000)
+    })
+  }
+
+  createMessageElement = (msg, showTimestamp = false) => {
+    // set timestamp display flag to true if it's the last message
+    if (msg.entity === 'user') {
+      return buildUserMessage(msg)
+    } else if (msg.entity === 'bot' && msg.type === 'text') {
+      return buildBotTextMessage(msg, showTimestamp)
+    } else if (msg.entity === 'bot' && msg.type === 'card') {
+      return buildBotCardMessage(msg)
+    } else if (
+      msg.entity === 'bot' &&
+      msg.type === 'payload' &&
+      msg.payload.mapPayload
+    ) {
+      return buildBotMapMessage(msg)
+    } else if (
+      msg.entity === 'bot' &&
+      msg.type === 'payload' &&
+      msg.payload.feedback
+    ) {
+      return buildFeedbackResponse(msg)
+    }
+    return buildBotTextMessage({ text: 'Something went wrong.' })
   }
 
   // Parse the raw message structure from the Redux props and convert
   // it into the appropriate format for each Message
-  parseMessages = () => {
-    const { messages } = this.props
+  parseMessages = messages => {
     const messageData = []
     messages.forEach(msg => {
       // We want to make sure that each message has all of the metadata
@@ -128,6 +165,7 @@ class ChatWindow extends PureComponent {
         // Bot messages contain an array of 'responses' -- we don't want to
         // display all of them here (e.g. suggestions), so we only push
         // the ones we display to the final array
+
         msg.responses.forEach(res => {
           if (
             res.type === 'text' ||
@@ -152,56 +190,57 @@ class ChatWindow extends PureComponent {
 
   // For each message, create the appropriate React component and save
   // it for later use.
-  createMessageElements = () => {
-    const newMessages = this.parseMessages()
-    const msgElements = []
-    newMessages.forEach((msg, i) => {
-      let showTimestamp = false
-      // set timestamp display flag to true if it's the last message
-      if (i === newMessages.length - 1) {
-        showTimestamp = true
-      }
-      if (msg.loading) {
-        msgElements.push(buildLoadingMessage(msg))
-      } else if (msg.entity === 'user') {
-        msgElements.push(buildUserMessage(msg))
-      } else if (msg.entity === 'bot' && msg.type === 'text') {
-        msgElements.push(buildBotTextMessage(msg, showTimestamp))
-      } else if (msg.entity === 'bot' && msg.type === 'card') {
-        msgElements.push(buildBotCardMessage(msg))
-      } else if (
-        msg.entity === 'bot' &&
-        msg.type === 'payload' &&
-        msg.payload.mapPayload
-      ) {
-        msgElements.push(buildBotMapMessage(msg))
-      } else if (
-        msg.entity === 'bot' &&
-        msg.type === 'payload' &&
-        msg.payload.feedback
-      ) {
-        msgElements.push(buildFeedbackResponse(msg))
-      } else {
-        msgElements.push(buildBotTextMessage({ text: 'Something went wrong.' }))
-      }
-    })
+  // createMessageElements = () => {
+  //   const newMessages = this.parseMessages()
+  //   const msgElements = []
+  //   newMessages.forEach((msg, i) => {
+  //     let showTimestamp = false
+  //     // set timestamp display flag to true if it's the last message
+  //     if (i === newMessages.length - 1) {
+  //       showTimestamp = true
+  //     }
+  //     if (msg.loading) {
+  //       return buildLoadingMessage(msg)
+  //     } else if (msg.entity === 'user') {
+  //       return buildUserMessage(msg)
+  //     } else if (msg.entity === 'bot' && msg.type === 'text') {
+  //       return buildBotTextMessage(msg, showTimestamp)
+  //     } else if (msg.entity === 'bot' && msg.type === 'card') {
+  //       return buildBotCardMessage(msg)
+  //     } else if (
+  //       msg.entity === 'bot' &&
+  //       msg.type === 'payload' &&
+  //       msg.payload.mapPayload
+  //     ) {
+  //       return buildBotMapMessage(msg)
+  //     } else if (
+  //       msg.entity === 'bot' &&
+  //       msg.type === 'payload' &&
+  //       msg.payload.feedback
+  //     ) {
+  //       return buildFeedbackResponse(msg)
+  //     } else {
+  //       return buildBotTextMessage({ text: 'Something went wrong.' })
+  //     }
+  //   })
 
-    msgElements.sort((a, b) => {
-      const dateA = parse(
-        a.props.timestamp,
-        sysTimeFormat,
-        new Date(a.props.timestamp)
-      )
-      const dateB = parse(
-        b.props.timestamp,
-        sysTimeFormat,
-        new Date(b.props.timestamp)
-      )
-      const diff = differenceInMilliseconds(dateA, dateB)
-      return diff
-    })
-    this.setState({ messageElements: msgElements })
-  }
+  //   msgElements.sort((a, b) => {
+  //     const dateA = parse(
+  //       a.props.timestamp,
+  //       sysTimeFormat,
+  //       new Date(a.props.timestamp)
+  //     )
+  //     const dateB = parse(
+  //       b.props.timestamp,
+  //       sysTimeFormat,
+  //       new Date(b.props.timestamp)
+  //     )
+  //     const diff = differenceInMilliseconds(dateA, dateB)
+  //     return diff
+  //   })
+
+  //   this.setState({ messageElements: msgElements })
+  // }
 
   render() {
     const { messageElements } = this.state
