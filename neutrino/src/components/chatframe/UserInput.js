@@ -79,7 +79,6 @@ class UserInput extends PureComponent {
           multiline
           rowsMax='4'
           fullWidth
-          marginNormal
           InputProps={{ disableUnderline: true }}
           placeholder='Send a message'
           helperText={helperTextValue}
