@@ -86,7 +86,7 @@ function buildBotMapMessage(message) {
 class ChatWindow extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = { messageElements: [] }
+    this.state = { messageElements: [buildLoadingMessage()] }
   }
 
   componentDidUpdate(prevProps) {
@@ -116,7 +116,7 @@ class ChatWindow extends PureComponent {
           newMessages.push(buildLoadingMessage())
         }
         this.setState({ messageElements: newMessages })
-      }, index * 2000)
+      }, index * 3000)
     })
   }
 
