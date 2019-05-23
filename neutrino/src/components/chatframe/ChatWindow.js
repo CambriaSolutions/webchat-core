@@ -50,7 +50,7 @@ function buildFeedbackResponse(message) {
   return (
     <FeedbackResponse
       feedbackData={message.payload.feedback}
-      session={message.key}
+      session={message.session}
       entity={message.entity}
       key={message.key}
       isLoading={false}
@@ -118,6 +118,7 @@ class ChatWindow extends PureComponent {
       const metadata = {
         systemTime: msg.systemTime,
         entity: msg.entity,
+        session: msg.messageSession,
       }
       if (msg.loading) {
         const key = uuidv4()

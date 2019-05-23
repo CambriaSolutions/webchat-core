@@ -150,6 +150,7 @@ export function getMessageFromDialogflow(response) {
       entity: 'bot',
       loading: false,
       messageId: response.responseId,
+      messageSession: response.session,
       language: response.queryResult.languageCode,
       systemTime,
       responses,
