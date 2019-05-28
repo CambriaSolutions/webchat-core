@@ -63,7 +63,7 @@ class UserInput extends PureComponent {
   render() {
     const { saveUserInput, inputValue } = this.props
     const inputValues = inputValue.value
-    const charLimit = `${inputValue.charLength}/256`
+    const charLimit = `${inputValue.charLength}/255`
     const { maxExceeded } = inputValue
     let helperTextValue = null
 

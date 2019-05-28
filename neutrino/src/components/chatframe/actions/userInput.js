@@ -12,7 +12,7 @@ export function saveUserInput(value) {
   const userInput = {
     value,
     charLength: value.length || 0,
-    maxExceeded: value.length > 256,
+    maxExceeded: value.length > 255,
   }
   return { type: SAVE_USER_INPUT, userInput }
 }
