@@ -149,7 +149,7 @@ function MapResponse(props) {
                     </Typography>
                   </StyledAddressTableCell>
                   <StyledDistanceTableCell padding='dense'>
-                    {row.distance} mi
+                    {row.distance}
                   </StyledDistanceTableCell>
                 </TableRow>
               ))}
