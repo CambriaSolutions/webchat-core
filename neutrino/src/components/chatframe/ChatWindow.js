@@ -13,19 +13,14 @@ import MapResponse from './MapResponse'
 import FeedbackResponse from './FeedbackResponse'
 
 const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column-reverse;
-  overflow: auto;
-`
-const Content = styled.div`
   background: ${grey[100]};
   z-index: 4;
   grid-area: chatwindow;
   margin-bottom: 1px;
   margin-top: 8px;
+  overflow: auto;
   display: flex;
   flex-direction: column-reverse;
-  flex-grow: 1;
 `
 
 function buildUserMessage(message) {
@@ -212,10 +207,8 @@ class ChatWindow extends PureComponent {
   render() {
     const { messageElements } = this.state
     return (
-      <ContentWrapper>
-        <Content elevation={1} square>
-          <div>{messageElements}</div>
-        </Content>
+      <ContentWrapper elevation={1} square>
+        <div>{messageElements}</div>
       </ContentWrapper>
     )
   }
