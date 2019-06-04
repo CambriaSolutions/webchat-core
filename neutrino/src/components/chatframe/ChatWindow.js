@@ -14,7 +14,7 @@ import FeedbackResponse from './FeedbackResponse'
 
 const ContentWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   overflow: auto;
 `
 const Content = styled.div`
