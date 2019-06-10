@@ -13,14 +13,23 @@ import MapResponse from './MapResponse'
 import FeedbackResponse from './FeedbackResponse'
 
 const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* Vertically flips the container element to achieve flex-direction:column-reverse effect */
+  transform: scale(1, -1);
+  overflow: auto;
+`
+const Content = styled.div`
   background: ${grey[100]};
   z-index: 4;
   grid-area: chatwindow;
   margin-bottom: 1px;
   margin-top: 8px;
-  overflow: auto;
-  display: flex;
-  flex-direction: column-reverse;
+`
+
+const ChatMessage = styled.div`
+  /* Vertically flips the content element so that the messages won't be upside down */
+  transform: scale(1, -1);
 `
 
 function buildUserMessage(message) {
@@ -103,6 +112,9 @@ class ChatWindow extends PureComponent {
     if (!isEqual(this.messages, newMessages)) {
       this.messages = newMessages
       this.createMessageElements()
+    }
+    if (this.componentRef.current) {
+      this.componentRef.current.addEventListener('wheel', this.handleWheel)
     }
   }
 
@@ -204,11 +216,28 @@ class ChatWindow extends PureComponent {
     this.setState({ messageElements: msgElements })
   }
 
+  handleWheel = e => {
+    // reverse scroll to handle the transform property
+    if (e.deltaY) {
+      e.preventDefault()
+      e.currentTarget.scrollTop -=
+        parseFloat(
+          getComputedStyle(e.currentTarget).getPropertyValue('font-size')
+        ) *
+        (e.deltaY < 0 ? -1 : 1) *
+        2
+    }
+  }
+
+  componentRef = React.createRef(null)
+
   render() {
     const { messageElements } = this.state
     return (
-      <ContentWrapper elevation={1} square>
-        <div>{messageElements}</div>
+      <ContentWrapper ref={this.componentRef}>
+        <Content elevation={1} square>
+          <ChatMessage>{messageElements}</ChatMessage>
+        </Content>
       </ContentWrapper>
     )
   }
