@@ -25,7 +25,6 @@ const Content = styled.div`
   grid-area: chatwindow;
   margin-bottom: 1px;
   margin-top: 8px;
-  flex-shrink: 10;
 `
 
 const ChatMessage = styled.div`
