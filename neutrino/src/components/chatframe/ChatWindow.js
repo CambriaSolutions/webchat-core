@@ -15,6 +15,7 @@ import FeedbackResponse from './FeedbackResponse'
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  /* Vertically flips the container element to achieve flex-direction:column-reverse effect */
   transform: scale(1, -1);
   overflow: auto;
 `
@@ -28,6 +29,7 @@ const Content = styled.div`
 `
 
 const ChatMessage = styled.div`
+  /* Vertically flips the content element so that the messages won't be upside down */
   transform: scale(1, -1);
 `
 
@@ -216,7 +218,7 @@ class ChatWindow extends PureComponent {
   }
 
   handleWheel = e => {
-    e.preventDefault()
+    // reverse scroll to handle the transform property
     if (e.deltaY) {
       e.preventDefault()
       e.currentTarget.scrollTop -=
