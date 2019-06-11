@@ -25,16 +25,22 @@ export function setupDialogflow(clientOptions) {
   }
 }
 
+export function showButtonBar() {
+  return dispatch => {
+    dispatch({ type: SHOW_BUTTON_BAR })
+  }
+}
+
+export function hideButtonBar() {
+  return dispatch => {
+    dispatch({ type: HIDE_BUTTON_BAR })
+  }
+}
+
 export function saveResponse(data) {
   return (dispatch, getState) => {
     const { messages } = getState().conversation
     const hasSuggestion = find(data.responses, ['type', 'suggestion'])
-
-    if (hasSuggestion) {
-      dispatch({ type: SHOW_BUTTON_BAR })
-    } else {
-      dispatch({ type: HIDE_BUTTON_BAR })
-    }
     if (messages.length === 0) {
       dispatch({ type: SAVE_RESPONSE, newConversationArray: [data] })
     } else {

@@ -10,6 +10,7 @@ import Message from './Message'
 import CardResponse from './CardResponse'
 import MapResponse from './MapResponse'
 import FeedbackResponse from './FeedbackResponse'
+import { showButtonBar, hideButtonBar } from './actions/dialogflow'
 
 const ContentWrapper = styled.div`
   background: ${grey[100]};
@@ -103,7 +104,7 @@ class ChatWindow extends PureComponent {
 
   parseNewMessages = diff => {
     const messages = this.parseMessages(diff).filter(m => !m.loading)
-
+    this.props.hideButtonBar()
     messages.forEach((msg, index) => {
       setTimeout(() => {
         const isLast = index === messages.length - 1
@@ -114,6 +115,9 @@ class ChatWindow extends PureComponent {
         const newMessages = [...oldMessages, el]
         if (!isLast) {
           newMessages.push(buildLoadingMessage())
+        }
+        if (msg.entity === 'bot' && isLast) {
+          this.props.showButtonBar()
         }
         this.setState({ messageElements: newMessages })
       }, index * 3000)
@@ -142,6 +146,7 @@ class ChatWindow extends PureComponent {
       return buildFeedbackResponse(msg)
     }
     return buildBotTextMessage({ text: 'Something went wrong.' })
+    //  this.props.showButtonBar()
   }
 
   // Parse the raw message structure from the Redux props and convert
@@ -165,7 +170,6 @@ class ChatWindow extends PureComponent {
         // Bot messages contain an array of 'responses' -- we don't want to
         // display all of them here (e.g. suggestions), so we only push
         // the ones we display to the final array
-
         msg.responses.forEach(res => {
           if (
             res.type === 'text' ||
@@ -260,4 +264,18 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(ChatWindow)
+const mapDispatchToProps = dispatch => {
+  return {
+    showButtonBar: () => {
+      dispatch(showButtonBar())
+    },
+    hideButtonBar: () => {
+      dispatch(hideButtonBar())
+    },
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChatWindow)
