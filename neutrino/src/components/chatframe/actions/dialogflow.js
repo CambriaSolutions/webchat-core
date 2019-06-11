@@ -40,7 +40,6 @@ export function hideButtonBar() {
 export function saveResponse(data) {
   return (dispatch, getState) => {
     const { messages } = getState().conversation
-    const hasSuggestion = find(data.responses, ['type', 'suggestion'])
     if (messages.length === 0) {
       dispatch({ type: SAVE_RESPONSE, newConversationArray: [data] })
     } else {
@@ -156,6 +155,7 @@ export function getMessageFromDialogflow(response) {
       entity: 'bot',
       loading: false,
       messageId: response.responseId,
+      messageSession: response.session,
       language: response.queryResult.languageCode,
       systemTime,
       responses,
