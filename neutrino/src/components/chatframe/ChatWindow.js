@@ -10,7 +10,7 @@ import Message from './Message'
 import CardResponse from './CardResponse'
 import MapResponse from './MapResponse'
 import FeedbackResponse from './FeedbackResponse'
-import { showButtonBar, hideButtonBar } from './actions/dialogflow'
+import { showButtonBar, hideButtonBar } from './actions/conversation'
 
 const ContentWrapper = styled.div`
   display: flex;

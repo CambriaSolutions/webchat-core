@@ -1,12 +1,9 @@
 import { format, parse, differenceInMilliseconds } from 'date-fns'
 import get from 'lodash/get'
-import find from 'lodash/find'
 import {
   SAVE_CLIENT,
   SAVE_RESPONSE,
   INITIATE_LOADING,
-  SHOW_BUTTON_BAR,
-  HIDE_BUTTON_BAR,
   DISPLAY_ERROR,
   CLEAR_ERROR,
   RECEIVE_WEBHOOK_DATA,
@@ -22,18 +19,6 @@ export function setupDialogflow(clientOptions) {
     const client = new Client(clientOptions)
     const clientName = 'dialogflow'
     dispatch({ type: SAVE_CLIENT, client, clientName })
-  }
-}
-
-export function showButtonBar() {
-  return dispatch => {
-    dispatch({ type: SHOW_BUTTON_BAR })
-  }
-}
-
-export function hideButtonBar() {
-  return dispatch => {
-    dispatch({ type: HIDE_BUTTON_BAR })
   }
 }
 

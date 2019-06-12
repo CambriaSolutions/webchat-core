@@ -3,6 +3,7 @@ import {
   SAVE_USER_RESPONSE,
   DISPLAY_ERROR,
   HIDE_BUTTON_BAR,
+  SHOW_BUTTON_BAR,
 } from './actionTypes'
 import { setupDialogflow, sendMessageWithDialogflow } from './dialogflow'
 // Date Format
@@ -73,5 +74,17 @@ export function createUserResponse(text) {
 export function sendQuickReply(text) {
   return dispatch => {
     dispatch(createUserResponse(text))
+  }
+}
+
+export function showButtonBar() {
+  return dispatch => {
+    dispatch({ type: SHOW_BUTTON_BAR })
+  }
+}
+
+export function hideButtonBar() {
+  return dispatch => {
+    dispatch({ type: HIDE_BUTTON_BAR })
   }
 }
