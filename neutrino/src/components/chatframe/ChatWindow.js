@@ -161,7 +161,6 @@ class ChatWindow extends PureComponent {
       this.componentRef.current.addEventListener('wheel', this.handleWheel)
     }
     return buildBotTextMessage({ text: 'Something went wrong.' })
-    //  this.props.showButtonBar()
   }
 
   // Parse the raw message structure from the Redux props and convert
