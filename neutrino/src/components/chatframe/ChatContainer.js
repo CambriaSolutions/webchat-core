@@ -13,7 +13,7 @@ import { media } from './styles/media'
 const Container = styled(Paper)`
   && {
     width: 400px;
-    height: 600px;
+    height: 70vh;
     overflow: hidden;
     position: absolute;
     bottom: 48px;
