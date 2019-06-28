@@ -61,7 +61,7 @@ class UserInput extends PureComponent {
   }
 
   render() {
-    const { saveUserInput, inputValue } = this.props
+    const { saveUserInput, inputValue, shouldDisable } = this.props
     const inputValues = inputValue.value
     const charLimit = `${inputValue.charLength}/255`
     const { maxExceeded } = inputValue
@@ -79,6 +79,7 @@ class UserInput extends PureComponent {
           multiline
           rowsMax='4'
           fullWidth
+          disabled={shouldDisable}
           InputProps={{ disableUnderline: true }}
           placeholder='Send a message'
           helperText={helperTextValue}
@@ -107,6 +108,7 @@ class UserInput extends PureComponent {
 const mapStateToProps = state => {
   return {
     inputValue: state.userInput,
+    shouldDisable: state.conversation.disableInput,
   }
 }
 

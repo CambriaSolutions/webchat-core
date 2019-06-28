@@ -10,6 +10,7 @@ import {
   DISPLAY_ERROR,
   CLEAR_ERROR,
   RECEIVE_WEBHOOK_DATA,
+  TOGGLE_INPUT_DISABLED,
   SET_CONVERSATION_ENDED,
 } from './actionTypes'
 // Date Format
@@ -82,6 +83,7 @@ export function getMessageFromDialogflow(response) {
     }
     const rawResponses = get(response, 'queryResult.fulfillmentMessages', [])
     let responses = null
+    let containsDisablePayload = false
     try {
       responses = rawResponses.map(msg => {
         const type = mapMessageTypeToDescriptor(msg.message)
@@ -116,8 +118,15 @@ export function getMessageFromDialogflow(response) {
               return payload
             }
           }
-
-          dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
+          // Check for disable input property
+          if ('disableInput' in payload) {
+            const shouldDisable = payload.disableInput
+            dispatch({ type: TOGGLE_INPUT_DISABLED, shouldDisable })
+            console.log('hi')
+            containsDisablePayload = true
+          } else {
+            dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
+          }
         }
 
         switch (type) {

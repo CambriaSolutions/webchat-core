@@ -3,8 +3,10 @@ import { render } from 'react-dom'
 import ChatWindow from './components/chatframe'
 
 export const options = {
-  eventUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/eventRequest',
-  textUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/textRequest',
+  eventUrl:
+    'https://344a5af0.ngrok.io/mdhs-csa-dev-beta/us-central1/eventRequest',
+  textUrl:
+    'https://344a5af0.ngrok.io/mdhs-csa-dev-beta/us-central1/textRequest',
 }
 
 export const feedbackUrl =
@@ -14,7 +16,6 @@ export const privacyPolicy =
   'Please do not enter any personally identifiable information such as SSN or Date of Birth'
 
 export const activationText = 'Talk to Gen'
-
 
 export const mapConfig = {
   googleMapsKey: process.env.GOOGLE_MAPS_KEY,
@@ -34,7 +35,7 @@ render(
     client='Dialogflow'
     clientOptions={options}
     fullscreen={false}
-    initialActive={false}
+    initialActive
     policyText={privacyPolicy}
     mapConfig={mapConfig}
     activationText={activationText}
