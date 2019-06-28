@@ -4,9 +4,9 @@ import ChatWindow from './components/chatframe'
 
 export const options = {
   eventUrl:
-    'https://344a5af0.ngrok.io/mdhs-csa-dev-beta/us-central1/eventRequest',
+    'https://58f7e869.ngrok.io/mdhs-csa-dev-beta/us-central1/eventRequest',
   textUrl:
-    'https://344a5af0.ngrok.io/mdhs-csa-dev-beta/us-central1/textRequest',
+    'https://58f7e869.ngrok.io/mdhs-csa-dev-beta/us-central1/textRequest',
 }
 
 export const feedbackUrl =

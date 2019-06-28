@@ -194,12 +194,6 @@ class ChatWindow extends PureComponent {
         msg.payload.feedback
       ) {
         msgElements.push(buildFeedbackResponse(msg))
-      } else if (
-        msg.entity === 'bot' &&
-        msg.type === 'payload' &&
-        msg.payload.disableInput
-      ) {
-        return console.log(msg.payload)
       } else {
         msgElements.push(
           buildBotTextMessage({ text: ['Something went wrong.'] })

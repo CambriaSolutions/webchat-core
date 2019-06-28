@@ -11,8 +11,8 @@ import { saveUserInput, submitUserInput } from './actions/userInput'
 const OuterFrame = styled.div`
   grid-area: userinput;
   background: #fefefe;
-  z-index: 1;
   display: flex;
+  display: ${p => (p.visible ? 'none' : 'flex')};
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
@@ -74,12 +74,11 @@ class UserInput extends PureComponent {
     }
 
     return (
-      <OuterFrame>
+      <OuterFrame visible={shouldDisable}>
         <TextInput
           multiline
           rowsMax='4'
           fullWidth
-          disabled={shouldDisable}
           InputProps={{ disableUnderline: true }}
           placeholder='Send a message'
           helperText={helperTextValue}

@@ -82,10 +82,10 @@ export function getMessageFromDialogflow(response) {
       }
     }
     const rawResponses = get(response, 'queryResult.fulfillmentMessages', [])
-    let responses = null
+    let unfilteredResponses = null
     let containsDisablePayload = false
     try {
-      responses = rawResponses.map(msg => {
+      unfilteredResponses = rawResponses.map(msg => {
         const type = mapMessageTypeToDescriptor(msg.message)
         const suggestions = get(msg, 'quickReplies.quickReplies', [])
         const text = get(msg, 'text.text', null)
@@ -121,9 +121,8 @@ export function getMessageFromDialogflow(response) {
           // Check for disable input property
           if ('disableInput' in payload) {
             const shouldDisable = payload.disableInput
-            dispatch({ type: TOGGLE_INPUT_DISABLED, shouldDisable })
-            console.log('hi')
             containsDisablePayload = true
+            dispatch({ type: TOGGLE_INPUT_DISABLED, shouldDisable })
           } else {
             dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
           }
@@ -154,6 +153,21 @@ export function getMessageFromDialogflow(response) {
       console.log(error)
     }
 
+    let responses
+    if (containsDisablePayload) {
+      responses = unfilteredResponses.filter(response => {
+        const constainsDisableInput = get(
+          response,
+          'payload.disableInput',
+          false
+        )
+        return !constainsDisableInput
+      })
+    } else {
+      const shouldDisable = false
+      dispatch({ type: TOGGLE_INPUT_DISABLED, shouldDisable })
+      responses = unfilteredResponses
+    }
     const systemTime = format(new Date(), sysTimeFormat)
     const data = {
       entity: 'bot',
