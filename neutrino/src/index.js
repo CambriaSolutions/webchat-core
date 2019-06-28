@@ -3,10 +3,8 @@ import { render } from 'react-dom'
 import ChatWindow from './components/chatframe'
 
 export const options = {
-  eventUrl:
-    'https://58f7e869.ngrok.io/mdhs-csa-dev-beta/us-central1/eventRequest',
-  textUrl:
-    'https://58f7e869.ngrok.io/mdhs-csa-dev-beta/us-central1/textRequest',
+  eventUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/eventRequest',
+  textUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/textRequest',
 }
 
 export const feedbackUrl =
@@ -35,7 +33,7 @@ render(
     client='Dialogflow'
     clientOptions={options}
     fullscreen={false}
-    initialActive
+    initialActive={false}
     policyText={privacyPolicy}
     mapConfig={mapConfig}
     activationText={activationText}
