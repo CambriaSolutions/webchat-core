@@ -80,10 +80,16 @@ function conversation(state = initialState, action) {
         webhookPayload: action.payload,
       }
 
-    case t.TOGGLE_INPUT_DISABLED:
+    case t.ENABLE_INPUT:
       return {
         ...state,
-        disableInput: action.shouldDisable,
+        disableInput: false,
+      }
+
+    case t.DISABLE_INPUT:
+      return {
+        ...state,
+        disableInput: true,
       }
 
     case t.SET_CONVERSATION_STARTED:

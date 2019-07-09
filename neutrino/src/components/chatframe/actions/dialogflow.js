@@ -1,6 +1,7 @@
 import { format, parse, differenceInMilliseconds } from 'date-fns'
 import get from 'lodash/get'
 import find from 'lodash/find'
+import omit from 'lodash/omit'
 import {
   SAVE_CLIENT,
   SAVE_RESPONSE,
@@ -10,7 +11,8 @@ import {
   DISPLAY_ERROR,
   CLEAR_ERROR,
   RECEIVE_WEBHOOK_DATA,
-  TOGGLE_INPUT_DISABLED,
+  DISABLE_INPUT,
+  ENABLE_INPUT,
   SET_CONVERSATION_ENDED,
 } from './actionTypes'
 // Date Format
@@ -82,7 +84,7 @@ export function getMessageFromDialogflow(response) {
       }
     }
     const rawResponses = get(response, 'queryResult.fulfillmentMessages', [])
-    let unfilteredResponses = null
+    let unfilteredResponses = []
     let containsDisablePayload = false
     try {
       unfilteredResponses = rawResponses.map(msg => {
@@ -120,9 +122,14 @@ export function getMessageFromDialogflow(response) {
           }
           // Check for disable input property
           if ('disableInput' in payload) {
-            const shouldDisable = payload.disableInput
+            // If there is more than just a dispable input propert in the payload
+            // remove disableInput and handle the rest of the payload data
+            if (Object.keys(payload).length > 1) {
+              const modifiedPayload = omit(payload, ['disableInput'])
+              dispatch({ type: RECEIVE_WEBHOOK_DATA, modifiedPayload })
+            }
             containsDisablePayload = true
-            dispatch({ type: TOGGLE_INPUT_DISABLED, shouldDisable })
+            dispatch({ type: DISABLE_INPUT })
           } else {
             dispatch({ type: RECEIVE_WEBHOOK_DATA, payload })
           }
@@ -156,16 +163,15 @@ export function getMessageFromDialogflow(response) {
     let responses
     if (containsDisablePayload) {
       responses = unfilteredResponses.filter(response => {
-        const constainsDisableInput = get(
+        const containsDisableInput = get(
           response,
           'payload.disableInput',
           false
         )
-        return !constainsDisableInput
+        return !containsDisableInput
       })
     } else {
-      const shouldDisable = false
-      dispatch({ type: TOGGLE_INPUT_DISABLED, shouldDisable })
+      dispatch({ type: ENABLE_INPUT })
       responses = unfilteredResponses
     }
     const systemTime = format(new Date(), sysTimeFormat)
