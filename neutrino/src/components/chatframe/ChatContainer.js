@@ -35,8 +35,9 @@ const Container = styled(Paper)`
       `};
 
     ${media.phone`
-    width: ${props => (props.visible ? 'calc(100% - 96px)' : '0')};
+    width: ${props => (props.visible ? 'calc(100% - 20px)' : '0')};
     height: ${props => (props.visible ? 'calc(100% - 96px)' : '0')};
+    right: 10px;
     max-width: none;
     max-height: none;
   `};
