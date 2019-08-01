@@ -11,6 +11,7 @@ import Message from './Message'
 import CardResponse from './CardResponse'
 import MapResponse from './MapResponse'
 import FeedbackResponse from './FeedbackResponse'
+import { media } from './styles/media'
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -18,6 +19,11 @@ const ContentWrapper = styled.div`
   /* Vertically flips the container element to achieve flex-direction:column-reverse effect */
   transform: scale(1, -1);
   overflow: auto;
+  ${media.tablet`
+    flex-direction: column-reverse;
+    overflow: auto;
+    transform: none;
+  `};
 `
 const Content = styled.div`
   background: ${grey[100]};
@@ -30,6 +36,10 @@ const Content = styled.div`
 const ChatMessage = styled.div`
   /* Vertically flips the content element so that the messages won't be upside down */
   transform: scale(1, -1);
+
+  ${media.tablet`
+   transform: none;
+  `};
 `
 
 function buildUserMessage(message) {
