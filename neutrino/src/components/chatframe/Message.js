@@ -20,7 +20,6 @@ const Container = styled.div`
 
 const ChatBubble = styled.div`
   width: 100%;
-  height: min-content;
   display: flex;
   flex-flow: row nowrap;
   justify-content: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
