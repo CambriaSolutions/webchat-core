@@ -11,7 +11,7 @@ const Container = styled(Paper)`
     width: 42px;
     height: 42px;
     min-width: 42px;
-    border-radius: 50%;
+    border-radius: 50% 50% 0px 50%;
     margin: ${p => (p.entity === 'user' ? '0 0 0 16px' : '0 16px 0 0')};
     order: ${p => (p.entity === 'user' ? 1 : 0)};
     background-color: #fff;

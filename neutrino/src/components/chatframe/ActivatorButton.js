@@ -32,6 +32,7 @@ const BotAvatar = styled(Avatar)`
     width: 32px;
     height: 32px;
     margin-right: 10px;
+    border-radius: 50% 50% 0px 50%;
   }
 `
 
