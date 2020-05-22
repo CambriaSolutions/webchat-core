@@ -157,11 +157,18 @@ class ChatWindow extends PureComponent {
     const newMessages = this.parseMessages()
     const msgElements = []
     newMessages.forEach((msg, i) => {
+
       let showTimestamp = false
+
+      if (message && message[0] !== '') {
+        filteredBotMessage = message
+      }
+
       // set timestamp display flag to true if it's the last message
       if (i === newMessages.length - 1) {
         showTimestamp = true
       }
+
       if (msg.loading) {
         msgElements.push(buildLoadingMessage(msg))
       } else if (msg.entity === 'user') {
@@ -183,6 +190,7 @@ class ChatWindow extends PureComponent {
       ) {
         msgElements.push(buildFeedbackResponse(msg))
       } else {
+        console.error("ChatWindow.js, createMessageElements(): newMessages, msg, i", newMessages, msg, i)
         msgElements.push(buildBotTextMessage({ text: 'Something went wrong.' }))
       }
     })
