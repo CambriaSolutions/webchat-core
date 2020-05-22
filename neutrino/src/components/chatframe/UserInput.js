@@ -11,8 +11,8 @@ import { saveUserInput, submitUserInput } from './actions/userInput'
 const OuterFrame = styled.div`
   grid-area: userinput;
   background: #fefefe;
-  z-index: 1;
   display: flex;
+  display: ${p => (p.visible ? 'none' : 'flex')};
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
@@ -61,7 +61,7 @@ class UserInput extends PureComponent {
   }
 
   render() {
-    const { saveUserInput, inputValue } = this.props
+    const { saveUserInput, inputValue, shouldDisable } = this.props
     const inputValues = inputValue.value
     const charLimit = `${inputValue.charLength}/255`
     const { maxExceeded } = inputValue
@@ -74,7 +74,7 @@ class UserInput extends PureComponent {
     }
 
     return (
-      <OuterFrame>
+      <OuterFrame visible={shouldDisable}>
         <TextInput
           multiline
           rowsMax='4'
@@ -107,6 +107,7 @@ class UserInput extends PureComponent {
 const mapStateToProps = state => {
   return {
     inputValue: state.userInput,
+    shouldDisable: state.conversation.disableInput,
   }
 }
 

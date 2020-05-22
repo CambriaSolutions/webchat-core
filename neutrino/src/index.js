@@ -15,7 +15,6 @@ export const privacyPolicy =
 
 export const activationText = 'Talk to Gen'
 
-
 export const mapConfig = {
   googleMapsKey: process.env.GOOGLE_MAPS_KEY,
   centerCoordinates: {
