@@ -182,10 +182,6 @@ class ChatWindow extends PureComponent {
 
       let showTimestamp = false
 
-      if (message && message[0] !== '') {
-        filteredBotMessage = message
-      }
-
       // set timestamp display flag to true if it's the last message
       if (i === newMessages.length - 1) {
         showTimestamp = true
