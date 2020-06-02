@@ -94,7 +94,7 @@ class Message extends PureComponent {
     if (message && message[0] !== '') {
       filteredBotMessage = message
     } else {
-      console.error("Message.js, render(): this.props", this.props)
+      console.error('Message.js, render(): this.props', this.props)
 
       filteredBotMessage = [
         'Oops! Something happened with the connection. Please try again.',
