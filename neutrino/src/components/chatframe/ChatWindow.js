@@ -183,6 +183,8 @@ class ChatWindow extends PureComponent {
       ) {
         msgElements.push(buildFeedbackResponse(msg))
       } else {
+        console.error('ChatWindow.js, createMessageElements(): newMessages, msg, i', newMessages, msg, i)
+
         msgElements.push(buildBotTextMessage({ text: 'Something went wrong.' }))
       }
     })
