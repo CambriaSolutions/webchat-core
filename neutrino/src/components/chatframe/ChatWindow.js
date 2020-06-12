@@ -180,7 +180,6 @@ class ChatWindow extends PureComponent {
     const msgElements = []
     newMessages.forEach((msg, i) => {
       let showTimestamp = false
-      
       // set timestamp display flag to true if it's the last message
       if (i === newMessages.length - 1) {
         showTimestamp = true
