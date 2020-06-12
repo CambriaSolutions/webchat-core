@@ -1,6 +1,6 @@
 {
   "name": "@cambriasolutions/chatframe",
-  "version": "1.19.7",
+  "version": "1.19.8",
   "main": "build/chatframe.js",
   "license": "UNLICENSED",
   "scripts": {
