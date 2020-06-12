@@ -20,7 +20,6 @@ const Container = styled.div`
 
 const ChatBubble = styled.div`
   width: 100%;
-  height: min-content;
   display: flex;
   flex-flow: row nowrap;
   justify-content: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
@@ -42,8 +41,7 @@ const UserMessage = styled.div`
     max-width: 360px;
     overflow: hidden;
     background-color: ${p => p.theme.palette.primary.main};
-    color: ${p =>
-      p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+    color: #ffffff;
     border-top-left-radius: 10px;
     border-top-right-radius: 1px;
     border-bottom-right-radius: 10px;
@@ -114,7 +112,7 @@ class Message extends PureComponent {
     const chatMessage =
       entity === 'user' ? (
         <UserMessage elevation={1} theme={theme}>
-          <Typography variant='body1'>{message}</Typography>
+          {message}
         </UserMessage>
       ) : (
         <ExternalMessage elevation={1}>

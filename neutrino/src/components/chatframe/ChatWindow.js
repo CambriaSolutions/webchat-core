@@ -11,16 +11,35 @@ import Message from './Message'
 import CardResponse from './CardResponse'
 import MapResponse from './MapResponse'
 import FeedbackResponse from './FeedbackResponse'
+import { media } from './styles/media'
 
 const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* Vertically flips the container element to achieve flex-direction:column-reverse effect */
+  transform: scale(1, -1);
+  overflow: auto;
+  ${media.tablet`
+    flex-direction: column-reverse;
+    overflow: auto;
+    transform: none;
+  `};
+`
+const Content = styled.div`
   background: ${grey[100]};
   z-index: 4;
   grid-area: chatwindow;
   margin-bottom: 1px;
   margin-top: 8px;
-  overflow: auto;
-  display: flex;
-  flex-direction: column-reverse;
+`
+
+const ChatMessage = styled.div`
+  /* Vertically flips the content element so that the messages won't be upside down */
+  transform: scale(1, -1);
+
+  ${media.tablet`
+   transform: none;
+  `};
 `
 
 function buildUserMessage(message) {
@@ -104,6 +123,9 @@ class ChatWindow extends PureComponent {
       this.messages = newMessages
       this.createMessageElements()
     }
+    if (this.componentRef.current) {
+      this.componentRef.current.addEventListener('wheel', this.handleWheel)
+    }
   }
 
   // Parse the raw message structure from the Redux props and convert
@@ -162,6 +184,7 @@ class ChatWindow extends PureComponent {
       if (i === newMessages.length - 1) {
         showTimestamp = true
       }
+
       if (msg.loading) {
         msgElements.push(buildLoadingMessage(msg))
       } else if (msg.entity === 'user') {
@@ -184,8 +207,9 @@ class ChatWindow extends PureComponent {
         msgElements.push(buildFeedbackResponse(msg))
       } else {
         console.error('ChatWindow.js, createMessageElements(): newMessages, msg, i', newMessages, msg, i)
-
-        msgElements.push(buildBotTextMessage({ text: 'Something went wrong.' }))
+        msgElements.push(
+          buildBotTextMessage({ text: ['Something went wrong.'] })
+        )
       }
     })
 
@@ -206,11 +230,28 @@ class ChatWindow extends PureComponent {
     this.setState({ messageElements: msgElements })
   }
 
+  handleWheel = e => {
+    // reverse scroll to handle the transform property
+    if (e.deltaY) {
+      e.preventDefault()
+      e.currentTarget.scrollTop -=
+        parseFloat(
+          getComputedStyle(e.currentTarget).getPropertyValue('font-size')
+        ) *
+        (e.deltaY < 0 ? -1 : 1) *
+        2
+    }
+  }
+
+  componentRef = React.createRef(null)
+
   render() {
     const { messageElements } = this.state
     return (
-      <ContentWrapper elevation={1} square>
-        <div>{messageElements}</div>
+      <ContentWrapper ref={this.componentRef}>
+        <Content elevation={1} square>
+          <ChatMessage>{messageElements}</ChatMessage>
+        </Content>
       </ContentWrapper>
     )
   }

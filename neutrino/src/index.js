@@ -15,7 +15,6 @@ export const privacyPolicy =
 
 export const activationText = 'Talk to Gen'
 
-
 export const mapConfig = {
   googleMapsKey: process.env.GOOGLE_MAPS_KEY,
   centerCoordinates: {
@@ -27,10 +26,10 @@ const root = document.getElementById('cambria-chatframe')
 
 render(
   <ChatWindow
-    primaryColor='#3bafbf'
-    secondaryColor='#000'
-    headerColor='#3bafbf'
-    title='Test Chat'
+    primaryColor='#6497AD'
+    secondaryColor='#6497AD'
+    headerColor='#6497AD'
+    title='Gen (Test Chat)'
     client='Dialogflow'
     clientOptions={options}
     fullscreen={false}

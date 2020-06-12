@@ -7,6 +7,7 @@ const initialState = {
   clientName: null,
   messages: [],
   webhookPayload: null,
+  disableInput: false,
   lastUpdateTime: format(new Date(), sysTimeFormat),
   currentTime: format(new Date(), sysTimeFormat),
   headerTime: 'Now',
@@ -77,6 +78,18 @@ function conversation(state = initialState, action) {
       return {
         ...state,
         webhookPayload: action.payload,
+      }
+
+    case t.ENABLE_INPUT:
+      return {
+        ...state,
+        disableInput: false,
+      }
+
+    case t.DISABLE_INPUT:
+      return {
+        ...state,
+        disableInput: true,
       }
 
     case t.SET_CONVERSATION_STARTED:
