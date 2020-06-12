@@ -180,7 +180,7 @@ class ChatWindow extends PureComponent {
     const msgElements = []
     newMessages.forEach((msg, i) => {
       let showTimestamp = false
-
+      
       // set timestamp display flag to true if it's the last message
       if (i === newMessages.length - 1) {
         showTimestamp = true
@@ -208,7 +208,9 @@ class ChatWindow extends PureComponent {
         msgElements.push(buildFeedbackResponse(msg))
       } else {
         console.error('ChatWindow.js, createMessageElements(): newMessages, msg, i', newMessages, msg, i)
-        msgElements.push(buildBotTextMessage({ text: 'Something went wrong.' }))
+        msgElements.push(
+          buildBotTextMessage({ text: ['Something went wrong.'] })
+        )
       }
     })
 
