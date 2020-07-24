@@ -13,8 +13,7 @@ import {
   RECEIVE_WEBHOOK_DATA,
   DISABLE_INPUT,
   ENABLE_INPUT,
-  SET_CONVERSATION_ENDED,
-  SET_OUTPUT_CONTEXTS
+  SET_CONVERSATION_ENDED
 } from './actionTypes'
 // Date Format
 import { sysTimeFormat } from '../config/dateFormats'
@@ -84,8 +83,6 @@ export function getMessageFromDialogflow(response) {
           return 'text'
       }
     }
-    const rawOutputContexts = get(response, 'queryResult.outputContexts', [])
-    dispatch({ type: SET_OUTPUT_CONTEXTS, rawOutputContexts })
 
     const rawResponses = get(response, 'queryResult.fulfillmentMessages', [])
     let unfilteredResponses = []

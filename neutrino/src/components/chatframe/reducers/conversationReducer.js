@@ -103,13 +103,6 @@ function conversation(state = initialState, action) {
         ...state,
         conversationStarted: false,
       }
-
-    case t.SET_OUTPUT_CONTEXTS:
-      return {
-        ...state,
-        outputContexts: action.rawOutputContexts
-      }
-
     default:
       return state
   }
