@@ -114,7 +114,7 @@ const mapStateToProps = state => {
   return {
     feedbackInputs: state.feedbackInput,
     feedbackUrl: state.config.feedbackUrl,
-    outputContexts: state.outputContexts
+    outputContexts: state.conversation.outputContexts
   }
 }
 
