@@ -23,6 +23,7 @@ class FeedbackInput extends PureComponent {
       setFeedbackSubmitted,
       sendFeedback,
       session,
+      outputContexts
     } = this.props
 
     const handleInputChange = name => event => {
@@ -63,6 +64,7 @@ class FeedbackInput extends PureComponent {
         wasHelpful: feedbackInputs.wasHelpful,
         session,
         feedbackList: processList(feedbackInputs.feedbackList),
+        outputContexts
       }
       sendAnalytics(payload)
       sendFeedback('Feedback complete')
@@ -80,20 +82,20 @@ class FeedbackInput extends PureComponent {
             <FormGroup>
               {feedbackInputs.feedbackList
                 ? feedbackInputs.feedbackList.map(choice => {
-                    return (
-                      <FormControlLabel
-                        key={choice.value}
-                        control={
-                          <Checkbox
-                            checked={choice.checked}
-                            onChange={handleInputChange(choice.value)}
-                            value={choice.value}
-                          />
-                        }
-                        label={choice.value}
-                      />
-                    )
-                  })
+                  return (
+                    <FormControlLabel
+                      key={choice.value}
+                      control={
+                        <Checkbox
+                          checked={choice.checked}
+                          onChange={handleInputChange(choice.value)}
+                          value={choice.value}
+                        />
+                      }
+                      label={choice.value}
+                    />
+                  )
+                })
                 : null}
             </FormGroup>
           </FormControl>
@@ -112,6 +114,7 @@ const mapStateToProps = state => {
   return {
     feedbackInputs: state.feedbackInput,
     feedbackUrl: state.config.feedbackUrl,
+    outputContexts: state.outputContexts
   }
 }
 
