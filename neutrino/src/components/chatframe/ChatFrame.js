@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import WebFont from 'webfontloader'
@@ -52,10 +52,13 @@ const OuterContainer = styled.div`
   }
 `
 
+
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 class ChatFrame extends PureComponent {
   constructor(props) {
     super(props)
-    this.store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
+    this.store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunkMiddleware)))
     this.currentValue = null
     this.theme = createTheme(
       this.props.primaryColor,

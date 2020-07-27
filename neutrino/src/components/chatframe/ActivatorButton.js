@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import Fab from '@material-ui/core/Fab'
 import Chat from '@material-ui/icons/Chat'
 import Zoom from '@material-ui/core/Zoom'
-import { withTheme } from '@material-ui/core/styles'
+import Badge from '@material-ui/core/Badge'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
 
 // Redux
@@ -36,6 +37,16 @@ const BotAvatar = styled(Avatar)`
   }
 `
 
+const styles = () => ({
+  customBadge: {
+    backgroundColor: 'red',
+    height: '11px',
+    minWidth: '11px',
+    top: '-13px',
+    border: 'solid white 1px'
+  }
+});
+
 class ActivatorButton extends PureComponent {
   render() {
     const {
@@ -45,10 +56,13 @@ class ActivatorButton extends PureComponent {
       activationText,
       theme,
       avatar,
+      classes,
+      conversationStarted
     } = this.props
 
     const contentToDisplay = activationText ? (
       <React.Fragment>
+        <Badge classes={{ badge: classes.customBadge }} overlap="circle" variant="dot" anchorOrigin={{ vertical: 'top', horizontal: 'left', }} invisible={conversationStarted} />
         <BotAvatar alt={title} src={avatar} />
         <TextContainer theme={theme}>{activationText}</TextContainer>
       </React.Fragment>
@@ -77,6 +91,7 @@ const mapStateToProps = state => {
     windowVisible: state.config.windowVisible,
     activationText: state.config.activationText,
     avatar: state.config.avatar,
+    conversationStarted: state.conversation.conversationStarted
   }
 }
 
@@ -88,9 +103,10 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withTheme()(
+export default withStyles(styles)(
+  withTheme()(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(ActivatorButton)
-)
+))
