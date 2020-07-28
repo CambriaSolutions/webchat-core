@@ -30,6 +30,8 @@ module.exports = {
             'no-unused-vars': 'warn',
             'consistent-return': 'warn',
             'max-len': 'warn',
+            'no-underscore-dangle': 'off',
+            'react/jsx-boolean-value': 'warn'
           },
         },
       },
