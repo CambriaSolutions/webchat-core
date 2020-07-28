@@ -3,12 +3,11 @@ import { render } from 'react-dom'
 import ChatWindow from './components/chatframe'
 
 export const options = {
-  eventUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/eventRequest',
-  textUrl: 'https://us-central1-mdhs-csa-dev.cloudfunctions.net/textRequest',
+  eventUrl: process.env.REACT_APP_EVENT_URL,
+  textUrl: process.env.REACT_APP_TEXT_URL
 }
 
-export const feedbackUrl =
-  'https://us-central1-webchat-analytics.cloudfunctions.net/storeFeedback'
+export const feedbackUrl = process.env.REACT_APP_FEEDBACK_URL
 
 export const privacyPolicy =
   'Please do not enter any personally identifiable information such as SSN or Date of Birth'
@@ -16,12 +15,13 @@ export const privacyPolicy =
 export const activationText = 'Talk to Gen'
 
 export const mapConfig = {
-  googleMapsKey: process.env.GOOGLE_MAPS_KEY,
+  googleMapsKey: process.env.REACT_APP_GOOGLE_MAPS_KEY,
   centerCoordinates: {
     lat: 32.777025,
     lng: -89.543724,
   },
 }
+
 const root = document.getElementById('cambria-chatframe')
 
 render(

@@ -46,7 +46,10 @@ module.exports = {
     neutrino => {
       neutrino.config.plugin('env').use(EnvironmentPlugin, [
         {
-          GOOGLE_MAPS_KEY: process.env.GOOGLE_MAPS_KEY,
+          REACT_APP_GOOGLE_MAPS_KEY: process.env.REACT_APP_GOOGLE_MAPS_KEY,
+          REACT_APP_EVENT_URL: process.env.REACT_APP_EVENT_URL,
+          REACT_APP_TEXT_URL: process.env.REACT_APP_TEXT_URL,
+          REACT_APP_FEEDBACK_URL: process.env.REACT_APP_FEEDBACK_URL
         },
       ])
     },
