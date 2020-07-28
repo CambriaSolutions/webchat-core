@@ -6,6 +6,7 @@ import Zoom from '@material-ui/core/Zoom'
 import Badge from '@material-ui/core/Badge'
 import { withTheme, withStyles } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 // Redux
 import { connect } from 'react-redux'
@@ -92,7 +93,27 @@ const ChatBubble = styled.div`
   }
 `
 
+const StyledCloseIcon = styled(HighlightOffIcon)`
+  color: #666
+  position: absolute;
+  top: -11px;
+  right: -13px;
+  background-color: white;
+`
+
 class ActivatorButton extends PureComponent {
+  constructor() {
+    super()
+    this.state = {
+      displayGenGreeting: true
+    }
+  }
+
+  closeGenGreeting = (e) => {
+    e.stopPropagation()
+    this.setState(() => ({ displayGenGreeting: false }))
+  }
+
   render() {
     const {
       title,
@@ -105,6 +126,8 @@ class ActivatorButton extends PureComponent {
       conversationStarted
     } = this.props
 
+    const { displayGenGreeting } = this.state
+
     const contentToDisplay = activationText ? (
       <React.Fragment>
         <Badge
@@ -112,13 +135,16 @@ class ActivatorButton extends PureComponent {
           overlap="circle"
           variant="dot"
           badgeContent={0}
-          invisible={conversationStarted}
+          invisible={!displayGenGreeting || conversationStarted}
         >
           <BotAvatar alt={title} src={avatar} />
           <TextContainer theme={theme}>{activationText}</TextContainer>
-          <ChatBubble>
-            I have some new features waiting for you. Check it out and let&apos;s chat!
-          </ChatBubble>
+          {displayGenGreeting && !conversationStarted &&
+            <ChatBubble>
+              I have some new features waiting for you. Check it out and let&apos;s chat!
+              <StyledCloseIcon onClick={this.closeGenGreeting} />
+            </ChatBubble>
+          }
         </Badge>
       </React.Fragment >
     ) : (<Chat />)
