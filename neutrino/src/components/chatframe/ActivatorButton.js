@@ -11,7 +11,7 @@ import Avatar from '@material-ui/core/Avatar'
 import { connect } from 'react-redux'
 import { showWindow } from './actions/initialization'
 
-const Btn = styled(Fab)`
+const StyledFab = styled(Fab)`
   && {
     display: ${p => (p.active ? 'flex' : 'none')};
     pointer-events: auto;
@@ -41,11 +41,56 @@ const styles = () => ({
   customBadge: {
     backgroundColor: 'red',
     height: '11px',
-    minWidth: '11px',
-    top: '-13px',
+    width: '11px',
+    left: '-13px',
     border: 'solid white 1px'
   }
 });
+
+const ChatBubble = styled.div`
+  z-index: 10000;
+  position: absolute;
+  top: -43px;
+  left: -315px;
+  color: black;
+  font-family: 'Product Sans';
+  font-weight: 400;
+  font-size: 15px;
+  text-transform: none;
+  max-width: 270px;
+  border: 2px solid #666;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 8px;
+  -webkit-box-shadow: 2px 2px 4px #888;
+  -moz-box-shadow: 2px 2px 4px #888;
+  box-shadow: 2px 2px 4px #888;
+  text-align: left;
+  padding: 8px;
+
+  :before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0px;
+    left: 286px;
+    top: 11px;
+    border: 15px solid;
+    border-left: none;
+    border-color: transparent transparent #666 transparent;
+  }
+
+  :after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 266px;
+    top: 9px;
+    border: 15px solid;
+    border-color: transparent transparent #fff transparent;
+  }
+`
 
 class ActivatorButton extends PureComponent {
   render() {
@@ -62,24 +107,32 @@ class ActivatorButton extends PureComponent {
 
     const contentToDisplay = activationText ? (
       <React.Fragment>
-        <Badge classes={{ badge: classes.customBadge }} overlap="circle" variant="dot" anchorOrigin={{ vertical: 'top', horizontal: 'left', }} invisible={conversationStarted} />
-        <BotAvatar alt={title} src={avatar} />
-        <TextContainer theme={theme}>{activationText}</TextContainer>
-      </React.Fragment>
-    ) : (
-      <Chat />
-    )
+        <Badge
+          classes={{ badge: classes.customBadge }}
+          overlap="circle"
+          variant="dot"
+          badgeContent={0}
+          invisible={conversationStarted}
+        >
+          <BotAvatar alt={title} src={avatar} />
+          <TextContainer theme={theme}>{activationText}</TextContainer>
+          <ChatBubble>
+            I have some new features waiting for you. Check it out and let&apos;s chat!
+          </ChatBubble>
+        </Badge>
+      </React.Fragment >
+    ) : (<Chat />)
 
     return (
       <Zoom in={!windowVisible} unmountOnExit>
-        <Btn
+        <StyledFab
           color='primary'
           onClick={showWindow}
           active={windowVisible ? 0 : 1}
           activationtext={activationText ? 1 : 0}
         >
           {contentToDisplay}
-        </Btn>
+        </StyledFab>
       </Zoom>
     )
   }
@@ -105,8 +158,8 @@ const mapDispatchToProps = dispatch => {
 
 export default withStyles(styles)(
   withTheme()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ActivatorButton)
-))
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(ActivatorButton)
+  ))
