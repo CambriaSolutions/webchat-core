@@ -37,7 +37,6 @@ const BotAvatar = styled(Avatar)`
     border-radius: 50% 50% 0px 50%;
   }
 `
-
 const styles = () => ({
   customBadge: {
     backgroundColor: 'red',
@@ -106,8 +105,21 @@ class ActivatorButton extends PureComponent {
   constructor() {
     super()
     this.state = {
-      displayGenGreeting: true
+      displayGenGreeting: true,
+      displayWelcomeBubble: false
     }
+  }
+
+  componentDidMount() {
+    const mediaMatch = window.matchMedia('(min-width: 768px)')
+    const handler = e => this.setMatches(e.matches);
+    mediaMatch.addListener(handler);
+
+    this.setMatches(mediaMatch.matches)
+  }
+
+  setMatches = (matches) => {
+    this.setState(() => ({ displayWelcomeBubble: matches }))
   }
 
   closeGenGreeting = (e) => {
@@ -127,7 +139,7 @@ class ActivatorButton extends PureComponent {
       conversationStarted
     } = this.props
 
-    const { displayGenGreeting } = this.state
+    const { displayGenGreeting, displayWelcomeBubble } = this.state
 
     const contentToDisplay = activationText ? (
       <React.Fragment>
@@ -140,7 +152,7 @@ class ActivatorButton extends PureComponent {
         >
           <BotAvatar alt={title} src={avatar} />
           <TextContainer theme={theme}>{activationText}</TextContainer>
-          {displayGenGreeting && !conversationStarted && (
+          {displayGenGreeting && !conversationStarted && displayWelcomeBubble && (
             <React.Fragment>
               <GrayTriangle id="gray" />
               <WhiteTriangle id="white" />
