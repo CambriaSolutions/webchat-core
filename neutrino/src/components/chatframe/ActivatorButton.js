@@ -52,7 +52,7 @@ const ChatBubble = styled.div`
   z-index: 10;
   position: absolute;
   top: -43px;
-  left: -315px;
+  left: -295px;
   color: black;
   font-family: 'Product Sans';
   font-weight: 400;
