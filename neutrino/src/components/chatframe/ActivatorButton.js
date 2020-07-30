@@ -67,6 +67,7 @@ const ChatBubble = styled.div`
   box-shadow: 2px 2px 4px #888;
   text-align: left;
   padding: 8px;
+  background-color: white;
 `
 
 const GrayTriangle = styled.div`
