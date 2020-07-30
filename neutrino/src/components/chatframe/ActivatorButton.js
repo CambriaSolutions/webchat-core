@@ -49,7 +49,7 @@ const styles = () => ({
 });
 
 const ChatBubble = styled.div`
-  z-index: 10000;
+  z-index: 10;
   position: absolute;
   top: -43px;
   left: -315px;
@@ -68,29 +68,29 @@ const ChatBubble = styled.div`
   box-shadow: 2px 2px 4px #888;
   text-align: left;
   padding: 8px;
+`
 
-  :before {
-    content: ' ';
-    position: absolute;
-    width: 0;
-    height: 0px;
-    left: 286px;
-    top: 11px;
-    border: 15px solid;
-    border-left: none;
-    border-color: transparent transparent #666 transparent;
-  }
+const GrayTriangle = styled.div`
+  position: absolute;
+  z-index: 11;
+  width: 0;
+  height: 0px;
+  left: -27px;
+  top: -34px;
+  border: 17px solid;
+  border-left: none;
+  border-color: transparent transparent #666 transparent;
+`
 
-  :after {
-    content: ' ';
-    position: absolute;
-    width: 0;
-    height: 0;
-    left: 266px;
-    top: 9px;
-    border: 15px solid;
-    border-color: transparent transparent #fff transparent;
-  }
+const WhiteTriangle = styled.div`
+  position: absolute;
+  z-index: 12;
+  width: 0px;
+  height: 0px;
+  left: -45px;
+  top: -32px;
+  border: 15px solid;
+  border-color: transparent transparent #fff transparent;
 `
 
 const StyledCloseIcon = styled(HighlightOffIcon)`
@@ -99,6 +99,7 @@ const StyledCloseIcon = styled(HighlightOffIcon)`
   top: -11px;
   right: -13px;
   background-color: white;
+  border-radius: 50px;
 `
 
 class ActivatorButton extends PureComponent {
@@ -139,12 +140,16 @@ class ActivatorButton extends PureComponent {
         >
           <BotAvatar alt={title} src={avatar} />
           <TextContainer theme={theme}>{activationText}</TextContainer>
-          {displayGenGreeting && !conversationStarted &&
-            <ChatBubble>
-              I have some new features waiting for you. Check it out and let&apos;s chat!
-              <StyledCloseIcon onClick={this.closeGenGreeting} />
-            </ChatBubble>
-          }
+          {displayGenGreeting && !conversationStarted && (
+            <React.Fragment>
+              <GrayTriangle id="gray" />
+              <WhiteTriangle id="white" />
+              <ChatBubble>
+                I have some new features waiting for you. Check it out and let&apos;s chat!
+                <StyledCloseIcon onClick={this.closeGenGreeting} />
+              </ChatBubble>
+            </React.Fragment>
+          )}
         </Badge>
       </React.Fragment >
     ) : (<Chat />)
