@@ -29,6 +29,7 @@ const CardContainer = styled(Card)`
     background: #fff;
     margin: 15px 16px 15px 16px;
     white-space: pre-line;
+    scroll-margin: 15px;
   }
 `
 
@@ -73,14 +74,14 @@ const StyledDistanceTableCell = styled(TableCell)`
 
 // Maps documentation: https://tomchentw.github.io/react-google-maps
 function MapResponse(props) {
-  const { data, googleMapsKey } = props
+  const { data, googleMapsKey, className } = props
   const cardHeight = '230px'
   const iconSize = { width: 30, height: 30 }
   const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${googleMapsKey}&v=3`
   const handleMarkerClick = location => {
     const url = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
       location.placeId
-    }`
+      }`
     window.open(url, '_blank')
   }
 
@@ -122,7 +123,7 @@ function MapResponse(props) {
   )
 
   return (
-    <CardContainer>
+    <CardContainer className={className}>
       <CardHeader title='Office Locations' />
       <StyledCardContent>
         <Map
@@ -141,7 +142,7 @@ function MapResponse(props) {
                       <Link
                         href={`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${
                           row.placeId
-                        }`}
+                          }`}
                         target='blank'
                       >
                         {row.street}, {row.city}

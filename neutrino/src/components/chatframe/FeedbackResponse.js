@@ -15,6 +15,7 @@ const CardContainer = styled(Card)`
     background: #fff;
     margin: 15px 16px 15px 16px;
     white-space: pre-line;
+    scroll-margin: 15px;
   }
 `
 
@@ -25,17 +26,18 @@ class FeedbackResponse extends PureComponent {
   }
 
   render() {
-    const { session, feedbackInputs } = this.props
+    const { session, feedbackInputs, className } = this.props
     return (
-      <CardContainer>
+      <CardContainer className={className}>
         {feedbackInputs.submitted ? (
           <CardContent>
             Thank you. Your feedback is important to us and will help improve
             Gen.
           </CardContent>
-        ) : (
-          <FeedbackInput session={session} />
-        )}
+        ) :
+          (
+            <FeedbackInput session={session} />
+          )}
       </CardContainer>
     )
   }
