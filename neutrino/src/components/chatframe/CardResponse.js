@@ -23,6 +23,7 @@ const CardContainer = styled(Card)`
     background: #fff;
     margin: 15px 16px 15px 16px;
     white-space: pre-line;
+    scroll-margin: 15px;
   }
 `
 
@@ -36,9 +37,9 @@ const CardImage = styled(CardMedia)`
 
 class CardResponse extends PureComponent {
   render() {
-    const { title, subtitle, imageUrl, buttons } = this.props.data
+    const { title, subtitle, imageUrl, buttons, className } = this.props.data
     return (
-      <CardContainer>
+      <CardContainer className={className}>
         {imageUrl ? <CardImage image={encodeURI(imageUrl)} title='' /> : null}
         <CardContent>
           <Typography gutterBottom variant="h6">

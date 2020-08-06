@@ -5,8 +5,7 @@ import isEqual from 'lodash/isEqual'
 import merge from 'lodash/merge'
 import uuidv4 from 'uuid/v4'
 import grey from '@material-ui/core/colors/grey'
-import { parse, differenceInMilliseconds } from 'date-fns'
-import { sysTimeFormat } from './config/dateFormats'
+import { forEachRight, sortBy } from 'lodash'
 import Message from './Message'
 import CardResponse from './CardResponse'
 import MapResponse from './MapResponse'
@@ -31,9 +30,7 @@ const Content = styled.div`
   grid-area: chatwindow;
   margin-bottom: 1px;
   margin-top: 8px;
-`
 
-const ChatMessage = styled.div`
   /* Vertically flips the content element so that the messages won't be upside down */
   transform: scale(1, -1);
 
@@ -65,7 +62,7 @@ function buildLoadingMessage(message) {
   )
 }
 
-function buildFeedbackResponse(message) {
+function buildFeedbackResponse(message, shouldScrollIntoView = false) {
   return (
     <FeedbackResponse
       feedbackData={message.payload.feedback}
@@ -74,11 +71,12 @@ function buildFeedbackResponse(message) {
       key={message.key}
       isLoading={false}
       timestamp={message.systemTime}
+      className={shouldScrollIntoView ? 'scrollIntoView' : ''}
     />
   )
 }
 
-function buildBotTextMessage(message, showTimestamp) {
+function buildBotTextMessage(message, showTimestamp, shouldScrollIntoView = false) {
   return (
     <Message
       message={message.text}
@@ -87,26 +85,29 @@ function buildBotTextMessage(message, showTimestamp) {
       isLoading={false}
       timestamp={message.systemTime}
       showTimestamp={showTimestamp}
+      className={shouldScrollIntoView ? 'scrollIntoView' : ''}
     />
   )
 }
 
-function buildBotCardMessage(message) {
+function buildBotCardMessage(message, shouldScrollIntoView = false) {
   return (
     <CardResponse
       data={message.card}
       timestamp={message.systemTime}
       key={message.key}
+      className={shouldScrollIntoView ? 'scrollIntoView' : ''}
     />
   )
 }
 
-function buildBotMapMessage(message) {
+function buildBotMapMessage(message, shouldScrollIntoView = false) {
   return (
     <MapResponse
       data={message.payload.mapPayload}
       timestamp={message.systemTime}
       key={message.key}
+      className={shouldScrollIntoView ? 'scrollIntoView' : ''}
     />
   )
 }
@@ -115,6 +116,7 @@ class ChatWindow extends PureComponent {
     super(props)
     this.messages = []
     this.state = { messageElements: [] }
+    this.componentRef = React.createRef()
   }
 
   componentDidUpdate() {
@@ -128,11 +130,35 @@ class ChatWindow extends PureComponent {
     }
   }
 
+  // Sometimes Gen's response is so long it exceeds the height of the
+  // chatwindow and the window automatically scrolls to the bottom. This
+  // function identifies the index of the first content bubble in Gen's latest
+  // reply so we can use that index to auto scroll to the start of the response.
+  findIndexFirstElementInLastResponse = (messages) => {
+    let index = 0
+    let indexFound = false
+
+    // We use forEachRight because we can't just reverse the collection.
+    // Need the index to decrease each iteration.
+    forEachRight(messages, (m, mIndex) => {
+      if (m.entity === 'bot') {
+        if (!indexFound) {
+          index = mIndex
+        }
+      } else {
+        indexFound = true
+      }
+    })
+
+    return index
+  }
+
   // Parse the raw message structure from the Redux props and convert
   // it into the appropriate format for each Message
   parseMessages = () => {
     const { messages } = this.props
     const messageData = []
+
     messages.forEach(msg => {
       // We want to make sure that each message has all of the metadata
       // The structure of the response is not consistent, so we are building
@@ -142,6 +168,7 @@ class ChatWindow extends PureComponent {
         entity: msg.entity,
         session: msg.messageSession,
       }
+
       if (msg.loading) {
         const key = uuidv4()
         metadata.key = key
@@ -178,10 +205,21 @@ class ChatWindow extends PureComponent {
   createMessageElements = () => {
     const newMessages = this.parseMessages()
     const msgElements = []
-    newMessages.forEach((msg, i) => {
+
+    let sortedNewMessages = newMessages
+
+    if (newMessages.length > 1) {
+      sortedNewMessages = sortBy(newMessages, m => new Date(m.systemTime))
+    }
+
+    const indexFirstElementInLastResponse =
+      this.findIndexFirstElementInLastResponse(sortedNewMessages)
+
+    sortedNewMessages.forEach((msg, i) => {
+      const shouldScrollIntoView = i === indexFirstElementInLastResponse
       let showTimestamp = false
       // set timestamp display flag to true if it's the last message
-      if (i === newMessages.length - 1) {
+      if (i === sortedNewMessages.length - 1) {
         showTimestamp = true
       }
 
@@ -190,44 +228,35 @@ class ChatWindow extends PureComponent {
       } else if (msg.entity === 'user') {
         msgElements.push(buildUserMessage(msg))
       } else if (msg.entity === 'bot' && msg.type === 'text') {
-        msgElements.push(buildBotTextMessage(msg, showTimestamp))
+        msgElements.push(buildBotTextMessage(msg, showTimestamp, shouldScrollIntoView))
       } else if (msg.entity === 'bot' && msg.type === 'card') {
-        msgElements.push(buildBotCardMessage(msg))
+        msgElements.push(buildBotCardMessage(msg, shouldScrollIntoView))
       } else if (
         msg.entity === 'bot' &&
         msg.type === 'payload' &&
         msg.payload.mapPayload
       ) {
-        msgElements.push(buildBotMapMessage(msg))
+        msgElements.push(buildBotMapMessage(msg, shouldScrollIntoView))
       } else if (
         msg.entity === 'bot' &&
         msg.type === 'payload' &&
         msg.payload.feedback
       ) {
-        msgElements.push(buildFeedbackResponse(msg))
+        msgElements.push(buildFeedbackResponse(msg, shouldScrollIntoView))
       } else {
-        console.error('ChatWindow.js, createMessageElements(): newMessages, msg, i', newMessages, msg, i)
+        console.error('ChatWindow.js, createMessageElements(): sortedNewMessages, msg, i', sortedNewMessages, msg, i)
         msgElements.push(
           buildBotTextMessage({ text: ['Something went wrong.'] })
         )
       }
     })
 
-    msgElements.sort((a, b) => {
-      const dateA = parse(
-        a.props.timestamp,
-        sysTimeFormat,
-        new Date(a.props.timestamp)
-      )
-      const dateB = parse(
-        b.props.timestamp,
-        sysTimeFormat,
-        new Date(b.props.timestamp)
-      )
-      const diff = differenceInMilliseconds(dateA, dateB)
-      return diff
+    this.setState((prevState) => ({ ...prevState, messageElements: msgElements }), () => {
+      // Only after state has been updated, scroll specified element into view.
+      if (document.getElementsByClassName('scrollIntoView')[0]) {
+        document.getElementsByClassName('scrollIntoView')[0].scrollIntoView(false)
+      }
     })
-    this.setState({ messageElements: msgElements })
   }
 
   handleWheel = e => {
@@ -247,10 +276,11 @@ class ChatWindow extends PureComponent {
 
   render() {
     const { messageElements } = this.state
+
     return (
       <ContentWrapper ref={this.componentRef}>
         <Content elevation={1} square>
-          <ChatMessage>{messageElements}</ChatMessage>
+          {messageElements}
         </Content>
       </ContentWrapper>
     )

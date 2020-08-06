@@ -16,6 +16,7 @@ const Container = styled.div`
   margin: 15px 16px 15px 16px;
   height: min-content;
   align-items: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
+  scroll-margin: 15px;
 `
 
 const ChatBubble = styled.div`
@@ -70,6 +71,7 @@ class Message extends PureComponent {
       theme,
       showTimestamp,
       error,
+      className
     } = this.props
 
     const parsedTimestamp = parse(
@@ -114,40 +116,42 @@ class Message extends PureComponent {
         <UserMessage elevation={1} theme={theme}>
           {message}
         </UserMessage>
-      ) : (
-        <ExternalMessage elevation={1}>
-          {isLoading ? (
-            loadingOrErrorMsg
-          ) : (
-            <Markdown
-              options={{
-                forceBlock: true,
-                overrides: {
-                  h6: {
-                    component: Typography,
-                    props: {
-                      variant: 'h6',
+      ) :
+        (
+          <ExternalMessage elevation={1}>
+            {isLoading ? (
+              loadingOrErrorMsg
+            ) :
+              (
+                <Markdown
+                  options={{
+                    forceBlock: true,
+                    overrides: {
+                      h6: {
+                        component: Typography,
+                        props: {
+                          variant: 'h6',
+                        },
+                      },
+                      p: {
+                        component: Typography,
+                        props: {
+                          variant: 'body1',
+                        },
+                      },
+                      a: {
+                        component: Link,
+                      },
                     },
-                  },
-                  p: {
-                    component: Typography,
-                    props: {
-                      variant: 'body1',
-                    },
-                  },
-                  a: {
-                    component: Link,
-                  },
-                },
-              }}
-            >
-              {filteredBotMessage[0]}
-            </Markdown>
-          )}
-        </ExternalMessage>
-      )
+                  }}
+                >
+                  {filteredBotMessage[0]}
+                </Markdown>
+              )}
+          </ExternalMessage>
+        )
     return (
-      <Container entity={entity}>
+      <Container entity={entity} className={className}>
         <ChatBubble entity={entity}>{chatMessage}</ChatBubble>
         {showTimestamp ? (
           <Timestamp variant='caption'>{formattedTimestamp}</Timestamp>
