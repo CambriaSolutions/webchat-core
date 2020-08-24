@@ -8,13 +8,39 @@ import FormControl from '@material-ui/core/FormControl'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
+import TextField from '@material-ui/core/TextField'
+import { withStyles } from '@material-ui/core/styles'
+import styled from 'styled-components'
 import {
   saveFeedbackInput,
   sendFeedback,
   setFeedbackSubmitted,
 } from './actions/feedbackInput'
 
+const FeedbackInputLabel = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  padding-bottom: 15px;
+  padding-top: 13px;
+`
+
+const styles = () => ({
+  root: {
+  },
+  inputMultiline: {
+    fontSize: '0.875rem',
+    overflowY: 'hidden'
+  }
+})
+
 class FeedbackInput extends PureComponent {
+  constructor() {
+    super()
+    this.state = {
+      feedbackComment: ''
+    }
+  }
+
   render() {
     const {
       feedbackInputs,
@@ -57,15 +83,17 @@ class FeedbackInput extends PureComponent {
     }
 
     // On form submit, build the payload data structure,
-    // send the payload to analyics, send message to diaglogflow,
+    // send the payload to analytics, send message to dialogflow,
     // and set submitted flag to true in redux state.
     const handleSubmit = () => {
       const payload = {
         wasHelpful: feedbackInputs.wasHelpful,
         session,
         feedbackList: processList(feedbackInputs.feedbackList),
+        comment: this.state.feedbackComment,
         outputContexts
       }
+
       sendAnalytics(payload)
       sendFeedback('Feedback complete')
       setFeedbackSubmitted(true)
@@ -96,7 +124,25 @@ class FeedbackInput extends PureComponent {
                     />
                   )
                 })
-                : null}
+                : null
+              }
+              <FeedbackInputLabel>Add your comments</FeedbackInputLabel>
+              <TextField
+                placeholder="Type something"
+                variant="outlined"
+                multiline
+                value={this.state.feedbackComment}
+                onChange={e => {
+                  // Need to copy the value here because of React's synthetic events
+                  const newValue = e.target.value
+                  this.setState(prevState => ({ ...prevState, feedbackComment: newValue }))
+                }}
+                InputProps={{
+                  classes: {
+                    inputMultiline: this.props.classes.inputMultiline
+                  },
+                }}
+              />
             </FormGroup>
           </FormControl>
         </CardContent>
@@ -132,7 +178,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
+export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(FeedbackInput)
+)(FeedbackInput))
