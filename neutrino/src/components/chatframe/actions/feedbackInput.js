@@ -2,6 +2,7 @@ import {
   SAVE_FEEDBACK_INPUT,
   SET_FEEDBACK_SUBMITTED,
   SET_FEEDBACK_OPTIONS,
+  RESET_FEEDBACK_DATA,
 } from './actionTypes'
 
 import { sendMessage } from './conversation'
@@ -22,4 +23,8 @@ export function setFeedbackOptions(value) {
 
 export function setFeedbackSubmitted(value) {
   return { type: SET_FEEDBACK_SUBMITTED, value }
+}
+
+export function resetFeedbackData() {
+  return { type: RESET_FEEDBACK_DATA }
 }

@@ -28,6 +28,9 @@ function feedbackInput(state = initialState, action) {
       }
     case t.SET_FEEDBACK_SUBMITTED:
       return { ...state, submitted: true }
+    case t.RESET_FEEDBACK_DATA: {
+      return { ...state, submitted: false, wasHelpful: null, feedbackList: null }
+    }
     default:
       return state
   }

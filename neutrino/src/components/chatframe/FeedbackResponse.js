@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import styled from 'styled-components'
 import FeedbackInput from './FeedbackInput'
-import { setFeedbackOptions } from './actions/feedbackInput'
+import { setFeedbackOptions, resetFeedbackData } from './actions/feedbackInput'
 
 const CardContainer = styled(Card)`
   && {
@@ -23,6 +23,11 @@ class FeedbackResponse extends PureComponent {
   componentDidMount() {
     const { setFeedbackOptions, feedbackData } = this.props
     setFeedbackOptions(feedbackData)
+  }
+
+  componentWillUnmount() {
+    const { resetFeedbackData } = this.props
+    resetFeedbackData()
   }
 
   render() {
@@ -48,6 +53,7 @@ const mapDispatchToProps = dispatch => {
     setFeedbackOptions: value => {
       dispatch(setFeedbackOptions(value))
     },
+    resetFeedbackData: () => dispatch(resetFeedbackData())
   }
 }
 
