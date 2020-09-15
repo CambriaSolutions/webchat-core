@@ -14,7 +14,6 @@ import styled from 'styled-components'
 import {
   saveFeedbackInput,
   sendFeedback,
-  setFeedbackSubmitted,
 } from './actions/feedbackInput'
 
 const FeedbackInputLabel = styled.div`
@@ -37,6 +36,7 @@ class FeedbackInput extends PureComponent {
   constructor() {
     super()
     this.state = {
+      isSubmitted: false,
       feedbackComment: ''
     }
   }
@@ -46,7 +46,6 @@ class FeedbackInput extends PureComponent {
       feedbackInputs,
       feedbackUrl,
       saveFeedbackInput,
-      setFeedbackSubmitted,
       sendFeedback,
       session,
       outputContexts
@@ -96,61 +95,73 @@ class FeedbackInput extends PureComponent {
 
       sendAnalytics(payload)
       sendFeedback('Feedback complete')
-      setFeedbackSubmitted(true)
+      this.setState((prevState) => ({ ...prevState, isSubmitted: true }))
     }
     return (
       <React.Fragment>
-        <CardContent>
-          <Typography gutterBottom variant='h6'>
-            {feedbackInputs.wasHelpful
-              ? 'Why was Gen helpful?'
-              : 'Why was Gen not helpful?'}
-          </Typography>
-          <FormControl component='fieldset'>
-            <FormGroup>
-              {feedbackInputs.feedbackList
-                ? feedbackInputs.feedbackList.map(choice => {
-                  return (
-                    <FormControlLabel
-                      key={choice.value}
-                      control={
-                        <Checkbox
-                          checked={choice.checked}
-                          onChange={handleInputChange(choice.value)}
-                          value={choice.value}
+        {!this.state.isSubmitted ?
+        (
+          <div>
+            <CardContent>
+              <Typography gutterBottom variant='h6'>
+                {feedbackInputs.wasHelpful
+                  ? 'Why was Gen helpful?'
+                  : 'Why was Gen not helpful?'}
+              </Typography>
+              <FormControl component='fieldset'>
+                <FormGroup>
+                  {feedbackInputs.feedbackList
+                    ? feedbackInputs.feedbackList.map(choice => {
+                      return (
+                        <FormControlLabel
+                          key={choice.value}
+                          control={
+                            <Checkbox
+                              checked={choice.checked}
+                              onChange={handleInputChange(choice.value)}
+                              value={choice.value}
+                            />
+                          }
+                          label={choice.value}
                         />
-                      }
-                      label={choice.value}
-                    />
-                  )
-                })
-                : null
-              }
-              <FeedbackInputLabel>Add your comments</FeedbackInputLabel>
-              <TextField
-                placeholder="Type something"
-                variant="outlined"
-                multiline
-                value={this.state.feedbackComment}
-                onChange={e => {
-                  // Need to copy the value here because of React's synthetic events
-                  const newValue = e.target.value
-                  this.setState(prevState => ({ ...prevState, feedbackComment: newValue }))
-                }}
-                InputProps={{
-                  classes: {
-                    inputMultiline: this.props.classes.inputMultiline
-                  },
-                }}
-              />
-            </FormGroup>
-          </FormControl>
-        </CardContent>
-        <CardActions>
-          <Button size='small' color='primary' onClick={handleSubmit}>
-            Submit
-          </Button>
-        </CardActions>
+                      )
+                    })
+                    : null
+                  }
+                  <FeedbackInputLabel>Add your comments</FeedbackInputLabel>
+                  <TextField
+                    placeholder="Type something"
+                    variant="outlined"
+                    multiline
+                    value={this.state.feedbackComment}
+                    onChange={e => {
+                      // Need to copy the value here because of React's synthetic events
+                      const newValue = e.target.value
+                      this.setState(prevState => ({ ...prevState, feedbackComment: newValue }))
+                    }}
+                    InputProps={{
+                      classes: {
+                        inputMultiline: this.props.classes.inputMultiline
+                      },
+                    }}
+                  />
+                </FormGroup>
+              </FormControl>
+            </CardContent>
+            <CardActions>
+              <Button size='small' color='primary' onClick={handleSubmit}>
+                Submit
+              </Button>
+            </CardActions>
+          </div>
+        )
+        :
+        (
+          <CardContent>
+            Thank you. Your feedback is important to us and will help improve Gen.
+          </CardContent>
+        )
+      }
       </React.Fragment>
     )
   }
@@ -168,9 +179,6 @@ const mapDispatchToProps = dispatch => {
   return {
     saveFeedbackInput: value => {
       dispatch(saveFeedbackInput(value))
-    },
-    setFeedbackSubmitted: () => {
-      dispatch(setFeedbackSubmitted(true))
     },
     sendFeedback: value => {
       dispatch(sendFeedback(value))
