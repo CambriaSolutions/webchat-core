@@ -244,7 +244,6 @@ class ChatWindow extends PureComponent {
       ) {
         msgElements.push(buildFeedbackResponse(msg, shouldScrollIntoView))
       } else {
-        console.error('ChatWindow.js, createMessageElements(): sortedNewMessages, msg, i', sortedNewMessages, msg, i)
         msgElements.push(
           buildBotTextMessage({ text: ['Something went wrong.'] })
         )
@@ -254,7 +253,10 @@ class ChatWindow extends PureComponent {
     this.setState((prevState) => ({ ...prevState, messageElements: msgElements }), () => {
       // Only after state has been updated, scroll specified element into view.
       if (document.getElementsByClassName('scrollIntoView')[0]) {
-        document.getElementsByClassName('scrollIntoView')[0].scrollIntoView(false)
+        // Setting a timeout to 0 is a little trick meant to force the DOM call
+        // to happen after the DOM has rendered.
+        // This logic fails if the element doesn't exist by the time this line is reached.
+        setTimeout(() => document.getElementsByClassName('scrollIntoView')[0].scrollIntoView(false), 0)
       }
     })
   }
