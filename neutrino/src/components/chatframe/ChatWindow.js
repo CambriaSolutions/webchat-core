@@ -182,9 +182,7 @@ class ChatWindow extends PureComponent {
             res.type === 'card' ||
             res.type === 'payload'
           ) {
-            // const botMessage = merge(res, { ...metadata, key: `${res.key}_${i}` })
-            const botMessage = merge(res, metadata)
-            botMessage.key = `${res.key}_${i}`
+            const botMessage = merge(res, { ...metadata, key: `${metadata.key}_${i}` })
             messageData.push(botMessage)
           }
         })
