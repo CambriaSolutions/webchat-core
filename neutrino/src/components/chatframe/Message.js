@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { parse, format, isSameDay, subDays } from 'date-fns'
@@ -60,7 +60,7 @@ const Timestamp = styled(Typography)`
   }
 `
 
-class Message extends PureComponent {
+class Message extends Component {
   render() {
     const {
       message,
@@ -71,7 +71,8 @@ class Message extends PureComponent {
       theme,
       showTimestamp,
       error,
-      className
+      className,
+      key
     } = this.props
 
     const parsedTimestamp = parse(
@@ -149,7 +150,7 @@ class Message extends PureComponent {
           </ExternalMessage>
         )
     return (
-      <Container entity={entity} className={className}>
+      <Container entity={entity} className={className} key={key}>
         <ChatBubble entity={entity}>{chatMessage}</ChatBubble>
         {showTimestamp ? (
           <Timestamp variant='caption'>{formattedTimestamp}</Timestamp>

@@ -1,4 +1,5 @@
 import { parse, format, differenceInMilliseconds } from 'date-fns'
+import uuidv4 from 'uuid/v4'
 import * as t from '../actions/actionTypes'
 import { sysTimeFormat } from '../config/dateFormats'
 
@@ -58,7 +59,7 @@ function conversation(state = initialState, action) {
         ...state,
         lastUpdateTime: format(new Date(), sysTimeFormat),
         headerTime: 'Now',
-        messages: [...state.messages, action.response].sort((a, b) => {
+        messages: [...state.messages, { ...action.response, key: uuidv4() }].sort((a, b) => {
           const dateA = parse(
             a.systemTime,
             sysTimeFormat,

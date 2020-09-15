@@ -46,7 +46,6 @@ export class Client {
 
     const queryParams = this.encodeQueryData(params)
     const url = `${this.textUrl}?${queryParams}`
-    
     return fetchRetry(url, 2)
   }
 

@@ -39,7 +39,7 @@ class CardResponse extends PureComponent {
   render() {
     const { title, subtitle, imageUrl, buttons, className } = this.props.data
     return (
-      <CardContainer className={className}>
+      <CardContainer className={className} key={this.props.key}>
         {imageUrl ? <CardImage image={encodeURI(imageUrl)} title='' /> : null}
         <CardContent>
           <Typography gutterBottom variant="h6">

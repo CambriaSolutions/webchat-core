@@ -74,7 +74,7 @@ const StyledDistanceTableCell = styled(TableCell)`
 
 // Maps documentation: https://tomchentw.github.io/react-google-maps
 function MapResponse(props) {
-  const { data, googleMapsKey, className } = props
+  const { data, googleMapsKey, className, key } = props
   const cardHeight = '230px'
   const iconSize = { width: 30, height: 30 }
   const googleMapsUrl = `https://maps.googleapis.com/maps/api/js?key=${googleMapsKey}&v=3`
@@ -123,7 +123,7 @@ function MapResponse(props) {
   )
 
   return (
-    <CardContainer className={className}>
+    <CardContainer className={className} key={key}>
       <CardHeader title='Office Locations' />
       <StyledCardContent>
         <Map

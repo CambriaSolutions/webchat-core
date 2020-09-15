@@ -1,4 +1,5 @@
 import { format, parse, differenceInMilliseconds } from 'date-fns'
+import uuidv4 from 'uuid/v4'
 import get from 'lodash/get'
 import find from 'lodash/find'
 import omit from 'lodash/omit'
@@ -183,6 +184,7 @@ export function getMessageFromDialogflow(response) {
       entity: 'bot',
       loading: false,
       messageId: response.responseId,
+      key: uuidv4(),
       messageSession: response.session,
       language: response.queryResult.languageCode,
       systemTime,

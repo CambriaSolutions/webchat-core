@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
 import styled from 'styled-components'
 import FeedbackInput from './FeedbackInput'
 import { setFeedbackOptions } from './actions/feedbackInput'
@@ -26,18 +25,10 @@ class FeedbackResponse extends PureComponent {
   }
 
   render() {
-    const { session, feedbackInputs, className } = this.props
+    const { session, className, key } = this.props
     return (
-      <CardContainer className={className}>
-        {feedbackInputs.submitted ? (
-          <CardContent>
-            Thank you. Your feedback is important to us and will help improve
-            Gen.
-          </CardContent>
-        ) :
-          (
-            <FeedbackInput session={session} />
-          )}
+      <CardContainer className={className} key={key}>
+        <FeedbackInput session={session} />
       </CardContainer>
     )
   }

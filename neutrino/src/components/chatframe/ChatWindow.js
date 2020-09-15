@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import isEqual from 'lodash/isEqual'
 import merge from 'lodash/merge'
-import uuidv4 from 'uuid/v4'
 import grey from '@material-ui/core/colors/grey'
 import { forEachRight, sortBy } from 'lodash'
 import Message from './Message'
@@ -167,32 +166,27 @@ class ChatWindow extends PureComponent {
         systemTime: msg.systemTime,
         entity: msg.entity,
         session: msg.messageSession,
+        key: msg.key,
       }
 
       if (msg.loading) {
-        const key = uuidv4()
-        metadata.key = key
         const loadingMessage = merge(msg, metadata)
         messageData.push(loadingMessage)
       } else if (msg.entity === 'bot') {
         // Bot messages contain an array of 'responses' -- we don't want to
         // display all of them here (e.g. suggestions), so we only push
         // the ones we display to the final array
-        msg.responses.forEach(res => {
+        msg.responses.forEach((res, i) => {
           if (
             res.type === 'text' ||
             res.type === 'card' ||
             res.type === 'payload'
           ) {
-            const key = uuidv4()
-            metadata.key = key
-            const botMessage = merge(res, metadata)
+            const botMessage = merge(res, { ...metadata, key: `${metadata.key}_${i}` })
             messageData.push(botMessage)
           }
         })
       } else if (msg.entity === 'user') {
-        const key = uuidv4()
-        metadata.key = key
         const userMessage = merge(msg, metadata)
         messageData.push(userMessage)
       }
