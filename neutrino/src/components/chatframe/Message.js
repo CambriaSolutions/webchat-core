@@ -13,16 +13,20 @@ import Loading from './Loading'
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  margin: 15px 16px 15px 16px;
+  margin: 10px;
   height: min-content;
   align-items: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
   scroll-margin: 15px;
+  p, div {
+    font-size: 16px;
+  }
 `
 
 const ChatBubble = styled.div`
   width: 100%;
   display: flex;
   flex-flow: row nowrap;
+  padding: 0;
   justify-content: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
 `
 
@@ -33,7 +37,7 @@ const ExternalMessage = styled.div`
     border-top-left-radius: 1px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    padding: 12px;
+    padding: 9px;
   }
 `
 
@@ -47,7 +51,7 @@ const UserMessage = styled.div`
     border-top-right-radius: 1px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    padding: 12px;
+    padding: 9px;
   }
 `
 

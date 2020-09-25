@@ -24,10 +24,11 @@ const OuterFrame = styled.div`
 
 const TextInput = styled(TextField)`
   && {
-    padding: 8px 4px 8px 16px;
+    padding: 5px 15px;
     padding-bottom: ${p => p.helperText !== null && '16px'};
     /*All properties below are specified to combat WordPress*/
-    & > textarea {
+    
+    textarea {
       border: none;
       width: 100%;
       outline: none;
@@ -38,9 +39,10 @@ const TextInput = styled(TextField)`
     }
   }
 `
+
 const Icon = styled(IconButton)`
   && {
-    padding: 16px 12px 16px 4px;
+    padding-right: 15px;
     &:hover {
       background: transparent;
     }

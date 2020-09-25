@@ -124,7 +124,7 @@ function MapResponse(props) {
 
   return (
     <CardContainer className={className} key={key}>
-      <CardHeader title='Office Locations' />
+      <CardHeader title='Office Locations' titleTypographyProps={{ variant: 'h6' }} />
       <StyledCardContent>
         <Map
           googleMapURL={googleMapsUrl}
