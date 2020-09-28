@@ -122,7 +122,9 @@ class Header extends PureComponent {
 
       // We search for it and use it instead of hard coding because we want
       // to persist the casing that we get back from server
-      startOverButtonLabel = find(suggestions, x => x.toLowerCase() === 'home')
+      // The 'start over' and 'home' buttons are essentially the same,
+      // but which we receive is dependent on the back end version, so we check for both.
+      startOverButtonLabel = find(suggestions, x => x.toLowerCase() === 'home' || x.toLowerCase() === 'start over')
     }
 
     return (
