@@ -24,12 +24,19 @@ const Btn = styled(Button)`
   && {
     margin-right: 8px;
     margin-top: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
     display: ${p => (p.visible === 'true' ? 'block' : 'none')};
     background-color: ${p => (p.navigationbutton === 'true' ? 'rgb(36,39,44)' : 'rgb(240,240,240)')};
     color: ${p => (p.navigationbutton === 'true' ? ' white' : 'secondary')};
     border-radius: 10px;
     font-size: 14px;
     width: 100%
+    
+  }
+
+  :hover {
+    background-color: rgb(181,181,181) !important;
   }
 `
 
@@ -284,7 +291,7 @@ class ButtonBar extends PureComponent {
                     onClick={() => this.setState(
                       prevState => ({ paginationPage: prevState.paginationPage - 1 }))}
                   >
-                    Prev Options
+                    Previous Options
                   </Btn>
                 </Grid>
               }

@@ -85,6 +85,7 @@ const StartOverButton = styled(Button)`
     cursor: pointer;
     min-width: 85px;
     padding: 1px;
+    border-radius: 10px;
     border: 1px solid ${p =>
     p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
     color: ${p =>
