@@ -35,7 +35,7 @@ const TextInput = styled(TextField)`
       color: #000;
       height: 100%;
       padding: 0;
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 `

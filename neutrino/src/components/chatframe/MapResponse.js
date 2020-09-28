@@ -35,7 +35,7 @@ const CardContainer = styled(Card)`
 
 const TableContainer = styled.div`
   height: 150px;
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 10px;
 `
 

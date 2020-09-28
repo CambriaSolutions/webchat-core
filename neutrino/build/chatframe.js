@@ -67,7 +67,7 @@
   }
 `,Pt=V()(ht.a)`
   && {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: lighter;
     flex: 0;
     cursor: pointer;
@@ -132,7 +132,7 @@
   align-items: ${(e)=>'user'===e.entity?'flex-end':'flex-start'};
   scroll-margin: 15px;
   p, div {
-    font-size: 16px;
+    font-size: 14px;
   }
 `,mn=V.a.div`
   width: 100%;
@@ -198,7 +198,7 @@
   }
 `,Jn=V.a.div`
   height: 150px;
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 10px;
 `,Zn=V()(xn.a)`
   &&& {
@@ -294,7 +294,7 @@
       color: #000;
       height: 100%;
       padding: 0;
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 `,va=V()(jt.a)`
@@ -333,7 +333,7 @@
   :hover {
     background-color: rgb(181,181,181) !important;
   }
-`;class Ua extends O.PureComponent{constructor(){super(),Object.defineProperty(this,'minColumnSpan',{enumerable:!0,writable:!0,value:(e)=>{if(18<=e.length)return 3;return 10<=e.length&&18>e.length?2:1}}),Object.defineProperty(this,'playTetris',{enumerable:!0,writable:!0,value:(e)=>{const t=(e,t)=>{const n=Object(vt.find)(t,(t)=>t.minColumnSpan===e),a=Object(vt.filter)(t,(e)=>!n||e.label!==n.label);return{next:n,remainingButtons:a}},n=Object(vt.reduce)(e,(e,n)=>{if(0<=Object(vt.findIndex)(e.remainingButtons,(e)=>e.label===n.label)){const a=n;let i=Object(vt.filter)(e.remainingButtons,(e)=>e.label!==a.label);if(3===a.minColumnSpan)return{buttonRows:[...e.buttonRows,[a]],remainingButtons:i};if(2===a.minColumnSpan){let n=t(2,i);i=n.remainingButtons,n.next||(n=t(1,i),i=n.remainingButtons);const o=n.next,s=Object(vt.filter)([a,o],(e)=>!!e);return{buttonRows:[...e.buttonRows,s],remainingButtons:i}}if(1===a.minColumnSpan){let n=t(1,i),o=n.next;if(i=n.remainingButtons,o){const n=t(1,i),s=n.next;i=n.remainingButtons;const r=Object(vt.filter)([a,o,s],(e)=>!!e);return{buttonRows:[...e.buttonRows,r],remainingButtons:i}}n.next||(n=t(2,i),o=n.next,i=n.remainingButtons);const s=Object(vt.filter)([a,o],(e)=>!!e);return{buttonRows:[...e.buttonRows,s],remainingButtons:i}}}return e},{buttonRows:[],remainingButtons:e}),a=n.buttonRows;return a}}),Object.defineProperty(this,'handleSuggestionClick',{enumerable:!0,writable:!0,value:(e)=>{this.setState(()=>({paginationPage:1})),this.props.sendQuickReply(e.toUpperCase())}}),this.state={paginationPage:1}}render(){const e=this.state.paginationPage;var t=this.props;const n=t.visible,a=t.messages,i=Object(vt.findLast)(a,(e)=>{const t=Object(vt.find)(e.responses,['type','suggestion']);return t}),o=[];let s=null;if(i){const e=i.responses.filter((e)=>'suggestion'===e.type)[0].suggestions,t=Object(vt.filter)(e,(e)=>'go back'!==e.toLowerCase()&&'home'!==e.toLowerCase()&&'start over'!==e.toLowerCase());s=Object(vt.find)(e,(e)=>'go back'===e.toLowerCase());for(const e of t){const t=this.minColumnSpan(e);o.push({label:e,id:i.messageId,visible:n,minColumnSpan:t})}}const r=this.playTetris(o),l=4,c=Math.ceil(r.length/l),d=Array(c).fill().map(()=>r.splice(0,l));return(0<o.length||s)&&Object(O.createElement)(Oa,{visible:n},Object(O.createElement)(za.a,{container:!0},0<o.length&&d[e-1].map((e,t)=>Object(O.createElement)(za.a,{key:`buttonRow_${t}`,container:!0,item:!0,spacing:8,xs:12},e.map((n,a)=>Object(O.createElement)(za.a,{key:`buttonRow_${t}_${a}`,item:!0,xs:12/e.length},Object(O.createElement)(Pa,{size:'small',color:'secondary',key:`${n.id}-btn${a}`,visible:n.visible.toString(),navigationbutton:'false',onClick:()=>this.handleSuggestionClick(n.label)},n.label))))),Object(O.createElement)(za.a,{item:!0,container:!0,xs:12,justify:'space-between',spacing:8},s&&1===e&&Object(O.createElement)(za.a,{item:!0,xs:4},Object(O.createElement)(Pa,{size:'small',color:'secondary',visible:'true',navigationbutton:'true',onClick:()=>this.handleSuggestionClick(s)},s)),1<c&&1<e&&Object(O.createElement)(za.a,{item:!0,xs:5},Object(O.createElement)(Pa,{size:'small',color:'secondary',visible:'true',navigationbutton:'true',onClick:()=>this.setState((e)=>({paginationPage:e.paginationPage-1}))},'Previous Options')),1<c&&e<c&&Object(O.createElement)(za.a,{item:!0,xs:5},Object(O.createElement)(Pa,{size:'small',color:'secondary',visible:'true',navigationbutton:'true',onClick:()=>this.setState((e)=>({paginationPage:e.paginationPage+1}))},'More Options')))))}}var Aa=Object(U.connect)((e)=>({visible:e.buttonBar.visible,messages:e.conversation.messages}),(e)=>({sendQuickReply:(t)=>{e(p(t))}}))(Ua);const Ya=V()(mt.a)`
+`;class Ua extends O.PureComponent{constructor(){super(),Object.defineProperty(this,'minColumnSpan',{enumerable:!0,writable:!0,value:(e)=>{if(21<=e.length)return 3;return 13<=e.length&&21>e.length?2:1}}),Object.defineProperty(this,'playTetris',{enumerable:!0,writable:!0,value:(e)=>{const t=(e,t)=>{const n=Object(vt.find)(t,(t)=>t.minColumnSpan===e),a=Object(vt.filter)(t,(e)=>!n||e.label!==n.label);return{next:n,remainingButtons:a}},n=Object(vt.reduce)(e,(e,n)=>{if(0<=Object(vt.findIndex)(e.remainingButtons,(e)=>e.label===n.label)){const a=n;let i=Object(vt.filter)(e.remainingButtons,(e)=>e.label!==a.label);if(3===a.minColumnSpan)return{buttonRows:[...e.buttonRows,[a]],remainingButtons:i};if(2===a.minColumnSpan){let n=t(2,i);i=n.remainingButtons,n.next||(n=t(1,i),i=n.remainingButtons);const o=n.next,s=Object(vt.filter)([a,o],(e)=>!!e);return{buttonRows:[...e.buttonRows,s],remainingButtons:i}}if(1===a.minColumnSpan){let n=t(1,i),o=n.next;if(i=n.remainingButtons,o){const n=t(1,i),s=n.next;i=n.remainingButtons;const r=Object(vt.filter)([a,o,s],(e)=>!!e);return{buttonRows:[...e.buttonRows,r],remainingButtons:i}}n.next||(n=t(2,i),o=n.next,i=n.remainingButtons);const s=Object(vt.filter)([a,o],(e)=>!!e);return{buttonRows:[...e.buttonRows,s],remainingButtons:i}}}return e},{buttonRows:[],remainingButtons:e}),a=n.buttonRows;return a}}),Object.defineProperty(this,'handleSuggestionClick',{enumerable:!0,writable:!0,value:(e)=>{this.setState(()=>({paginationPage:1})),this.props.sendQuickReply(e.toUpperCase())}}),this.state={paginationPage:1}}render(){const e=this.state.paginationPage;var t=this.props;const n=t.visible,a=t.messages,i=Object(vt.findLast)(a,(e)=>{const t=Object(vt.find)(e.responses,['type','suggestion']);return t}),o=[];let s=null;if(i){const e=i.responses.filter((e)=>'suggestion'===e.type)[0].suggestions,t=Object(vt.filter)(e,(e)=>'go back'!==e.toLowerCase()&&'home'!==e.toLowerCase()&&'start over'!==e.toLowerCase());s=Object(vt.find)(e,(e)=>'go back'===e.toLowerCase());for(const e of t){const t=this.minColumnSpan(e);o.push({label:e,id:i.messageId,visible:n,minColumnSpan:t})}}const r=this.playTetris(o),l=4,c=Math.ceil(r.length/l),d=Array(c).fill().map(()=>r.splice(0,l));return(0<o.length||s)&&Object(O.createElement)(Oa,{visible:n},Object(O.createElement)(za.a,{container:!0},0<o.length&&d[e-1].map((e,t)=>Object(O.createElement)(za.a,{key:`buttonRow_${t}`,container:!0,item:!0,spacing:8,xs:12},e.map((n,a)=>Object(O.createElement)(za.a,{key:`buttonRow_${t}_${a}`,item:!0,xs:12/e.length},Object(O.createElement)(Pa,{size:'small',color:'secondary',key:`${n.id}-btn${a}`,visible:n.visible.toString(),navigationbutton:'false',onClick:()=>this.handleSuggestionClick(n.label)},n.label))))),Object(O.createElement)(za.a,{item:!0,container:!0,xs:12,justify:'space-between',spacing:8},s&&1===e&&Object(O.createElement)(za.a,{item:!0,xs:4},Object(O.createElement)(Pa,{size:'small',color:'secondary',visible:'true',navigationbutton:'true',onClick:()=>this.handleSuggestionClick(s)},s)),1<c&&1<e&&Object(O.createElement)(za.a,{item:!0,xs:5},Object(O.createElement)(Pa,{size:'small',color:'secondary',visible:'true',navigationbutton:'true',onClick:()=>this.setState((e)=>({paginationPage:e.paginationPage-1}))},'Previous Options')),1<c&&e<c&&Object(O.createElement)(za.a,{item:!0,xs:5},Object(O.createElement)(Pa,{size:'small',color:'secondary',visible:'true',navigationbutton:'true',onClick:()=>this.setState((e)=>({paginationPage:e.paginationPage+1}))},'More Options')))))}}var Aa=Object(U.connect)((e)=>({visible:e.buttonBar.visible,messages:e.conversation.messages}),(e)=>({sendQuickReply:(t)=>{e(p(t))}}))(Ua);const Ya=V()(mt.a)`
   && {
     width: 400px;
     height: 70vh;

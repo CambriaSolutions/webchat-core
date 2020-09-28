@@ -49,9 +49,9 @@ class ButtonBar extends PureComponent {
   }
 
   minColumnSpan = suggestion => {
-    if (suggestion.length >= 18) {
+    if (suggestion.length >= 21) {
       return 3
-    } else if (suggestion.length >= 10 && suggestion.length < 18) {
+    } else if (suggestion.length >= 13 && suggestion.length < 21) {
       return 2
     }
     return 1

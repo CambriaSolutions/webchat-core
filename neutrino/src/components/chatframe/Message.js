@@ -18,7 +18,7 @@ const Container = styled.div`
   align-items: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
   scroll-margin: 15px;
   p, div {
-    font-size: 16px;
+    font-size: 14px;
   }
 `
 
