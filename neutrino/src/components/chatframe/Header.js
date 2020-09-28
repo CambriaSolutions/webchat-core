@@ -79,7 +79,7 @@ const HeaderButton = styled(IconButton)`
 
 const StartOverButton = styled(Button)`
   && {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: lighter;
     flex: 0;
     cursor: pointer;

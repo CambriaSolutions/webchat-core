@@ -67,7 +67,7 @@
   }
 `,Pt=V()(ht.a)`
   && {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: lighter;
     flex: 0;
     cursor: pointer;
