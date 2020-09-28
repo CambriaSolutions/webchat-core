@@ -235,7 +235,9 @@ class ButtonBar extends PureComponent {
       }
     }
 
-    const buttonRows = isSelectingSubjectMatter ? this.arrangeSubjectMatterSuggestions(suggestionElements) : this.playTetris(suggestionElements)
+    const buttonRows = isSelectingSubjectMatter
+      ? this.arrangeSubjectMatterSuggestions(suggestionElements)
+      : this.playTetris(suggestionElements)
 
     const numberOfRowsPerPage = 4
 
