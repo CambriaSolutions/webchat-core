@@ -200,7 +200,7 @@ class ButtonBar extends PureComponent {
       // to persist the casing that we get back from server
       backButtonLabel = find(suggestions, x => x.toLowerCase() === 'go back')
 
-      for (const suggestion of excludedBackAndHome) {
+      for (const suggestion of excludedBackAndStartOver) {
         const minColumnSpan = this.minColumnSpan(suggestion)
 
         suggestionElements.push({
