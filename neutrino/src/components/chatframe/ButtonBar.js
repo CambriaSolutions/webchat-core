@@ -49,13 +49,19 @@ class ButtonBar extends PureComponent {
   }
 
   minColumnSpan = suggestion => {
-    if (suggestion.length >= 21) {
+    if (suggestion.length >= 18) {
       return 3
-    } else if (suggestion.length >= 13 && suggestion.length < 21) {
+    } else if (suggestion.length >= 13 && suggestion.length < 18) {
       return 2
     }
     return 1
   }
+
+  arrangeSubjectMatterSuggestions = suggestionElements => ([
+    [find(suggestionElements, x => x.label.toLowerCase() === 'child support')],
+    [find(suggestionElements, x => x.label.toLowerCase() === 'snap'), find(suggestionElements, x => x.label.toLowerCase() === 'tanf')],
+    [find(suggestionElements, x => x.label.toLowerCase() === 'workforce development')]
+  ])
 
   playTetris = buttons => {
     const findNextInCollection = (reqColumnSpan, currentCollection) => {
@@ -195,6 +201,7 @@ class ButtonBar extends PureComponent {
     const suggestionElements = []
 
     let backButtonLabel = null
+    let isSelectingSubjectMatter = false
 
     if (lastMessageWithSuggestions) {
       const { suggestions } = lastMessageWithSuggestions.responses.filter(m => m.type === 'suggestion')[0]
@@ -202,6 +209,15 @@ class ButtonBar extends PureComponent {
       // Start over and home button are the same, but based on server
       // code version, we might receive 'home' or 'start over' as suggestion
       const excludedBackAndStartOver = filter(suggestions, x => x.toLowerCase() !== 'go back' && x.toLowerCase() !== 'home' && x.toLowerCase() !== 'start over')
+
+      if (excludedBackAndStartOver.length === 4
+        && find(excludedBackAndStartOver, x => x.toLowerCase() === 'child support')
+        && find(excludedBackAndStartOver, x => x.toLowerCase() === 'tanf')
+        && find(excludedBackAndStartOver, x => x.toLowerCase() === 'snap')
+        && find(excludedBackAndStartOver, x => x.toLowerCase() === 'workforce development')) {
+        isSelectingSubjectMatter = true
+      }
+
 
       // We search for it and use it because we want
       // to persist the casing that we get back from server
@@ -219,7 +235,7 @@ class ButtonBar extends PureComponent {
       }
     }
 
-    const buttonRows = this.playTetris(suggestionElements)
+    const buttonRows = isSelectingSubjectMatter ? this.arrangeSubjectMatterSuggestions(suggestionElements) : this.playTetris(suggestionElements)
 
     const numberOfRowsPerPage = 4
 
