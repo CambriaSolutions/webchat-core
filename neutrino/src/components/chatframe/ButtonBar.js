@@ -191,7 +191,10 @@ class ButtonBar extends PureComponent {
 
     if (lastMessageWithSuggestions) {
       const { suggestions } = lastMessageWithSuggestions.responses.filter(m => m.type === 'suggestion')[0]
-      const excludedBackAndHome = filter(suggestions, x => x.toLowerCase() !== 'go back' && x.toLowerCase() !== 'home')
+
+      // Start over and home button are the same, but based on server
+      // code version, we might receive 'home' or 'start over' as suggestion
+      const excludedBackAndStartOver = filter(suggestions, x => x.toLowerCase() !== 'go back' && x.toLowerCase() !== 'home' && x.toLowerCase() !== 'start over')
 
       // We search for it and use it because we want
       // to persist the casing that we get back from server

@@ -135,7 +135,7 @@ class Header extends PureComponent {
           <Tooltip title='Return to subject selection' placement='bottom'>
             <StartOverButton
               theme={theme}
-              onClick={() => sendQuickReply('HOME')}
+              onClick={() => sendQuickReply('START OVER')}
             >
               Start Over
             </StartOverButton>
