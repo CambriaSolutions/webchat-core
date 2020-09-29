@@ -14,7 +14,7 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   align-content: flex-start;
-  padding: ${p => (p.visible ? '4px 4px 16px 16px' : '0 16px')};
+  padding: ${p => (p.visible ? '4px 8px 12px 16px' : '0 16px')};
   background: ${grey[300]};
   border-top: ${p => (p.visible ? '1px solid rgba(0, 0, 0, 0.2)' : 'none')};
   overflow-y: auto;
@@ -40,14 +40,14 @@ const Btn = styled(Button)`
   }
 `
 
-class ButtonBar extends PureComponent {
-  constructor() {
-    super()
-    this.state = {
-      paginationPage: 1
-    }
-  }
+const findLastMessageWithSuggestions = (messages) => findLast(messages, m => {
+  const hasSuggestions = find(m.responses, ['type', 'suggestion'])
+  return hasSuggestions
+})
 
+const getSuggestions = (messageWithSuggestions) => messageWithSuggestions.responses.filter(m => m.type === 'suggestion')[0].suggestions
+
+class ButtonBar extends PureComponent {
   minColumnSpan = suggestion => {
     if (suggestion.length >= 18) {
       return 3
@@ -184,19 +184,10 @@ class ButtonBar extends PureComponent {
     return buttonRows
   }
 
-  handleSuggestionClick = (suggestion) => {
-    this.setState(() => ({ paginationPage: 1 }))
-    this.props.sendQuickReply(suggestion.toUpperCase())
-  }
-
   render() {
-    const { paginationPage } = this.state
-    const { visible, messages } = this.props
+    const { visible, messages, sendQuickReply, paginationPage, changeSuggestionPage } = this.props
 
-    const lastMessageWithSuggestions = findLast(messages, m => {
-      const hasSuggestions = find(m.responses, ['type', 'suggestion'])
-      return hasSuggestions
-    })
+    const lastMessageWithSuggestions = findLastMessageWithSuggestions(messages)
 
     const suggestionElements = []
 
@@ -204,7 +195,7 @@ class ButtonBar extends PureComponent {
     let isSelectingSubjectMatter = false
 
     if (lastMessageWithSuggestions) {
-      const { suggestions } = lastMessageWithSuggestions.responses.filter(m => m.type === 'suggestion')[0]
+      const suggestions = getSuggestions(lastMessageWithSuggestions)
 
       // Start over and home button are the same, but based on server
       // code version, we might receive 'home' or 'start over' as suggestion
@@ -217,7 +208,6 @@ class ButtonBar extends PureComponent {
         && find(excludedBackAndStartOver, x => x.toLowerCase() === 'workforce development')) {
         isSelectingSubjectMatter = true
       }
-
 
       // We search for it and use it because we want
       // to persist the casing that we get back from server
@@ -247,6 +237,10 @@ class ButtonBar extends PureComponent {
       .fill()
       .map(() => buttonRows.splice(0, numberOfRowsPerPage))
 
+    const activeSuggestionPage = paginationPages[paginationPage - 1]
+      ? paginationPages[paginationPage - 1]
+      : paginationPages[0]
+
     return (
       (suggestionElements.length > 0 || backButtonLabel) &&
       (
@@ -254,7 +248,7 @@ class ButtonBar extends PureComponent {
           {/* Start of suggestion rows */}
           <Grid container >
             {suggestionElements.length > 0 &&
-              paginationPages[paginationPage - 1].map((btns, i) => (
+              activeSuggestionPage.map((btns, i) => (
                 <Grid
                   key={`buttonRow_${i}`}
                   container
@@ -274,9 +268,9 @@ class ButtonBar extends PureComponent {
                         key={`${btn.id}-btn${index}`}
                         visible={btn.visible.toString()}
                         navigationbutton="false"
-                        onClick={() => this.handleSuggestionClick(btn.label)}
+                        onClick={() => sendQuickReply(btn.label.toUpperCase())}
                       >
-                        {btn.label}
+                        {btn.label.toUpperCase()}
                       </Btn>
                     </Grid>
                   ))
@@ -293,9 +287,9 @@ class ButtonBar extends PureComponent {
                     color="secondary"
                     visible="true"
                     navigationbutton="true"
-                    onClick={() => this.handleSuggestionClick(backButtonLabel)}
+                    onClick={() => sendQuickReply(backButtonLabel.toUpperCase())}
                   >
-                    {backButtonLabel}
+                    {backButtonLabel.toUpperCase()}
                   </Btn>
                 </Grid>
               }
@@ -306,8 +300,8 @@ class ButtonBar extends PureComponent {
                     color="secondary"
                     visible="true"
                     navigationbutton="true"
-                    onClick={() => this.setState(
-                      prevState => ({ paginationPage: prevState.paginationPage - 1 }))}
+                    onClick={() =>
+                      changeSuggestionPage(paginationPage - 1)}
                   >
                     Previous Options
                   </Btn>
@@ -320,8 +314,7 @@ class ButtonBar extends PureComponent {
                     color="secondary"
                     visible="true"
                     navigationbutton="true"
-                    onClick={() => this.setState(
-                      prevState => ({ paginationPage: prevState.paginationPage + 1 }))}
+                    onClick={() => changeSuggestionPage(paginationPage + 1)}
                   >
                     More Options
                   </Btn>
@@ -339,6 +332,7 @@ const mapStateToProps = state => {
   return {
     visible: state.buttonBar.visible,
     messages: state.conversation.messages,
+    paginationPage: state.buttonBar.paginationPage
   }
 }
 
@@ -347,6 +341,10 @@ const mapDispatchToProps = dispatch => {
     sendQuickReply: text => {
       dispatch(sendQuickReply(text))
     },
+    changeSuggestionPage: newPage => dispatch({
+      type: 'CHANGE_SUGGESTION_PAGE',
+      paginationPage: newPage
+    })
   }
 }
 
