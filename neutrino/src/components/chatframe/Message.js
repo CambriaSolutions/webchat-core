@@ -64,7 +64,47 @@ const Timestamp = styled(Typography)`
   }
 `
 
+const markdownOptions = {
+  forceBlock: true,
+  overrides: {
+    h6: {
+      component: Typography,
+      props: {
+        variant: 'h6',
+      },
+    },
+    p: {
+      component: Typography,
+      props: {
+        variant: 'body1',
+      },
+    },
+    a: {
+      component: Link,
+    },
+  },
+}
+
 class Message extends Component {
+  constructor() {
+    super()
+    this.state = { isResponseDelayed: false }
+  }
+
+  componentDidMount() {
+    const { isLoading } = this.props
+
+    if (isLoading) {
+      this.loadingTimer = setTimeout(() => {
+        this.setState(() => ({ isResponseDelayed: true }))
+      }, 8000)
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.loadingTimer)
+  }
+
   render() {
     const {
       message,
@@ -78,6 +118,8 @@ class Message extends Component {
       className,
       key
     } = this.props
+
+    const { isResponseDelayed } = this.state
 
     const parsedTimestamp = parse(
       timestamp,
@@ -98,64 +140,46 @@ class Message extends Component {
     }
 
     let filteredBotMessage
+    console.log('Message', message)
+
     if (message && message[0] !== '') {
+      console.log('message[0]', message[0])
       filteredBotMessage = message
     } else {
       filteredBotMessage = [
-        'Oops! Something happened with the connection. Please try again.',
+        'I’m sorry, I am having trouble understanding that question right now. Please try again later or ask me something else.',
       ]
     }
+    const delayedResponseMessage = 'Thank you for your patience, I’m working hard to get you the best answer. Hold tight!'
 
-    let loadingOrErrorMsg = <Loading />
-    if (isLoading) {
-      // display error message from state if it exists
-      if (error) {
-        loadingOrErrorMsg = error
-      }
-    }
-
-    const chatMessage =
-      entity === 'user' ? (
-        <UserMessage elevation={1} theme={theme}>
-          {message}
-        </UserMessage>
-      ) :
-        (
-          <ExternalMessage elevation={1}>
-            {isLoading ? (
-              loadingOrErrorMsg
-            ) :
-              (
-                <Markdown
-                  options={{
-                    forceBlock: true,
-                    overrides: {
-                      h6: {
-                        component: Typography,
-                        props: {
-                          variant: 'h6',
-                        },
-                      },
-                      p: {
-                        component: Typography,
-                        props: {
-                          variant: 'body1',
-                        },
-                      },
-                      a: {
-                        component: Link,
-                      },
-                    },
-                  }}
-                >
-                  {filteredBotMessage[0]}
-                </Markdown>
-              )}
-          </ExternalMessage>
-        )
     return (
       <Container entity={entity} className={className} key={key}>
-        <ChatBubble entity={entity}>{chatMessage}</ChatBubble>
+        <ChatBubble entity={entity}>
+          {entity === 'user' &&
+            (
+              <UserMessage elevation={1} theme={theme}>
+                {message}
+              </UserMessage>
+            )
+          }
+          {entity !== 'user' &&
+            (
+              <ExternalMessage elevation={1}>
+                {isLoading && !error && !isResponseDelayed && <Loading />}
+                {isLoading && !error && isResponseDelayed &&
+                  <Markdown options={markdownOptions}>
+                    {delayedResponseMessage}
+                  </Markdown>}
+                {isLoading && error && error}
+                {!isLoading && (
+                  <Markdown options={markdownOptions}>
+                    {filteredBotMessage[0]}
+                  </Markdown>
+                )}
+              </ExternalMessage>
+            )
+          }
+        </ChatBubble>
         {showTimestamp ? (
           <Timestamp variant='caption'>{formattedTimestamp}</Timestamp>
         ) : null}
