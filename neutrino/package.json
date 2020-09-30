@@ -1,6 +1,6 @@
 {
   "name": "@cambriasolutions/chatframe",
-  "version": "1.19.38",
+  "version": "1.19.39",
   "description": "Cambria webchat-core project",
   "main": "build/chatframe.js",
   "license": "UNLICENSED",
