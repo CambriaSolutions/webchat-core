@@ -21,18 +21,20 @@ const Container = styled(Paper)`
     right: 48px;
     transition: width 120ms ease-in-out, height 150ms ease-in-out;
     pointer-events: none;
+
     ${props =>
-      props.fullscreen &&
-      css`
+    props.fullscreen &&
+    css`
         width: calc(100% - 96px);
         height: calc(100% - 96px);
       `};
+    
     ${props =>
-      !props.visible &&
-      css`
-        width: 0;
-        height: 0;
-      `};
+    !props.visible &&
+    css`
+          width: 0;
+          height: 0;
+        `};
 
     ${media.phone`
     width: ${props => (props.visible ? 'calc(100% - 20px)' : '0')};
@@ -53,7 +55,7 @@ const OuterFrame = styled.div`
     background: ${grey[100]};
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 64px 1fr auto min-content;
+    grid-template-rows: 44px 1fr auto min-content;
     grid-template-areas:
       'header'
       'chatwindow'
@@ -94,9 +96,5 @@ const mapStateToProps = state => {
     fullscreen: state.config.fullscreen,
   }
 }
-
-// const mapDispatchToProps = dispatch => {
-//   return {}
-// }
 
 export default connect(mapStateToProps)(ChatContainer)
