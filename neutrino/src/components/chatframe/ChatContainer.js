@@ -21,18 +21,20 @@ const Container = styled(Paper)`
     right: 48px;
     transition: width 120ms ease-in-out, height 150ms ease-in-out;
     pointer-events: none;
+
     ${props =>
     props.fullscreen &&
     css`
         width: calc(100% - 96px);
         height: calc(100% - 96px);
       `};
+    
     ${props =>
     !props.visible &&
     css`
-        width: 0;
-        height: 0;
-      `};
+          width: 0;
+          height: 0;
+        `};
 
     ${media.phone`
     width: ${props => (props.visible ? 'calc(100% - 20px)' : '0')};

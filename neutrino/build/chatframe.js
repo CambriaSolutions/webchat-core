@@ -344,14 +344,16 @@
     right: 48px;
     transition: width 120ms ease-in-out, height 150ms ease-in-out;
     pointer-events: none;
+
     ${(e)=>e.fullscreen&&Q.css`
         width: calc(100% - 96px);
         height: calc(100% - 96px);
       `};
+    
     ${(e)=>!e.visible&&Q.css`
-        width: 0;
-        height: 0;
-      `};
+          width: 0;
+          height: 0;
+        `};
 
     ${fn.phone`
     width: ${(e)=>e.visible?'calc(100% - 20px)':'0'};
