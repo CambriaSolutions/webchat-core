@@ -1,7 +1,6 @@
 {
   "name": "@cambriasolutions/chatframe",
   "version": "1.19.37",
-  "private": true,
   "description": "Cambria webchat-core project",
   "main": "build/chatframe.js",
   "license": "UNLICENSED",
