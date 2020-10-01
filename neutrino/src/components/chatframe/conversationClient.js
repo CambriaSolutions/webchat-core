@@ -1,18 +1,72 @@
 import uuidv4 from 'uuid/v4'
 
-// If the fetch request fails, try again after 500 ms
-function fetchRetry(url, n = 1) {
-  const message = fetch(url)
-    .then(response => {
-      return response.json()
-    })
-    .catch(error => {
-      if (n === 1) throw error
-      setTimeout(() => {
-        fetchRetry(url, n - 1)
-      }, 500)
-    })
-  return message
+const constructEmptyResponse = (response) => ({
+  ...response,
+  queryResult: {
+    ...response.queryResult,
+    fulfillmentMessages: [{
+      message: '',
+      platform: 'PLATFORM_UNSPECIFIED',
+      text: {
+        text: ['']
+      }
+    }],
+    fulfillmentText: ''
+  }
+})
+
+// Code 0 === Webhook execution successful
+// Code 4 === Webhook call failed. Error: DEADLINE_EXCEEDED.
+// Code 14 === Webhook call failed. Error: UNAVAILABLE.
+async function fetchIntent(url) {
+  try {
+    // Make the first attempt to fetch intent
+    const req1 = await fetch(url)
+    const response1 = await req1.json()
+
+    // If response timed out, try again
+    if (response1.webhookStatus.code === 4) {
+      const req2 = await fetch(url)
+      const response2 = await req2.json()
+
+
+      // If the second response timed out, try one last time
+      if (response2.webhookStatus.code === 4) {
+        const req3 = await fetch(url)
+        const response3 = await req3.json()
+
+        // The request has failed three times in a row. Something is wrong.
+        if (response3.webhookStatus.code !== 0) {
+          // return a response that indicates there is an issue.
+          return constructEmptyResponse(response3)
+        }
+
+        // Request 3 was successful. Return response.
+        return response3
+
+        // If the second request had an error other than timeout,
+        // then we will not retry. Return error message.
+      } else if (response2.webhookStatus.code !== 0) {
+        // return a response that indicates there is an issue.
+        return constructEmptyResponse(response2)
+      }
+
+      // Request 2 was successful. Return response.
+      return response2
+
+      // If the first request had an error other than timeout,
+      // then we will not retry. Return error message.
+    } else if (response1.webhookStatus.code !== 0) {
+      // return a response that indicates there is an issue.
+      return constructEmptyResponse(response1)
+    }
+
+    // Request 1 was successful. Return response.
+    return response1
+  } catch (e) {
+    console.error(e)
+    return {}
+  }
 }
 
 export class Client {
@@ -35,7 +89,7 @@ export class Client {
     return params.join('&')
   }
 
-  textRequest(query) {
+  async textRequest(query) {
     if (!query) {
       throw new Error('Query should not be empty')
     }
@@ -46,10 +100,10 @@ export class Client {
 
     const queryParams = this.encodeQueryData(params)
     const url = `${this.textUrl}?${queryParams}`
-    return fetchRetry(url, 2)
+    return fetchIntent(url)
   }
 
-  eventRequest(query) {
+  async eventRequest(query) {
     if (!query) {
       throw new Error('Query should not be empty')
     }
@@ -62,12 +116,6 @@ export class Client {
     const queryParams = this.encodeQueryData(params)
     const url = `${this.eventUrl}?${queryParams}`
 
-    return fetch(url)
-      .then(response => {
-        return response.json()
-      })
-      .catch(err => {
-        throw new Error(err)
-      })
+    return fetchIntent(url)
   }
 }
