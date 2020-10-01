@@ -21,22 +21,17 @@ const constructEmptyResponse = (response) => ({
 async function fetchIntent(url) {
   try {
     // Make the first attempt to fetch intent
-    console.log('*** Request 1 ***')
     const req1 = await fetch(url)
     const response1 = await req1.json()
 
-    console.log('response1', response1)
-
     // If response timed out, try again
     if (response1.webhookStatus.code === 4) {
-      console.log('*** Request 2 ***')
       const req2 = await fetch(url)
       const response2 = await req2.json()
 
 
       // If the second response timed out, try one last time
       if (response2.webhookStatus.code === 4) {
-        console.log('*** Request 3 ***')
         const req3 = await fetch(url)
         const response3 = await req3.json()
 
