@@ -221,34 +221,30 @@ const sendDialogflowRequest = (requestFunction, payload) => {
       // If response timed out, try again
       if (response1.webhookStatus.code === 4) {
         // Request #2
-        requestFunction(payload).then(response2 => {
-          const _response2 = response2.json()
-
+        return requestFunction(payload).then(response2 => {
           // If the second response timed out, try one last time
-          if (_response2.webhookStatus.code === 4) {
+          if (response2.webhookStatus.code === 4) {
             // Request #3
-            requestFunction(payload).then(response3 => {
-              const _response3 = response3.json()
-
+            return requestFunction(payload).then(response3 => {
               // The request has failed three times in a row. Something is wrong.
-              if (_response3.webhookStatus.code !== 0) {
+              if (response3.webhookStatus.code !== 0) {
                 // return a response that indicates there is an issue.
-                return constructEmptyResponse(_response3)
+                return constructEmptyResponse(response3)
               }
 
               // Request 3 was successful. Return response.
-              return _response3
+              return response3
             })
 
             // If the second request had an error other than timeout,
             // then we will not retry. Return error message.
-          } else if (_response2.webhookStatus.code !== 0) {
+          } else if (response2.webhookStatus.code !== 0) {
             // return a response that indicates there is an issue.
-            return constructEmptyResponse(_response2)
+            return constructEmptyResponse(response2)
           }
 
           // Request 2 was successful. Return response.
-          return _response2
+          return response2
         })
 
         // If the first request had an error other than timeout,
