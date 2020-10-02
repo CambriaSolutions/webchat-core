@@ -28,7 +28,6 @@ const Content = styled.div`
   z-index: 4;
   grid-area: chatwindow;
   margin-bottom: 1px;
-  margin-top: 8px;
 
   /* Vertically flips the content element so that the messages won't be upside down */
   transform: scale(1, -1);

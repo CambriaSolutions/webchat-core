@@ -13,7 +13,7 @@ import Loading from './Loading'
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  margin: 10px;
+  margin: 5px;
   height: min-content;
   align-items: ${p => (p.entity === 'user' ? 'flex-end' : 'flex-start')};
   scroll-margin: 15px;
@@ -61,6 +61,7 @@ const Timestamp = styled(Typography)`
     margin-top: 6px;
     padding-left: 5px;
     padding-right: 2px;
+    font-size: 13px;
   }
 `
 
