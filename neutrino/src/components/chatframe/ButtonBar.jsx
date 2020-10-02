@@ -246,7 +246,7 @@ class ButtonBar extends PureComponent {
       (
         <Container visible={visible}>
           {/* Start of suggestion rows */}
-          <Grid container >
+          <Grid container>
             {suggestionElements.length > 0 &&
               activeSuggestionPage.map((btns, i) => (
                 <Grid
@@ -273,14 +273,12 @@ class ButtonBar extends PureComponent {
                         {btn.label.toUpperCase()}
                       </Btn>
                     </Grid>
-                  ))
-                  }
+                  ))}
                 </Grid>
-              ))
-            }
+              ))}
             {/* Start of navigation row */}
             <Grid item container xs={12} justify="space-between" spacing={8}>
-              {backButtonLabel && paginationPage === 1 &&
+              {backButtonLabel && paginationPage === 1 && (
                 <Grid item xs={4}>
                   <Btn
                     size="small"
@@ -292,22 +290,21 @@ class ButtonBar extends PureComponent {
                     {backButtonLabel.toUpperCase()}
                   </Btn>
                 </Grid>
-              }
-              {numberOfNavigationPages > 1 && paginationPage > 1 &&
+              )}
+              {numberOfNavigationPages > 1 && paginationPage > 1 && (
                 <Grid item xs={5}>
                   <Btn
                     size="small"
                     color="secondary"
                     visible="true"
                     navigationbutton="true"
-                    onClick={() =>
-                      changeSuggestionPage(paginationPage - 1)}
+                    onClick={() => changeSuggestionPage(paginationPage - 1)}
                   >
                     Previous Options
                   </Btn>
                 </Grid>
-              }
-              {numberOfNavigationPages > 1 && paginationPage < numberOfNavigationPages &&
+              )}
+              {numberOfNavigationPages > 1 && paginationPage < numberOfNavigationPages && (
                 <Grid item xs={5}>
                   <Btn
                     size="small"
@@ -319,10 +316,10 @@ class ButtonBar extends PureComponent {
                     More Options
                   </Btn>
                 </Grid>
-              }
+              )}
             </Grid>
           </Grid>
-        </Container >
+        </Container>
       )
     )
   }

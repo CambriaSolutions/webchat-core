@@ -1,5 +1,5 @@
 import { format, parse, differenceInMilliseconds } from 'date-fns'
-import uuidv4 from 'uuid/v4'
+import { v4 as uuidv4 } from 'uuid'
 import get from 'lodash/get'
 import find from 'lodash/find'
 import omit from 'lodash/omit'
@@ -195,12 +195,86 @@ export function getMessageFromDialogflow(response) {
   }
 }
 
-export function sendMessageWithDialogflow(message) {
+const constructEmptyResponse = (response) => ({
+  ...response,
+  queryResult: {
+    ...response.queryResult,
+    fulfillmentMessages: [{
+      message: '',
+      platform: 'PLATFORM_UNSPECIFIED',
+      text: {
+        text: ['']
+      }
+    }],
+    fulfillmentText: ''
+  }
+})
+
+// Code 0 === Webhook execution successful
+// Code 4 === Webhook call failed. Error: DEADLINE_EXCEEDED.
+// Code 14 === Webhook call failed. Error: UNAVAILABLE.
+const sendDialogflowRequest = (requestFunction, payload) => {
+  try {
+    // Make the first attempt to fetch intent
+    // Request #1
+    return requestFunction(payload).then(response1 => {
+      // If response timed out, try again
+      if (response1.webhookStatus.code === 4) {
+        // Request #2
+        requestFunction(payload).then(response2 => {
+          const _response2 = response2.json()
+
+          // If the second response timed out, try one last time
+          if (_response2.webhookStatus.code === 4) {
+            // Request #3
+            requestFunction(payload).then(response3 => {
+              const _response3 = response3.json()
+
+              // The request has failed three times in a row. Something is wrong.
+              if (_response3.webhookStatus.code !== 0) {
+                // return a response that indicates there is an issue.
+                return constructEmptyResponse(_response3)
+              }
+
+              // Request 3 was successful. Return response.
+              return _response3
+            })
+
+            // If the second request had an error other than timeout,
+            // then we will not retry. Return error message.
+          } else if (_response2.webhookStatus.code !== 0) {
+            // return a response that indicates there is an issue.
+            return constructEmptyResponse(_response2)
+          }
+
+          // Request 2 was successful. Return response.
+          return _response2
+        })
+
+        // If the first request had an error other than timeout,
+        // then we will not retry. Return error message.
+      } else if (response1.webhookStatus.code !== 0) {
+        // return a response that indicates there is an issue.
+        return constructEmptyResponse(response1)
+      }
+
+      // Request 1 was successful. Return response.
+      return response1
+    })
+  } catch (e) {
+    console.error(e)
+    return {}
+  }
+}
+
+// Type must equal 'textRequest' or 'eventRequest'
+const sendToDialogflow = (type, payload) => {
   return (dispatch, getState) => {
     const { client } = getState().conversation
+
     dispatch({ type: INITIATE_LOADING })
-    client
-      .textRequest(message)
+
+    sendDialogflowRequest(client[type], payload)
       .then(response => {
         if (response) {
           dispatch(getMessageFromDialogflow(response))
@@ -210,6 +284,10 @@ export function sendMessageWithDialogflow(message) {
             type: DISPLAY_ERROR,
             error: 'No response received from chat provider. Please try again.',
           })
+
+          if (type === 'eventRequest') {
+            dispatch({ type: SET_CONVERSATION_ENDED })
+          }
         }
       })
       .catch(error => {
@@ -226,34 +304,6 @@ export function sendMessageWithDialogflow(message) {
   }
 }
 
-export function sendEvent(event) {
-  return (dispatch, getState) => {
-    const { client } = getState().conversation
-    dispatch({ type: INITIATE_LOADING })
-    client
-      .eventRequest(event)
-      .then(response => {
-        if (response) {
-          dispatch(getMessageFromDialogflow(response))
-          dispatch({ type: CLEAR_ERROR })
-        } else {
-          dispatch({
-            type: DISPLAY_ERROR,
-            error: 'No response received from chat provider. Please try again.',
-          })
-          dispatch({ type: SET_CONVERSATION_ENDED })
-        }
-      })
-      .catch(error => {
-        throw new Error(error)
-      })
-      .catch(error => {
-        // TODO: log error to analytics
-        console.log(error)
-        dispatch({
-          type: DISPLAY_ERROR,
-          error: 'Unable to connect to the chat provider. Please try again.',
-        })
-      })
-  }
-}
+export const sendMessageWithDialogflow = (message) => sendToDialogflow('textRequest', message)
+
+export const sendEvent = (event) => sendToDialogflow('eventRequest', event)

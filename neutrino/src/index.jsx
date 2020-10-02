@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+import React from 'react'
 import { render } from 'react-dom'
 import ChatWindow from './components/chatframe'
 

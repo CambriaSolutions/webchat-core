@@ -52,7 +52,6 @@ const OuterContainer = styled.div`
   }
 `
 
-
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 class ChatFrame extends PureComponent {
@@ -66,6 +65,7 @@ class ChatFrame extends PureComponent {
       this.props.headerColor
     )
   }
+
   componentDidMount() {
     // We load the initial options into the Redux store inside of the
     // componentDidMount() lifecycle hook. This lets us use Redux to manage

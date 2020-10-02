@@ -111,10 +111,14 @@ function buildBotMapMessage(message, shouldScrollIntoView = false) {
   )
 }
 class ChatWindow extends PureComponent {
+  componentRef = React.createRef(null)
+
+  state = { messageElements: [] }
+
+  messages = []
+
   constructor(props) {
     super(props)
-    this.messages = []
-    this.state = { messageElements: [] }
     this.componentRef = React.createRef()
   }
 
@@ -267,8 +271,6 @@ class ChatWindow extends PureComponent {
         2
     }
   }
-
-  componentRef = React.createRef(null)
 
   render() {
     const { messageElements } = this.state

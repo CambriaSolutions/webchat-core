@@ -145,7 +145,9 @@ function MapResponse(props) {
                           }`}
                         target='blank'
                       >
-                        {row.street}, {row.city}
+                        {row.street}
+                        ,
+                        {row.city}
                       </Link>
                     </Typography>
                   </StyledAddressTableCell>
