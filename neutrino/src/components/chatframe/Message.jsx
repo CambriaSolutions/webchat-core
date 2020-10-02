@@ -86,10 +86,7 @@ const markdownOptions = {
 }
 
 class Message extends Component {
-  constructor() {
-    super()
-    this.state = { isResponseDelayed: false }
-  }
+  state = { isResponseDelayed: false }
 
   componentDidMount() {
     const { isLoading } = this.props
@@ -140,10 +137,8 @@ class Message extends Component {
     }
 
     let filteredBotMessage
-    console.log('Message', message)
 
     if (message && message[0] !== '') {
-      console.log('message[0]', message[0])
       filteredBotMessage = message
     } else {
       filteredBotMessage = [
@@ -160,16 +155,16 @@ class Message extends Component {
               <UserMessage elevation={1} theme={theme}>
                 {message}
               </UserMessage>
-            )
-          }
+            )}
           {entity !== 'user' &&
             (
               <ExternalMessage elevation={1}>
                 {isLoading && !error && !isResponseDelayed && <Loading />}
-                {isLoading && !error && isResponseDelayed &&
+                {isLoading && !error && isResponseDelayed && (
                   <Markdown options={markdownOptions}>
                     {delayedResponseMessage}
-                  </Markdown>}
+                  </Markdown>
+                )}
                 {isLoading && error && error}
                 {!isLoading && (
                   <Markdown options={markdownOptions}>
@@ -177,8 +172,7 @@ class Message extends Component {
                   </Markdown>
                 )}
               </ExternalMessage>
-            )
-          }
+            )}
         </ChatBubble>
         {showTimestamp ? (
           <Timestamp variant='caption'>{formattedTimestamp}</Timestamp>

@@ -1,5 +1,5 @@
 import { parse, format, differenceInMilliseconds } from 'date-fns'
-import uuidv4 from 'uuid/v4'
+import { v4 as uuidv4 } from 'uuid'
 import * as t from '../actions/actionTypes'
 import { sysTimeFormat } from '../config/dateFormats'
 
@@ -15,6 +15,7 @@ const initialState = {
   timer: null,
   conversationStarted: false,
 }
+
 function conversation(state = initialState, action) {
   switch (action.type) {
     case t.SAVE_CLIENT:

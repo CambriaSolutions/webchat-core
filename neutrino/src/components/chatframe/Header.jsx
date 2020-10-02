@@ -59,8 +59,7 @@ const HeaderText = styled(Typography)`
     font-size: 18px;
     line-height: 32px;
     flex: 1;
-    color: ${p =>
-    p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+    color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
   }
 `
 
@@ -69,8 +68,7 @@ const HeaderButton = styled(IconButton)`
     padding: 6px;
     flex: 0;
     cursor: pointer;
-    color: ${p =>
-    p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+    color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
     &:hover {
       background: rgba(255, 255, 255, 0.15);
     }
@@ -86,10 +84,8 @@ const StartOverButton = styled(Button)`
     min-width: 85px;
     padding: 1px;
     border-radius: 10px;
-    border: 1px solid ${p =>
-    p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
-    color: ${p =>
-    p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+    border: 1px solid ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
+    color: ${p => p.theme.palette.getContrastText(p.theme.palette.primary.dark)};
     &:hover {
       background: rgba(255, 255, 255, 0.15);
     }
@@ -134,7 +130,7 @@ class Header extends PureComponent {
         <HeaderText theme={theme} variant='h6'>
           {title}
         </HeaderText>
-        {startOverButtonLabel &&
+        {startOverButtonLabel && (
           <Tooltip title='Return to subject selection' placement='bottom'>
             <StartOverButton
               theme={theme}
@@ -143,7 +139,7 @@ class Header extends PureComponent {
               Start Over
             </StartOverButton>
           </Tooltip>
-        }
+        )}
         <Tooltip title='Privacy Policy' placement='bottom'>
           <HeaderButton
             theme={theme}
@@ -165,7 +161,10 @@ class Header extends PureComponent {
           (
             <HeaderButton
               theme={theme}
-              onClick={showFullscreen}
+              onClick={(e) => {
+                console.log('maximize clicked')
+                showFullscreen(e)
+              }}
               aria-label='Fullscreen'
             >
               <Fullscreen fontSize='small' />
@@ -189,10 +188,10 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  hideWindow,
-  showFullscreen,
-  showWindowed,
-  showPrivacyPolicy,
+  hideWindow: () => dispatch(hideWindow()),
+  showFullscreen: () => dispatch(showFullscreen()),
+  showWindowed: () => dispatch(showWindowed()),
+  showPrivacyPolicy: () => dispatch(showPrivacyPolicy()),
   sendQuickReply: text => dispatch(sendQuickReply(text))
 })
 

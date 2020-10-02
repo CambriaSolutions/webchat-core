@@ -16,6 +16,31 @@ function config(state = initialState, action) {
         ...state,
         visible: false,
       }
+
+    case t.INITIATE_LOADING:
+      return {
+        ...state,
+        paginationPage: 1
+      }
+
+    case t.SAVE_RESPONSE:
+      return {
+        ...state,
+        paginationPage: 1
+      }
+
+    case t.SAVE_USER_RESPONSE:
+      return {
+        ...state,
+        paginationPage: 1
+      }
+
+    case t.CHANGE_SUGGESTION_PAGE:
+      return {
+        ...state,
+        paginationPage: action.paginationPage
+      }
+
     default:
       return state
   }

@@ -48,14 +48,11 @@ class ActivatorButton extends PureComponent {
     } = this.props
 
     const contentToDisplay = activationText ? (
-      <React.Fragment>
+      <>
         <BotAvatar alt={title} src={avatar} />
         <TextContainer theme={theme}>{activationText}</TextContainer>
-      </React.Fragment>
-    ) :
-      (
-        <Chat />
-      )
+      </>
+    ) : <Chat />
 
     return (
       <Zoom in={!windowVisible} unmountOnExit>

@@ -34,12 +34,9 @@ const styles = () => ({
 })
 
 class FeedbackInput extends PureComponent {
-  constructor() {
-    super()
-    this.state = {
-      isSubmitted: false,
-      feedbackComment: ''
-    }
+  state = {
+    isSubmitted: false,
+    feedbackComment: ''
   }
 
   render() {
@@ -100,7 +97,7 @@ class FeedbackInput extends PureComponent {
     }
 
     return (
-      <React.Fragment>
+      <>
         {!this.state.isSubmitted ?
           (
             <div>
@@ -117,19 +114,18 @@ class FeedbackInput extends PureComponent {
                         return (
                           <FormControlLabel
                             key={choice.value}
-                            control={
+                            control={(
                               <Checkbox
                                 checked={choice.checked}
                                 onChange={handleInputChange(choice.value)}
                                 value={choice.value}
                               />
-                            }
+                            )}
                             label={choice.value}
                           />
                         )
                       })
-                      : null
-                    }
+                      : null}
                     <FeedbackInputLabel>Add your comments</FeedbackInputLabel>
                     <TextField
                       placeholder="Type something"
@@ -159,7 +155,8 @@ class FeedbackInput extends PureComponent {
                     !(
                       (!!feedbackInputs.feedbackList && feedbackInputs.feedbackList.length > 0
                         && !every(feedbackInputs.feedbackList, x => !x.checked))
-                      || !!this.state.feedbackComment)}
+                      || !!this.state.feedbackComment)
+                  }
                 >
                   Submit
                 </Button>
@@ -171,9 +168,8 @@ class FeedbackInput extends PureComponent {
             <CardContent>
               Thank you. Your feedback is important to us and will help improve Gen.
             </CardContent>
-          )
-        }
-      </React.Fragment>
+          )}
+      </>
     )
   }
 }
