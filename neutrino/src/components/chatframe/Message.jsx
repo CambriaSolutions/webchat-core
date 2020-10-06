@@ -83,6 +83,11 @@ const markdownOptions = {
     a: {
       component: Link,
     },
+    b: {
+      component: ({ children }) => (
+        <b>{children}</b>
+      )
+    }
   },
 }
 
