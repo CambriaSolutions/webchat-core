@@ -229,7 +229,7 @@ class ButtonBar extends PureComponent {
       ? this.arrangeSubjectMatterSuggestions(suggestionElements)
       : this.playTetris(suggestionElements)
 
-    const numberOfRowsPerPage = 4
+    const numberOfRowsPerPage = isSelectingSubjectMatter ? 4 : 2
 
     const numberOfNavigationPages = Math.ceil(buttonRows.length / numberOfRowsPerPage)
 
